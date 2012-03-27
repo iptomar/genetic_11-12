@@ -14,6 +14,11 @@ import java.util.ArrayList;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public class Individuo {
-    ArrayList <Cromossoma> Individuo; 
+public class Solver {
+
+    ArrayList<Population> populacoes;
+
+    public Solver() {
+        populacoes.add(new Population(100, 1, 1, new onesMax(10)));
+    }
 }

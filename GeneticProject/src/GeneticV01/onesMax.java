@@ -1,7 +1,5 @@
 package GeneticV01;
 
-import java.util.Random;
-
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  *  I n s t i t u t o   P o l i t e c n i c o   d e   T o m a r
@@ -14,31 +12,24 @@ import java.util.Random;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public class Gene <T>{
+public class onesMax extends Individual{
+    static final int SIZE_VALUE_DEFAULT = 10;
+    private int sizeValue = SIZE_VALUE_DEFAULT;
     
-    static final Random random = new Random();
+    public onesMax(int sizeValue){
+        this.sizeValue = sizeValue;
+    }
     
-    private T value;
-
-    public Gene(T value, int sizeValue) {
-        this.value = value;
-    
-        if(value instanceof Boolean[]){
-            Boolean[] arrayBool = new Boolean[sizeValue];
-                
-            // gerar de forma aleatoria os valores em binario para o array de booleans
-            for (int i = 0; i < sizeValue; i++) {
-                arrayBool[i] = random.nextBoolean();
+    @Override
+    public int fiteness() {
+        Integer numberOnes = new Integer(0);
+        for (Chromosome chro : this) {
+            for (Gene gene : chro) {
+                if ((Boolean) gene.getValue()) {
+                    numberOnes++;
+                }
             }
-            value = (T)arrayBool;
         }
-    }
-
-    public T getValue() {
-        return value;
-    }
-
-    public void setValue(T value) {
-        this.value = value;
+        return numberOnes;
     }
 }
