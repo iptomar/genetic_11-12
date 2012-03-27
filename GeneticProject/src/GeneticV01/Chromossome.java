@@ -14,22 +14,21 @@ import java.util.ArrayList;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public class Cromossoma {
+public class Chromossome {
     /**
      * ArrayList de genes que será a definição de um cromossoma
      */
-    private ArrayList<Gene> Cromo;
+    private ArrayList<Gene> Genome;
 
     /**
      * Método que permite retirar um gene em especifico do array de genes que
-     * define o cromossoma. Retorna null em caso do arrraylist estar vazio ou
-     * em caso de o index especificado ser maior que o número de genes no arraylist
+     * define o cromossoma. Retorna null em caso do arrraylist estar vazio
      * @param index (int) - Index do gene a ser retirado 
      * @return (Gene) - Gene do index definido
      */
     public Gene getGene(int index) {
-        if((getCromo().isEmpty()) || ((index+1) > getCromo().size())) return null;
-        else return getCromo().get(index);
+        if(Genome.isEmpty()) return null;
+        else return Genome.get(index);
     }
     
     /**
@@ -38,22 +37,22 @@ public class Cromossoma {
      * @param gene (Gene) - Gene a ser adicionado ao arraylist
      */
     public void setGene(int index, Gene gene) {
-        getCromo().add(index, gene);
+        Genome.add(index, gene);
     }
 
-    /**
-     * Método que retorna o arraylist de genes do cromossoma
-     * @return Cromo (ArrayList<Gene>) - ArrayList de genes que especifica o cromossoma
-     */
-    public ArrayList<Gene> getCromo() {
-        return Cromo;
-    }
-
-    /**
-     * Método que permite fazer a definição de uma nova ArrayList para o cromossoma
-     * @param Cromo (ArrayList<Gene>) - ArrayList de genes a ser especificado para o cromossoma
-     */
-    public void setCromo(ArrayList<Gene> Cromo) {
-        this.Cromo = Cromo;
-    }
+//    /**
+//     * Método que retorna o arraylist de genes do cromossoma
+//     * @return Cromo (ArrayList<Gene>) - ArrayList de genes que especifica o cromossoma
+//     */
+//    public ArrayList<Gene> getGenome() {
+//        return Genome;
+//    }
+//
+//    /**
+//     * Método que permite fazer a definição de uma nova ArrayList para o cromossoma
+//     * @param Cromo (ArrayList<Gene>) - ArrayList de genes a ser especificado para o cromossoma
+//     */
+//    public void setGenome(ArrayList<Gene> Genome) {
+//        this.Genome = Genome;
+//    }
 }

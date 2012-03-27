@@ -1,7 +1,5 @@
 package GeneticV01;
 
-import java.util.ArrayList;
-
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  *  I n s t i t u t o   P o l i t e c n i c o   d e   T o m a r
@@ -14,6 +12,26 @@ import java.util.ArrayList;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public class Individuo {
-    ArrayList <Cromossoma> Individuo; 
+public class Solver {
+    /**
+     * Variaveis que guardam a população referente aos individuos pais e aos individuos filhos
+     */
+    private Population pai;
+    private Population filho;
+   
+    private criterioParagem criterio;
+    //private Substituicao subs;
+    //private ArrayList<Genetico> gens;
+    
+    private int itera;
+    
+    //FALTA DOCUMENTAÇÃO !!1
+    public void getHallofFame(){
+        
+    }
+    
+    //FALTA DOCUMENTAÇÃO !!!
+    public void run(){
+        
+    }
 }
