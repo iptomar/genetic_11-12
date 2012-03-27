@@ -1,7 +1,6 @@
 package GeneticV01;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -15,19 +14,33 @@ import java.util.Iterator;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public abstract class Individual implements Iterable<Chromosome>{
+
+/**
+ * Classe Individual, referente a cada individuo de uma determinada população.
+ * Cada individuo é definido e diferenciado pelos seus cromossomas.
+ * @author Ruben Felix <Ruben.Felix@gmail.com>
+ */
+public abstract class Individual {
     /**
      * ArrayList de cromossomas que especifica um determinado individuo.
      */
-    protected ArrayList<Chromosome> genome;
+    private ArrayList<Chromosome> genome;
+    /**
+     * Variavel DEFAULT_SIZE que indica que, por defeito, um individuo
+     * terá 1 cromossoma na sua definição genética.
+     */
     private static final int DEFAULT_SIZE_GENOME = 1;
-    private int numberGenes;
-    protected int numberChromosomes = DEFAULT_SIZE_GENOME;
+    /**
+     * Variavél que receberá um número especifico de cromossoma que cada individuo
+     * terá, caso não se pretenda o valor por defeito.
+     */
+    private int numberChromosomes = 0;
+
     
-    public Individual(){
+    public Individual() {
         this(DEFAULT_SIZE_GENOME);
     }
-    
+
     public Individual(int numberChromosomes) {
         this.numberChromosomes = numberChromosomes;
         genome = new ArrayList<Chromosome>(numberChromosomes);
@@ -39,7 +52,7 @@ public abstract class Individual implements Iterable<Chromosome>{
             this.genome.set(i, new Chromosome());
         }
     }
-    
+
     public Chromosome getChromosome(int index) {
         return genome.get(index);
     }
@@ -47,11 +60,6 @@ public abstract class Individual implements Iterable<Chromosome>{
     public void setChromosome(int index, Chromosome cromosome) {
         genome.add(index, cromosome);
     }
-    
+
     public abstract int fiteness();
-    
-    @Override
-    public Iterator<Chromosome> iterator() {
-        return this.genome.iterator();
-    }
 }
