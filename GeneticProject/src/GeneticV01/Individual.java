@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Cada individuo é definido e diferenciado pelos seus cromossomas.
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
-public abstract class Individual {
+public class Individual {
     /**
      * ArrayList de cromossomas que especifica um determinado individuo.
      */
@@ -35,31 +35,67 @@ public abstract class Individual {
      * terá, caso não se pretenda o valor por defeito.
      */
     private int numberChromosomes = 0;
-
     
+    /**
+     * Construtor da classe que cria um novo arraylist de cromossomas
+     * que por defeito, será de apenas 1.
+     */
     public Individual() {
-        this(DEFAULT_SIZE_GENOME);
+        this.numberChromosomes = DEFAULT_SIZE_GENOME;
+        genome = new ArrayList<Chromosome>(numberChromosomes);
+        this.inicializationChromosomes();
     }
-
+    
+    /**
+     * Construtor da classe que recebe o número de cromossomas que o individuo
+     * terá.
+     * @param numberChromosomes (int) - Número de cromossomas que o individuo vai ter 
+     */
     public Individual(int numberChromosomes) {
         this.numberChromosomes = numberChromosomes;
         genome = new ArrayList<Chromosome>(numberChromosomes);
         this.inicializationChromosomes();
     }
 
+    /**
+     * Método que permite a inicialização do genoma do individuo, inicializando
+     * os cromossomas que o mesmo irá ter.
+     */
     private void inicializationChromosomes() {
         for (int i = 0; i < this.numberChromosomes; i++) {
-            this.genome.set(i, new Chromosome());
+            this.genome.add(new Chromosome());
         }
     }
-
+    
+    /**
+     * Método que permite retirar um determinado cromossoma do individuo
+     * @param index (int) - Index do cromossoma pretendido do genoma do individuo
+     * @return (Chromosome) - Cromossoma do individuo
+     */
     public Chromosome getChromosome(int index) {
         return genome.get(index);
     }
 
+    /**
+     * Método que permite definir um determinado cromossoma de um determinado individuo
+     * @param index (int) - Index do cromossoma a ser definido no ArrayList
+     * @param cromosome (Chromosome) - Cromossoma a ser definido
+     */
     public void setChromosome(int index, Chromosome cromosome) {
         genome.add(index, cromosome);
     }
-
-    public abstract int fiteness();
+    /**
+     * Método que devolve o número de genes que estão a true por parte do individuo
+     * @return (int) - Número de genes a true do individuo
+     */
+    public int fitness(){
+        int aux = 0;
+        //Prineiro ciclo que percorre todos os cromossomas do individuo
+        for (int i = 0; i < genome.size(); i++) {
+            //Segundo ciclo que percorre todos os genes do individuo
+            for (int j = 0; j < genome.get(i); j++) {
+                genome.get(i).getGene(j);
+            }
+        }
+    }
 }

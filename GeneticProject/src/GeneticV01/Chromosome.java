@@ -43,6 +43,7 @@ public class Chromosome{
     public Chromosome() {
         this.genotype = new ArrayList<Gene>(DEFAULT_SIZE_CHROMOSOME);
         this.numberGenes = DEFAULT_SIZE_CHROMOSOME;
+        this.criaGenes();
     }
 
     /**
@@ -88,6 +89,18 @@ public class Chromosome{
             gene = new Gene();
             genotype.add(gene);
         }
+    }
+    
+    /**
+     * Método que devolve o número de genes a true que o cromossoma detem.
+     * @return (int) - Número de genes a true.
+     */
+    public int genesFitness(){
+        int aux = 0;
+        for (int i = 0; i < genotype.size(); i++) {
+            if(genotype.get(i).getValue()) aux++;
+        }
+        return aux;
     }
 
 }
