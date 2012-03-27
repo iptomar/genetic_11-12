@@ -90,12 +90,11 @@ public class Individual {
      */
     public int fitness(){
         int aux = 0;
-        //Prineiro ciclo que percorre todos os cromossomas do individuo
+        //Ciclo que percorre todos os cromossomas do individuo, retirando o número de genes
+        //a true de cada um e adicionando o valor de genes verdadeiros ao fitness do individuo
         for (int i = 0; i < genome.size(); i++) {
-            //Segundo ciclo que percorre todos os genes do individuo
-            for (int j = 0; j < genome.get(i); j++) {
-                genome.get(i).getGene(j);
-            }
+            aux += genome.get(i).genesFitness();
         }
+        return aux;
     }
 }

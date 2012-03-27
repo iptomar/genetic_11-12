@@ -98,6 +98,7 @@ public class Chromosome{
     public int genesFitness(){
         int aux = 0;
         for (int i = 0; i < genotype.size(); i++) {
+            //Se o gene for true, incrementa a variavel aux.
             if(genotype.get(i).getValue()) aux++;
         }
         return aux;
