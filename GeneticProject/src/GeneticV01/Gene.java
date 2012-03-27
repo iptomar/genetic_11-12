@@ -14,31 +14,45 @@ import java.util.Random;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-public class Gene <T>{
-    
-    static final Random random = new Random();
-    
-    private T value;
 
-    public Gene(T value, int sizeValue) {
-        this.value = value;
-    
-        if(value instanceof Boolean[]){
-            Boolean[] arrayBool = new Boolean[sizeValue];
-                
-            // gerar de forma aleatoria os valores em binario para o array de booleans
-            for (int i = 0; i < sizeValue; i++) {
-                arrayBool[i] = random.nextBoolean();
-            }
-            value = (T)arrayBool;
-        }
+/**
+ * Classe que será a base de qualquer cromossoma. É uma classe genérica que poderá
+ * receber qualquer valor para ser guardado.
+ * @author Ruben Felix <Ruben.Felix@gmail.com>
+ * @param <T> - Objecto a ser guardado como valor de definição do gene
+ */
+public class Gene{
+    /**
+     * Variavel do tipo Random para gerar um boolean ao acaso.
+     */
+    private static final Random random = new Random();
+    /**
+     * Variavel value que receberá o valor de true ou false, conforme o valor
+     * que o Random defina.
+     */
+    private boolean value;
+
+    /**
+     * Construtor por defeito da classe, que ao ser iniciada calcula ao acaso se o gene
+     * é inicializado a true ou a false.
+     */
+    public Gene() {
+        this.value = random.nextBoolean();
     }
 
-    public T getValue() {
+    /**
+     * Método que devolve o valor do gene (true ou false)
+     * @return (boolean) - True caso o gene esteja definido, false caso contrário
+     */
+    public boolean getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    /**
+     * Método que permite fazer a definição do gene
+     * @param value (boolean) - True para ficar definido, false caso contrário
+     */
+    public void setValue(boolean value) {
         this.value = value;
     }
 }
