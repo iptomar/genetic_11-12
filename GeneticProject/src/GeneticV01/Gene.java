@@ -19,7 +19,6 @@ import java.util.Random;
  * Classe que será a base de qualquer cromossoma. É uma classe genérica que poderá
  * receber qualquer valor para ser guardado.
  * @author Ruben Felix <Ruben.Felix@gmail.com>
- * @param <T> - Objecto a ser guardado como valor de definição do gene
  */
 public class Gene{
     /**

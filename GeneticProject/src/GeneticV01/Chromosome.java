@@ -14,6 +14,12 @@ import java.util.ArrayList;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
+
+/**
+ * Classe Chromosome que será um cromossoma (conjunto de genes) de um determinado individuo,
+ * fazendo assim a sua definição.
+ * @author Ruben Felix <Ruben.Felix@gmail.com>
+ */
 public class Chromosome{
     /**
      * ArrayList de genes que será a definição de um cromossoma
@@ -47,6 +53,7 @@ public class Chromosome{
     public Chromosome(int sizeChromosome) {
         this.genotype = new ArrayList<Gene>(sizeChromosome);
         this.numberGenes = sizeChromosome;
+        this.criaGenes();
     }
     
     /**
@@ -71,7 +78,7 @@ public class Chromosome{
     /**
      * Método que criará automaticamente os genes aleatórios para o cromossoma
      */
-    private void criaGenes(){
+    public void criaGenes(){
         Gene gene;
         /**
          * Ciclo que criará tantos genes aleatórios quantos os que sejam pretendidos,
