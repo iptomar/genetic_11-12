@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package GeneticV01;
 
 /**
@@ -26,7 +22,6 @@ public class Mutacao {
             Muta(indi);
         }
         return pop;
-
     }
 
     public void Muta(Individual indi) {
