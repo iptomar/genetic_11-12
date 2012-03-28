@@ -36,6 +36,7 @@ public class Tournament {
 
                 } else {
                     //se o segundo elemento tiver um fitness mais elevado, este é guardado na lista popBest
+                    //se forem iguais o segundo elemento é o escolhido
                     popBest.add(second, null);
                 }
 
