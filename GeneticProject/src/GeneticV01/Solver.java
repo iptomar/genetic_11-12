@@ -16,4 +16,67 @@ import java.util.ArrayList;
  */
 public class Solver {
 
+    /**
+     * Classe Population que será a classe que irá guardar a população.
+     */
+    private Population Popul;
+    /**
+     * Classe Reprodution que irá receber uma população para ser reproduzida.
+     */
+    private Reprodution Rep;
+    /**
+     * Classe Torunament que irá receber uma população e fazer um torneio entre a mesma.
+     */
+    private Tournament Torn;
+    /**
+     * Variavel que guardará o número de repetições que o fitness poderá ter até o solver convergir
+     * (Condição de paragem)
+     */
+    private int numRepeticoesFitness;
+    /**
+     * Variavel que guardará o fitness da população na iteração anterior
+     */
+    private double fitnessAnt;
+
+    /**
+     * Construtor da classe que receberá o número de individuos e o número de repetições que o fitness
+     * poderá ter (condição de paragem)
+     * @param numIndividuos (int) - Número de individuos da população 
+     * @param numRepeticoes (int) - Número de repetições do fitness até o solver convergir (Condição de paragem)
+     */
+    public Solver(int numIndividuos, int numRepeticoes) {
+        this.Popul = new Population(numIndividuos, 1, 10);
+        this.numRepeticoesFitness = numRepeticoes;
+    }
+
+    /**
+     * Construtor da classe que receberá o número de repetições que o fitness poderá ter (condição de paragem)
+     * @param numRepeticoes (int) - Número de repetições do fitness até o solver convergir (Condição de paragem)
+     */
+    public Solver(int numRepeticoes) {
+        this.numRepeticoesFitness = numRepeticoes;
+        this.Popul = new Population();
+    }
+
+    public int execute() {
+        ArrayList<Individual> afterTournament = new ArrayList<Individual>();
+        ArrayList<Individual> afterReproduction = new ArrayList<Individual>();
+        int numRepetCons = 0;
+        int aux = 1;
+        do {
+            fitnessAnt = Popul.fitnessPopulationAvarage();
+            Torn = new Tournament();
+            afterTournament = Torn.execute(Popul.getPopulation());
+            Rep = new Reprodution(afterTournament);
+            afterReproduction = Rep.execute();
+            Popul = new Population(afterReproduction);
+            Popul.addToPopulation(afterTournament);
+            System.out.println("--------------Iteração nº " + aux + "---------------");
+            System.out.println("Avarage Anterior :" + fitnessAnt);
+            if (fitnessAnt == Popul.fitnessPopulationAvarage()) numRepetCons++;
+            System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
+            aux++;
+        } while (numRepetCons != numRepeticoesFitness);
+        return 1;
+    }
 }

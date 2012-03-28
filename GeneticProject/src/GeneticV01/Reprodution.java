@@ -37,7 +37,7 @@ public class Reprodution {
      */
     public Reprodution(ArrayList<Individual> population){
         populationBeforeRepr = population;
-        populationAfterRepr = new ArrayList<Individual>(populationBeforeRepr.size());
+        populationAfterRepr = new ArrayList<Individual>();
     }   
     
     //FALTA IMPLEMENTAÇÃO

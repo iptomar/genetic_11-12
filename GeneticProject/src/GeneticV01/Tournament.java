@@ -17,32 +17,32 @@ public class Tournament {
 
     //lista que guarda os melhores, escolhidos após competirem
     private ArrayList<Individual> popBest;
-    //lista que recebe a populacao que irá competir
-    private ArrayList<Individual> receiver; 
 
+    /**
+     * Construtor da classe
+     */
+    public Tournament(){
+        popBest = new ArrayList<Individual>();
+    }
+    
     //compara os individuos 2 a 2, escolhe o melhor e guarda em popBest
-    public ArrayList<Individual> Tournament(ArrayList<Individual> receiver) {
-        try {
+    public ArrayList<Individual> execute(ArrayList<Individual> receiver) {
             //incrementa de 2 em 2 para não comparar elementos repetidos
-            for (int i = 0; i <= receiver.size(); i = i + 2) { 
+            for (int i = 0; i < receiver.size(); i = i + 2) { 
                 //primeiro elemento a comparar
-                int first = receiver.get(i).getFitness();       
+                Individual first = receiver.get(i);       
                 //segundo elemento a comparar - elemento seguinte na lista da populacao a comparar - lista receiver
-                int second = receiver.get(i + 1).getFitness();
+                Individual second = receiver.get(i + 1);
                 //comparacao entre os 2 elementos
-                if (first > second) {
+                if (first.getFitness() >= second.getFitness()) {
                     //se o primeiro elemento tiver um fitness mais elevado, este é guardado na lista popBest
-                    popBest.add(first, null);
+                    popBest.add(first);
 
                 } else {
                     //se o segundo elemento tiver um fitness mais elevado, este é guardado na lista popBest
-                    popBest.add(second, null);
+                    popBest.add(second);
                 }
-
             }
-        } catch (Exception e) {
-            
-        }
         return popBest;
     }
 }

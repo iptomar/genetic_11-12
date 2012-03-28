@@ -59,6 +59,16 @@ public class Population {
         population = new ArrayList<Individual>(numberIndividuals);
         inicializationPopulation();
     }
+    
+    /**
+     * Construtor da classe que recebe um ArrayList de individuos e define o mesmo como
+     * sendo a população
+     * @param Population (ArrayList<Individual>)  - População a ser definida
+     */
+    public Population(ArrayList<Individual> Population){
+        this.population = Population;
+        this.numberIndividuals = Population.size();
+    }
 
     /**
      * Construtor da classe que recebe como parametros o número de cromossomas por individuo 
@@ -137,6 +147,27 @@ public class Population {
             aux += getPopulation().get(i).fitnessIndividual();
         }
         return aux;
+    }
+    
+    /**
+     * Método que devolve a média de fitness da população
+     * @return (double) - Média de fitness da população
+     */
+    public double fitnessPopulationAvarage(){
+        double aux = 0.0;
+        aux = (fitnessPopulation() + 0.0) / (population.size() + 0.0);
+        return aux;
+    }
+    
+    /**
+     * Método que permite a adição de uma população forasteira à que está definida na classe
+     * @param toBeAdded (ArrayList<Individual>) - População a ser adicionada
+     */
+    public void addToPopulation(ArrayList<Individual> toBeAdded){
+        for (int i = 0; i < toBeAdded.size(); i++) {
+            population.add(toBeAdded.get(i));
+        }
+        fitnessPopulation();
     }
 
     /**
@@ -222,6 +253,7 @@ public class Population {
      * @param population (ArrayList<Individual>) - População a ser definida
      */
     public void setPopulation(ArrayList<Individual> population) {
-        this.population = population;
+        this.setPopulation(population);
     }
+
 }
