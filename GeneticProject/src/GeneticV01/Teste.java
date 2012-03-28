@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class Teste {
     public static void main(String[] args) {
         
-        Solver teste = new Solver(100, 10);
+        Solver teste = new Solver(1000, 10, 0.3);
         teste.execute();
 //        Population Pop1 = new Population(100, 1, 10);
 //        Population Pop2 = new Population(100, 1, 10);

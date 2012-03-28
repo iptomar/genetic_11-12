@@ -29,6 +29,10 @@ public class Solver {
      */
     private Tournament Torn;
     /**
+     * Classe mutação que irá fazer a mutação da população
+     */
+    private Mutacao Mut;
+    /**
      * Variavel que guardará o número de repetições que o fitness poderá ter até o solver convergir
      * (Condição de paragem)
      */
@@ -37,16 +41,21 @@ public class Solver {
      * Variavel que guardará o fitness da população na iteração anterior
      */
     private double fitnessAnt;
-
+    /**
+     * Variavel que guardará a taxa de mutação a efectuar aos individuos da população
+     */
+    private double TaxaMut=0.0;
+    
     /**
      * Construtor da classe que receberá o número de individuos e o número de repetições que o fitness
      * poderá ter (condição de paragem)
      * @param numIndividuos (int) - Número de individuos da população 
      * @param numRepeticoes (int) - Número de repetições do fitness até o solver convergir (Condição de paragem)
      */
-    public Solver(int numIndividuos, int numRepeticoes) {
+    public Solver(int numIndividuos, int numRepeticoes, double mut) {
         this.Popul = new Population(numIndividuos, 1, 10);
         this.numRepeticoesFitness = numRepeticoes;
+        this.TaxaMut = mut;
     }
 
     /**
@@ -71,10 +80,14 @@ public class Solver {
             afterReproduction = Rep.execute();
             Popul = new Population(afterReproduction);
             Popul.addToPopulation(afterTournament);
+            Mut = new Mutacao(TaxaMut,Popul);
+            Popul.setPopulation(Mut.IniciarMutacao().getPopulation());
             System.out.println("--------------Iteração nº " + aux + "---------------");
             System.out.println("Avarage Anterior :" + fitnessAnt);
             if (fitnessAnt == Popul.fitnessPopulationAvarage()) numRepetCons++;
+            else numRepetCons=0;
             System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
+            System.out.println("Número de individuos: " + Popul.getPopulation().size());
             aux++;
         } while (numRepetCons != numRepeticoesFitness);
         return 1;

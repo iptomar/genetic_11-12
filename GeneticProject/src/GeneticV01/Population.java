@@ -253,7 +253,7 @@ public class Population {
      * @param population (ArrayList<Individual>) - População a ser definida
      */
     public void setPopulation(ArrayList<Individual> population) {
-        this.setPopulation(population);
+        this.population = population;
     }
 
 }
