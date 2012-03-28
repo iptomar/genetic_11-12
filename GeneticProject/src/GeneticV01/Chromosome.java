@@ -73,7 +73,7 @@ public class Chromosome{
      * @param gene (Gene) - Gene a ser definido no cromossoma
      */
     public void setGene(int index, Gene gene){
-        getGenotype().add(index, gene);
+        getGenotype().set(index, gene);
     }
     
     /**

@@ -101,7 +101,7 @@ public class Population {
      */
     private void inicializationPopulation() {
         for (int i = 0; i < this.getNumberIndividuals(); i++) {
-            this.population.add(new Individual(numberChromosomes, numberGenes));
+            this.getPopulation().add(new Individual(numberChromosomes, numberGenes));
         }
     }
 
@@ -111,7 +111,7 @@ public class Population {
      * @return (Individual) - Individuo da população
      */
     public Individual getIndividual(int index) {
-        return population.get(index);
+        return getPopulation().get(index);
     }
 
     /**
@@ -120,7 +120,7 @@ public class Population {
      * @param individual (Individual) - Individuo a ser definido na população
      */
     public void setIndividual(int index, Individual individual) {
-        population.set(index, individual);
+        getPopulation().set(index, individual);
     }
 
     /**
@@ -133,8 +133,8 @@ public class Population {
         //Percorre todo o arraylist de individuos, retirando de cada um deles o seu
         //fitness e incrementando o valor a aux, que será no fim do arraylist o fitness
         //da população
-        for (int i = 0; i < population.size(); i++) {
-            aux += population.get(i).fitnessIndividual();
+        for (int i = 0; i < getPopulation().size(); i++) {
+            aux += getPopulation().get(i).fitnessIndividual();
         }
         return aux;
     }
@@ -149,7 +149,7 @@ public class Population {
         //Array que receberá os 10 melhores individuos da população pelo seu valor de fitness
         Individual[] IndividuosHOF = new Individual[10];
         for (int i = 0; i < 10; i++) {
-            IndividuosHOF[i] = population.get(i);
+            IndividuosHOF[i] = getPopulation().get(i);
         }
         return IndividuosHOF;
     }
@@ -166,7 +166,7 @@ public class Population {
         //Array que receberá os 10 melhores individuos da população pelo seu valor de fitness
         Individual[] IndividuosHOF = new Individual[range];
         for (int i = 0; i < range; i++) {
-            IndividuosHOF[i] = population.get(i);
+            IndividuosHOF[i] = getPopulation().get(i);
         }
         return IndividuosHOF;
     }
@@ -176,7 +176,7 @@ public class Population {
      */
     private void ordenaIndividuosFitness() {
         //Ordena a população pelo fitness de cada individuo
-        Collections.sort(population, new Comparator() {
+        Collections.sort(getPopulation(), new Comparator() {
             @Override
             public int compare(Object Ind1, Object Ind2) {
                 if (((Individual)Ind1).fitnessIndividual() < ((Individual) Ind2).getFitness()) return -1;
@@ -186,7 +186,7 @@ public class Population {
         });
         //Faz o reverse da lista para que os primeiros individuoes sejam o que tem maior fitness e não
         //o contrário
-        Collections.reverse(population);
+        Collections.reverse(getPopulation());
     }
 
     @Override
@@ -207,5 +207,21 @@ public class Population {
      */
     public int getNumberIndividuals() {
         return numberIndividuals;
+    }
+
+    /**
+     * Método que devolve a população
+     * @return (ArrayList<Individual>) - População
+     */
+    public ArrayList<Individual> getPopulation() {
+        return population;
+    }
+
+    /**
+     * Método que permite a definição da população
+     * @param population (ArrayList<Individual>) - População a ser definida
+     */
+    public void setPopulation(ArrayList<Individual> population) {
+        this.population = population;
     }
 }

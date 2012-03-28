@@ -50,7 +50,7 @@ public class Individual {
      */
     public Individual() {
         this.numberChromosomes = DEFAULT_SIZE_GENOME;
-        genome = new ArrayList<Chromosome>(numberChromosomes);
+        genome = new ArrayList<Chromosome>(getNumberChromosomes());
         this.inicializationChromosomes();
     }
     
@@ -83,7 +83,7 @@ public class Individual {
      * os cromossomas que o mesmo irá ter.
      */
     private void inicializationChromosomes() {
-        for (int i = 0; i < this.numberChromosomes; i++) {
+        for (int i = 0; i < this.getNumberChromosomes(); i++) {
             this.genome.add(new Chromosome(numberGenes));
         }
         //Actualiza o fitness do individuo
@@ -105,7 +105,7 @@ public class Individual {
      * @param cromosome (Chromosome) - Cromossoma a ser definido
      */
     public void setChromosome(int index, Chromosome cromosome) {
-        genome.add(index, cromosome);
+        genome.set(index, cromosome);
         //Actualiza o fitness do individuo
         fitnessIndividual();
     }
@@ -130,5 +130,13 @@ public class Individual {
      */
     public int getFitness() {
         return fitness;
+    }
+
+    /**
+     * Devolve o número de cromossomas do individuo
+     * @return numberChromosomes (int) - Número de cromossomas do individuo
+     */
+    public int getNumberChromosomes() {
+        return numberChromosomes;
     }
 }

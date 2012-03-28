@@ -38,6 +38,10 @@ public class Gene{
     public Gene() {
         this.value = random.nextBoolean();
     }
+    
+    public Gene(boolean value) {
+        this.value = value;
+    }
 
     /**
      * Método que devolve o valor do gene (true ou false)
@@ -53,5 +57,10 @@ public class Gene{
      */
     public void setValue(boolean value) {
         this.value = value;
+    }
+    
+    @Override
+    public String toString(){
+        return "" + value;
     }
 }
