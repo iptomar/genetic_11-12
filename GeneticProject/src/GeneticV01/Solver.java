@@ -56,7 +56,7 @@ public class Solver {
     public Solver(int numRepeticoes) {
         this.numRepeticoesFitness = numRepeticoes;
         this.Popul = new Population();
-    }
+    }execute
 
     public int execute() {
         ArrayList<Individual> afterTournament = new ArrayList<Individual>();
