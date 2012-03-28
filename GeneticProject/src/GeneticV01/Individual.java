@@ -35,6 +35,14 @@ public class Individual {
      * terá, caso não se pretenda o valor por defeito.
      */
     private int numberChromosomes = 0;
+    /**
+     * Número de genes por cromossoma, que por defeito, será 10.
+     */
+    private int numberGenes = 10;
+    /**
+     * Variavel que recebe o número fitness do individuo
+     */
+    private int fitness;
     
     /**
      * Construtor da classe que cria um novo arraylist de cromossomas
@@ -56,6 +64,19 @@ public class Individual {
         genome = new ArrayList<Chromosome>(numberChromosomes);
         this.inicializationChromosomes();
     }
+    
+    /**
+     * Construtor da classe que recebe o número de cromossomas que o individuo terá, bem como
+     * os genes por cromossoma.
+     * @param numberChromosomes (int) - Número de cromossomas do individuo
+     * @param numberGenes (int) - Número de genes por cromossoma
+     */
+    public Individual(int numberChromosomes, int numberGenes){
+        this.numberChromosomes = numberChromosomes;
+        this.numberGenes = numberGenes;
+        genome = new ArrayList<Chromosome>(numberChromosomes);
+        this.inicializationChromosomes();
+    }
 
     /**
      * Método que permite a inicialização do genoma do individuo, inicializando
@@ -63,8 +84,10 @@ public class Individual {
      */
     private void inicializationChromosomes() {
         for (int i = 0; i < this.numberChromosomes; i++) {
-            this.genome.add(new Chromosome());
+            this.genome.add(new Chromosome(numberGenes));
         }
+        //Actualiza o fitness do individuo
+        fitnessIndividual();
     }
     
     /**
@@ -83,18 +106,29 @@ public class Individual {
      */
     public void setChromosome(int index, Chromosome cromosome) {
         genome.add(index, cromosome);
+        //Actualiza o fitness do individuo
+        fitnessIndividual();
     }
     /**
      * Método que devolve o número de genes que estão a true por parte do individuo
      * @return (int) - Número de genes a true do individuo
      */
-    public int fitness(){
+    public int fitnessIndividual(){
         int aux = 0;
         //Ciclo que percorre todos os cromossomas do individuo, retirando o número de genes
         //a true de cada um e adicionando o valor de genes verdadeiros ao fitness do individuo
         for (int i = 0; i < genome.size(); i++) {
             aux += genome.get(i).genesFitness();
         }
+        fitness = aux;
         return aux;
+    }
+
+    /**
+     * Método que devolve o fitness do individuo
+     * @return fitness (int) - Fitness do individuo
+     */
+    public int getFitness() {
+        return fitness;
     }
 }
