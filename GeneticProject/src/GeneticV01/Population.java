@@ -70,7 +70,7 @@ public class Population {
     public Population(int numberChromosomes, int numberGenes) {
         this.numberChromosomes = numberChromosomes;
         this.numberGenes = numberGenes;
-        population = new ArrayList<Individual>(numberIndividuals);
+        population = new ArrayList<Individual>(getNumberIndividuals());
         inicializationPopulation();
     }
 
@@ -82,7 +82,7 @@ public class Population {
      */
     public Population(int numberGenes) {
         this.numberGenes = numberGenes;
-        population = new ArrayList<Individual>(numberIndividuals);
+        population = new ArrayList<Individual>(getNumberIndividuals());
         inicializationPopulation();
     }
 
@@ -91,7 +91,7 @@ public class Population {
      * os seus parametros.
      */
     public Population() {
-        population = new ArrayList<Individual>(numberIndividuals);
+        population = new ArrayList<Individual>(getNumberIndividuals());
         inicializationPopulation();
     }
 
@@ -100,7 +100,7 @@ public class Population {
      * por inidividuo e também o número de genes por cromossoma que o individuo terá
      */
     private void inicializationPopulation() {
-        for (int i = 0; i < this.numberIndividuals; i++) {
+        for (int i = 0; i < this.getNumberIndividuals(); i++) {
             this.population.add(new Individual(numberChromosomes, numberGenes));
         }
     }
@@ -199,5 +199,13 @@ public class Population {
 
 
         return value.toString();
+    }
+
+    /**
+     * Método que devolve o número de individuos da população
+     * @return numberIndividuals (int) - Número de individuos da população
+     */
+    public int getNumberIndividuals() {
+        return numberIndividuals;
     }
 }

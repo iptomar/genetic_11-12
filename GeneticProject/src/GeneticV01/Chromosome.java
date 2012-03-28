@@ -63,8 +63,8 @@ public class Chromosome{
      * @return (Gene) - Gene definido na posição do cromossoma
      */
     public Gene getGene(int index){
-        if(genotype.isEmpty()) return null;
-        else return genotype.get(index);
+        if(getGenotype().isEmpty()) return null;
+        else return getGenotype().get(index);
     }
     
     /**
@@ -73,7 +73,7 @@ public class Chromosome{
      * @param gene (Gene) - Gene a ser definido no cromossoma
      */
     public void setGene(int index, Gene gene){
-        genotype.add(index, gene);
+        getGenotype().add(index, gene);
     }
     
     /**
@@ -85,9 +85,9 @@ public class Chromosome{
          * Ciclo que criará tantos genes aleatórios quantos os que sejam pretendidos,
          * adicionando-os automaticamente ao arraylist do cromossoma
          */
-        for (int i = 0; i < numberGenes; i++) {
+        for (int i = 0; i < getNumberGenes(); i++) {
             gene = new Gene();
-            genotype.add(gene);
+            getGenotype().add(gene);
         }
     }
     
@@ -97,11 +97,26 @@ public class Chromosome{
      */
     public int genesFitness(){
         int aux = 0;
-        for (int i = 0; i < genotype.size(); i++) {
+        for (int i = 0; i < getGenotype().size(); i++) {
             //Se o gene for true, incrementa a variavel aux.
-            if(genotype.get(i).getValue()) aux++;
+            if(getGenotype().get(i).getValue()) aux++;
         }
         return aux;
+    }
+
+    /**
+     * @return the genotype
+     */
+    private ArrayList<Gene> getGenotype() {
+        return genotype;
+    }
+
+    /**
+     * Método que devolve o número de genes por cromossoma
+     * @return numberGenes (int) - Numero de genes do cromossoma
+     */
+    public int getNumberGenes() {
+        return numberGenes;
     }
 
 }
