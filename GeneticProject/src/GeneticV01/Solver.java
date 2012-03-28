@@ -44,8 +44,8 @@ public class Solver {
     /**
      * Variavel que guardará a taxa de mutação a efectuar aos individuos da população
      */
-    private double TaxaMut=0.0;
-    
+    private double TaxaMut = 0.0;
+
     /**
      * Construtor da classe que receberá o número de individuos e o número de repetições que o fitness
      * poderá ter (condição de paragem)
@@ -80,12 +80,15 @@ public class Solver {
             afterReproduction = Rep.execute();
             Popul = new Population(afterReproduction);
             Popul.addToPopulation(afterTournament);
-            Mut = new Mutacao(TaxaMut,Popul);
+            Mut = new Mutacao(TaxaMut, Popul);
             Popul.setPopulation(Mut.IniciarMutacao().getPopulation());
             System.out.println("--------------Iteração nº " + aux + "---------------");
             System.out.println("Avarage Anterior :" + fitnessAnt);
-            if (fitnessAnt == Popul.fitnessPopulationAvarage()) numRepetCons++;
-            else numRepetCons=0;
+            if (fitnessAnt == Popul.fitnessPopulationAvarage()) {
+                numRepetCons++;
+            } else {
+                numRepetCons = 0;
+            }
             System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
             System.out.println("Número de individuos: " + Popul.getPopulation().size());
             aux++;
