@@ -4,9 +4,7 @@
  */
 package operators.selections;
 
-import genetics.Individual;
 import genetics.Population;
-import operators.Genetic;
 import utils.Ponteiro;
 
 /**

@@ -10,8 +10,8 @@ import operators.Operator;
 import operators.mutation.Flipbit;
 import operators.recombinations.Crossover2;
 import operators.replacements.Replacement;
+import operators.selections.Roulette;
 import operators.selections.SUS;
-import operators.selections.Tournament;
 
 /**
  *
@@ -46,7 +46,8 @@ public class Solver {
         
         this._operators = new ArrayList<Operator>(4);
 //        this._operators.add(new Tournament(8, 2));        
-        this._operators.add(new SUS(10));        
+//        this._operators.add(new SUS(10));   
+        this._operators.add(new Roulette(10));        
         this._operators.add(new Crossover2());
         this._operators.add(new Flipbit(0.01));
         this._operators.add(new operators.replacements.Tournament(this._sizePopulation, 2));
