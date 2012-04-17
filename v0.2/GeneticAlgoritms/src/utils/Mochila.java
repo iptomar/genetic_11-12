@@ -33,6 +33,8 @@ public class Mochila {
     private int maxValorItem;
     //Numero de items criados para a mochila
     private int numItems;
+    //Variavel que fará o controlo das penalizações para os individuos no cálculo do seu fitness
+    private boolean penalizacao = true;
     
     /**
      * Construtor da classe onde apenas é passado por parametro o peso máximo da mochila.
@@ -46,7 +48,7 @@ public class Mochila {
         this.maxValorItem = Population.RANDOM_GENERATOR.nextInt();
         //Número de items criados aleatório
         this.numItems = Population.RANDOM_GENERATOR.nextInt();
-        items = new ArrayList<Item>(getNumItems());
+        items = new ArrayList<Item>(numItems);
         criaItems();
     }
     /**
@@ -124,6 +126,22 @@ public class Mochila {
      */
     public int getNumItems() {
         return numItems;
+    }
+
+    /**
+     * Método que permite saber se a penalização está ou não activa no cálculo do fitness
+     * @return the penalizacao - true se a penalização estiver activa, false caso contrário
+     */
+    public boolean isPenalizacao() {
+        return penalizacao;
+    }
+
+    /**
+     * Método que permite definir se a penalização está ou não activa aquando do cálculo do fitness dos individuos
+     * @param penalizacao - true para activar, false para desactivar
+     */
+    public void setPenalizacao(boolean penalizacao) {
+        this.penalizacao = penalizacao;
     }
     
 }
