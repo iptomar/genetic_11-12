@@ -10,7 +10,7 @@ import operators.Genetic;
 
 /**
  *
- * @author Git
+ * @author Aurélien Mota Nº13673
  */
 public class SUS extends Selection {
 
