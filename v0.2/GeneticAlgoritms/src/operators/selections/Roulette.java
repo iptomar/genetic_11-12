@@ -5,7 +5,10 @@
 package operators.selections;
 
 import genetics.Population;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.Ponteiro;
+import utils.exceptions.PonteiroForaDoLimiteException;
 
 /**
  *
@@ -42,9 +45,13 @@ public class Roulette extends Selection {
             //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
             this.ponteiro = Ponteiro.pontoAleatorio(population.getFitnessTotal());
             
-            //acrecenta um individou para a nova população
-            newPopulation.addIndividual(
-                    Ponteiro.devolveIndividuoParaOndeOPontoAponta(this.ponteiro, population));
+            try {
+                //acrecenta um individou para a nova população
+                newPopulation.addIndividual(
+                        Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population));
+            } catch (PonteiroForaDoLimiteException ex) {
+                Logger.getLogger(Roulette.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return newPopulation;

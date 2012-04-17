@@ -5,7 +5,10 @@
 package operators.selections;
 
 import genetics.Population;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.Ponteiro;
+import utils.exceptions.PonteiroForaDoLimiteException;
 
 /**
  *
@@ -46,9 +49,14 @@ public class SUS extends Selection {
         this.ponteiro = Ponteiro.pontoAleatorio(population.getFitnessTotal());
         //correr cada individuo da população
         for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
-            //acrecenta um individou para a nova população
-            newPopulation.addIndividual(
-                    Ponteiro.devolveIndividuoParaOndeOPontoAponta(this.ponteiro, population));
+            try {
+                //acrecenta um individou para a nova população
+                newPopulation.addIndividual(
+                        Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population));
+            } catch (PonteiroForaDoLimiteException ex) {
+                Logger.getLogger(SUS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             //faz a incrementação do ponteiro e o mod para voltar ao inicio caso ultrapasse o fitness total
             this.ponteiro = (this.ponteiro + this.offset) % population.getFitnessTotal();
         }
