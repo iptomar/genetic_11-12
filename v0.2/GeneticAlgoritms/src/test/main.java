@@ -9,7 +9,7 @@ import genetics.OnesMax;
 
 /**
  *
- * @author Chorinca-Notebook
+ * @author
  */
 public class main {
     

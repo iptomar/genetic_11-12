@@ -330,5 +330,16 @@ public class Population implements Iterable<Individual> {
     public double getDesvioPadrao() {
         return Math.sqrt(getVariancia());
     }
+
+    //soma todos os fitness que os individuos da pop contem
+    public int getFitnessTotal() {
+        int totalFitness = 0;
+        
+        for (Individual individuo : this) {
+            totalFitness += individuo.fiteness();
+        }
+        
+        return totalFitness;
+    }
     
 }
