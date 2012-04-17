@@ -34,7 +34,7 @@ public class Tournament {
                 //segundo elemento a comparar - elemento seguinte na lista da populacao a comparar - lista receiver
                 Individual second = receiver.get(i + 1);
                 //comparacao entre os 2 elementos
-                if (first.getFitness() >= second.getFitness()) {
+                if (first.fitnessIndividual() >= second.fitnessIndividual()) {
                     //se o primeiro elemento tiver um fitness mais elevado, este é guardado na lista popBest
                     popBest.add(first);
 

@@ -65,7 +65,7 @@ public class Solver {
     public Solver(int numRepeticoes) {
         this.numRepeticoesFitness = numRepeticoes;
         this.Popul = new Population();
-    }execute
+    }
 
     public int execute() {
         ArrayList<Individual> afterTournament = new ArrayList<Individual>();
@@ -82,6 +82,7 @@ public class Solver {
             Popul.addToPopulation(afterTournament);
             Mut = new Mutacao(TaxaMut, Popul);
             Popul.setPopulation(Mut.IniciarMutacao().getPopulation());
+            
             System.out.println("--------------Iteração nº " + aux + "---------------");
             System.out.println("Avarage Anterior :" + fitnessAnt);
             if (fitnessAnt == Popul.fitnessPopulationAvarage()) {
@@ -92,6 +93,9 @@ public class Solver {
             System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
             System.out.println("Número de individuos: " + Popul.getPopulation().size());
             aux++;
+//            if(aux==100){
+//                System.out.println("teste");
+//            }
         } while (numRepetCons != numRepeticoesFitness);
         return 1;
     }

@@ -154,8 +154,8 @@ public class Population {
      * @return (double) - Média de fitness da população
      */
     public double fitnessPopulationAvarage(){
-        double aux = 0.0;
-        aux = (fitnessPopulation() + 0.0) / (population.size() + 0.0);
+        double aux = 0.000000000;
+        aux = (fitnessPopulation() + 0.000000) / (population.size() + 0.000000);
         return aux;
     }
     
@@ -167,6 +167,7 @@ public class Population {
         for (int i = 0; i < toBeAdded.size(); i++) {
             population.add(toBeAdded.get(i));
         }
+        this.numberIndividuals = population.size();
         fitnessPopulation();
     }
 
@@ -210,8 +211,8 @@ public class Population {
         Collections.sort(getPopulation(), new Comparator() {
             @Override
             public int compare(Object Ind1, Object Ind2) {
-                if (((Individual)Ind1).fitnessIndividual() < ((Individual) Ind2).getFitness()) return -1;
-                else if (((Individual)Ind1).fitnessIndividual() == ((Individual) Ind2).getFitness()) return 0;
+                if (((Individual)Ind1).fitnessIndividual() < ((Individual) Ind2).fitnessIndividual()) return -1;
+                else if (((Individual)Ind1).fitnessIndividual() == ((Individual) Ind2).fitnessIndividual()) return 0;
                 else return 1;
             }
         });

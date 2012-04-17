@@ -109,6 +109,7 @@ public class Individual {
         //Actualiza o fitness do individuo
         fitnessIndividual();
     }
+    
     /**
      * Método que devolve o número de genes que estão a true por parte do individuo
      * @return (int) - Número de genes a true do individuo
@@ -122,14 +123,6 @@ public class Individual {
         }
         fitness = aux;
         return aux;
-    }
-
-    /**
-     * Método que devolve o fitness do individuo
-     * @return fitness (int) - Fitness do individuo
-     */
-    public int getFitness() {
-        return fitness;
     }
 
     /**
