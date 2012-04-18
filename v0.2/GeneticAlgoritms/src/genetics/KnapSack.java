@@ -24,13 +24,19 @@ public class KnapSack extends Individual {
     /**
      * Variável que guardará a mochila definida para que o fitness possa ser devidamente calculado para cada individuo
      */
-    private Mochila mocha;
+    private Mochila mocha = null;
 
     /**
      * Construtor onde não se passa nenhuma variavel por parametro para que a classe
      * possa ser instanciada.
      */
     public KnapSack() {
+
+    }
+
+    public KnapSack(Mochila mochilaProbl) {
+        super();
+        this.mocha = mochilaProbl;
     }
 
     /**
@@ -51,15 +57,23 @@ public class KnapSack extends Individual {
         //Variaveis que recebe o fitness total do individuo (valor dos seus items) e o peso total dos mesmos
         int fitness = 0;
         int peso = 0;
-
+        //Array de boolean referente ao individuo
+        boolean[] allelo = new boolean[this.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
-                    if (__gene.getAllele()[__indexAlleloValue]) {
-                        fitness += mocha.getItems().get(__indexAlleloValue).getValor();
-                        peso += mocha.getItems().get(__indexAlleloValue).getPeso();
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        allelo[__indexAlleloValue] = true;
                     }
+                    else allelo[__indexAlleloValue] = false;
                 }
+            }
+        }
+        for (int i = 0; i < allelo.length; i++) {
+            if (allelo[i]) {
+                fitness += mocha.getItems().get(i).getValor();
+                peso += mocha.getItems().get(i).getPeso();
             }
         }
         //Verifica se a penalização está activa para este determinado problema da mochila
@@ -67,7 +81,8 @@ public class KnapSack extends Individual {
             //Verifica se o individuo é penalizado ou não
             if (peso > mocha.getPesoMaximo()) {
                 fitness -= (peso - mocha.getPesoMaximo());
-                return fitness;
+                if(fitness<0) return 0;
+                else return fitness;
             }
         } //Caso a penalização não esteja activa mas o individuo exceda o peso máximo da mochila, terá então que ser reparado até
         //o seu peso não ultrapasse o peso da mochila
@@ -126,11 +141,11 @@ public class KnapSack extends Individual {
         //Variavel que tem o peso do individuo durante o processo de reparação
         int newPeso = peso;
         //Allelo do individuo em causa
-        boolean[] allelo = ((boolean[]) this.getChromosome(0).getGene(peso).getAllele());
-        //Enquanto o peso do individuo ultrapassar o peso máximo da mochila
+        boolean[] allelo = ((boolean[]) this.getChromosome(0).getGene(0).getAllele());
         int index;
         //Enquanto o peso do individuo ultrapassar o peso máximo da mochila, irá sofrer a reparação no seu allelo
-        while (peso > mocha.getPesoMaximo()) {
+        while (newPeso > mocha.getPesoMaximo()) {
+            System.out.println("Iteração de reparação");
             //Encontra um index a true para ser mudado aleatóriamente
             do {
                 index = Population.RANDOM_GENERATOR.nextInt(allelo.length);
@@ -138,18 +153,16 @@ public class KnapSack extends Individual {
             allelo[index] = false;
             //Define o novo allelo já modifica para o individuo
             this.getChromosome(0).getGene(0).setAllele(allelo);
+            newFitness = 0;
+            newPeso = 0;
             //recalcula o peso e o fitness do individuo
-            for (Chromosome __chromosome : this) {
-                for (Gene<Boolean[]> __gene : __chromosome) {
-                    for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
-                        if (__gene.getAllele()[__indexAlleloValue]) {
-                            newFitness += mocha.getItems().get(__indexAlleloValue).getValor();
-                            newPeso += mocha.getItems().get(__indexAlleloValue).getPeso();
-                        }
-                    }
+            for (int i = 0; i < allelo.length; i++) {
+                if (allelo[i]) {
+                    newFitness += mocha.getItems().get(i).getValor();
+                    newPeso += mocha.getItems().get(i).getPeso();
                 }
             }
         }
-        return fitness;
+        return newFitness;
     }
 }

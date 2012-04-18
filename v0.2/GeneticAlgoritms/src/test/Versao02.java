@@ -5,7 +5,6 @@
 package test;
 
 import genetics.KnapSack;
-import genetics.OnesMax;
 import genetics.Population;
 import genetics.Solver;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import operators.recombinations.Crossover2;
 import operators.selections.SUS;
 import statistics.DesvioPadrao;
 import utils.EventsSolver;
+import utils.Mochila;
 import utils.exceptions.SolverException;
 
 /**
@@ -26,6 +26,7 @@ import utils.exceptions.SolverException;
 public class Versao02 {
     
     public static void main(String[] args) {
+        Mochila mochila = new Mochila(20,10,30,40);
  
         // Operadores
         ArrayList<Operator> operators = new ArrayList<Operator>();     
@@ -35,7 +36,7 @@ public class Versao02 {
         operators.add(new operators.replacements.Tournament(100, 2));
         
         // Instanciar solver
-        Solver solver = new Solver(100, 100, new KnapSack(), 10000, 99, operators, new EventsSolver() {
+        Solver solver = new Solver(100, 100, new KnapSack(mochila), 10000, 99, operators, new EventsSolver() {
 
             @Override
             public void EventStartSolver() {

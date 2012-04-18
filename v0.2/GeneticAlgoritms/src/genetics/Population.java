@@ -16,65 +16,62 @@ import utils.ComparatorIndividual;
  * 
  * @author goncalo
  */
-
 public class Population implements Iterable<Individual> {
+
     public static final int DEFAULT_AGE_POPULATION = 0;
     public static final int DEFAULT_SIZE_POPULATION = 10;
-    public static final int DEFAULT_SIZE_GENOME     = 1;    
-    public static final int DEFAULT_SIZE_GENOTYPE   = 1;
-    public static final int DEFAULT_SIZE_ALLELO     = 10;    
+    public static final int DEFAULT_SIZE_GENOME = 1;
+    public static final int DEFAULT_SIZE_GENOTYPE = 1;
+    public static final int DEFAULT_SIZE_ALLELO = 10;
     public static final Individual DEFAULT_TYPE_POPULATION = new OnesMax();
-
-    
     public static final Random RANDOM_GENERATOR = new Random();
-
     private ArrayList<Individual> _population;
-    
     private int _sizePopulation;
     private int _sizeGenotype;
-    private int _sizeGenome; 
+    private int _sizeGenome;
     private int _sizeAllelo;
     private Individual _typePopulation;
-    
+
     public Population(Individual typePopulation) {
         this(Population.DEFAULT_SIZE_POPULATION,
-             Population.DEFAULT_SIZE_GENOME,
-             Population.DEFAULT_SIZE_GENOTYPE,
-             Population.DEFAULT_SIZE_ALLELO,
-             typePopulation);
+                Population.DEFAULT_SIZE_GENOME,
+                Population.DEFAULT_SIZE_GENOTYPE,
+                Population.DEFAULT_SIZE_ALLELO,
+                typePopulation);
     }
-    
-    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation){
+
+    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation) {
         this(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, typePopulation, true);
     }
-    
-    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation, boolean initializesPopulation){
-        this._sizePopulation    = sizePopulation;
-        this._sizeGenome        = sizeGenome;
-        this._sizeGenotype      = sizeGenotype;
-        this._sizeAllelo        = sizeAllelo;
-        this._typePopulation    = typePopulation;
-        
-        _population             = new ArrayList<Individual>(sizePopulation);
-        
-        if(initializesPopulation)
+
+    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation, boolean initializesPopulation) {
+        this._sizePopulation = sizePopulation;
+        this._sizeGenome = sizeGenome;
+        this._sizeGenotype = sizeGenotype;
+        this._sizeAllelo = sizeAllelo;
+        this._typePopulation = typePopulation;
+
+        _population = new ArrayList<Individual>(sizePopulation);
+
+        if (initializesPopulation) {
             _inicializationPopulation();
+        }
     }
-    
-    private void _inicializationPopulation(){
+
+    private void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
             try {
-                
-                Individual __newIndividual = (Individual)_typePopulation.getClass().newInstance();
-                
+
+                Individual __newIndividual = (Individual) _typePopulation.getClass().newInstance();
+
                 __newIndividual.setSizeGenome(_sizeGenome);
                 __newIndividual.setSizeGenotype(_sizeGenotype);
                 __newIndividual.setSizeAllelo(_sizeAllelo);
-                
+
                 __newIndividual.inicializationGenome();
-                
+
                 this._population.add(__newIndividual);
-                
+
             } catch (InstantiationException ex) {
                 Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
@@ -83,7 +80,6 @@ public class Population implements Iterable<Individual> {
         }
     }
 
-    
     public Individual getIndividual(int index) {
         return getPopulation().get(index);
     }
@@ -91,7 +87,7 @@ public class Population implements Iterable<Individual> {
     public void setIndividual(int index, Individual individual) {
         getPopulation().add(index, individual);
     }
-    
+
     /**
      * @return the _numberIndividuals
      */
@@ -106,7 +102,6 @@ public class Population implements Iterable<Individual> {
         this._sizePopulation = sizePopulation;
     }
 
-    
     /**
      * @return the _typeIndividual
      */
@@ -120,36 +115,36 @@ public class Population implements Iterable<Individual> {
     public void setTypePopulation(Individual typePopulation) {
         this._typePopulation = typePopulation;
     }
-    
-    public void addIndividual(Individual individual){
+
+    public void addIndividual(Individual individual) {
         this._population.add(individual);
     }
-    
+
     /***
      * 
      * @param numberIndividual
      * @param removeIndividualFromPopulation
      * @return 
      */
-    public ArrayList<Individual> getArrayIndividualsRandom(int numberIndividual, boolean removeIndividualFromPopulation){
+    public ArrayList<Individual> getArrayIndividualsRandom(int numberIndividual, boolean removeIndividualFromPopulation) {
         final ArrayList<Individual> __newArrayIndividual = new ArrayList<Individual>(numberIndividual);
         int __countIndividual = 0;
         int __indexIndividual;
         int __numberIndividualToReturn = numberIndividual;
-        
+
         // Escolher de forma aleatoria varios individuos        
-        while(__countIndividual < __numberIndividualToReturn){
-            
+        while (__countIndividual < __numberIndividualToReturn) {
+
             __indexIndividual = Population.RANDOM_GENERATOR.nextInt(this.getSizePopulation() - 1);
             __newArrayIndividual.add(this.getPopulation().get(__indexIndividual).clone());
-            
-            if(removeIndividualFromPopulation){
+
+            if (removeIndividualFromPopulation) {
                 this._population.remove(this.getPopulation().get(__indexIndividual));
             }
-            
+
             __countIndividual++;
         }
-        
+
         return __newArrayIndividual;
     }
 
@@ -185,12 +180,12 @@ public class Population implements Iterable<Individual> {
     public void setSizeAllelo(int sizeAllelo) {
         this._sizeAllelo = sizeAllelo;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder __output = new StringBuilder();
         int __countIndividuals = 1;
-        
+
         for (Individual __individual : this) {
             __output.append(__countIndividuals);
             __output.append(" - ");
@@ -231,14 +226,14 @@ public class Population implements Iterable<Individual> {
     public void setSizeGenome(int sizeGenome) {
         this._sizeGenome = sizeGenome;
     }
-    
-    public void incrementAgePopulation(){
+
+    public void incrementAgePopulation() {
         for (Individual __individual : this) {
             __individual.incrementAge();
         }
     }
-    
-    public void resetAgePopulation(){
+
+    public void resetAgePopulation() {
         for (Individual __individual : this) {
             __individual.setAgeIndividual(0);
         }
@@ -246,38 +241,40 @@ public class Population implements Iterable<Individual> {
 
     public int getBestFiteness() {
         int __bestFiteness = 0;
-        for (Individual __individual : this) {
-            if(__bestFiteness < __individual.fiteness())
-                __bestFiteness = __individual.fiteness();
+        for (int i = 0; i < this._sizePopulation; i++) {
+            Individual Ind = this.getIndividual(i);
+            if (__bestFiteness < Ind.fiteness()) {
+                __bestFiteness = Ind.fiteness();
+            }
         }
         return __bestFiteness;
     }
-    
+
     public Population getHallOfFame(int sizeHallOfFame) {
-        final Population __newPopulation = 
+        final Population __newPopulation =
                 new Population(
-                    sizeHallOfFame, 
-                    this._sizeGenome, 
-                    this._sizeGenotype,
-                    this._sizeAllelo,
-                    this._typePopulation, 
-                    false);
-        
+                sizeHallOfFame,
+                this._sizeGenome,
+                this._sizeGenotype,
+                this._sizeAllelo,
+                this._typePopulation,
+                false);
+
         Collections.sort(this._population, new ComparatorIndividual());
         for (Individual __individualHallOfFame : this._population.subList(0, 5)) {
-            __newPopulation.addIndividual(__individualHallOfFame);    
+            __newPopulation.addIndividual(__individualHallOfFame);
         }
 
         return __newPopulation;
     }
-    
+
     /**
      * Método que ordena o array de individuos da poipulação pelo seu fitness 
      */
-    public void orderPopulation(){
+    public void orderPopulation() {
         Collections.sort(this._population, new ComparatorIndividual());
     }
-    
+
     /**
      * Método que devolve a média de fitness da população
      * @return Media - Média de fitness da população
@@ -291,7 +288,7 @@ public class Population implements Iterable<Individual> {
         for (int i = 0; i < _population.size(); i++) {
             array[i] = _population.get(i).fiteness();
         }
-        
+
         for (int counter = 0; counter < array.length; counter++) {
             soma += array[counter];
         }
@@ -299,7 +296,7 @@ public class Population implements Iterable<Individual> {
         //Devolve a média de fitness da população
         return media;
     }
-    
+
     /**
      * Método que devolve o valor da variância da população
      * @return Variancia - Variância da população
@@ -320,7 +317,7 @@ public class Population implements Iterable<Individual> {
         double variancia = (somatorio / (array.length - 1));
         return variancia;
     }
-    
+
     /**
      * Método que devolve o desvio padrão da população
      * @return DesvioPadrao - Desvio padrão da população
@@ -329,15 +326,15 @@ public class Population implements Iterable<Individual> {
         return Math.sqrt(getVariancia());
     }
 
-    //soma todos os fitness que os individuos da pop contem
+    /**
+     * Método que devolve o fitness total da população (soma do fitness de todos os individuos da população)
+     * @return - Fitness total da população
+     */
     public int getFitnessTotal() {
         int totalFitness = 0;
-        
         for (Individual individuo : this) {
             totalFitness += individuo.fiteness();
         }
-        
         return totalFitness;
     }
-    
 }

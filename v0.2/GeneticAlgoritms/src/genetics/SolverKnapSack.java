@@ -3,7 +3,10 @@ package genetics;
 import java.util.ArrayList;
 import operators.Genetic;
 import operators.Operator;
+import operators.recombinations.UniformCrossover;
 import operators.replacements.Replacement;
+import operators.replacements.Truncation;
+import operators.selections.SUS;
 import utils.Mochila;
 
 /* -------------------------------------------------------------------------
@@ -47,7 +50,7 @@ public class SolverKnapSack {
      * @param mochila - Mochila definida para o problema
      */
     public SolverKnapSack(Mochila mochila) {
-        this(100, 20, new KnapSack(), 100, 18, mochila);
+        this(100, new KnapSack(), 100, 30, mochila);
     }
     
     /**
@@ -60,9 +63,9 @@ public class SolverKnapSack {
      * @param bestfiteness - Best fitness para a paragem
      * @param mochila - Mochila utilizada na definição do problema
      */
-    public SolverKnapSack(int sizePopulation, int sizeAllelo, Individual typeIndividual, int iteractions, int bestfiteness, Mochila mochila) {
+    public SolverKnapSack(int sizePopulation, Individual typeIndividual, int iteractions, int bestfiteness, Mochila mochila) {
         this._sizePopulation = sizePopulation;
-        this._sizeAllelo = sizeAllelo;
+        this._sizeAllelo = mochila.getNumItems();
         this._typeIndividual = typeIndividual;
         this._stopCriterion = new StopCriterion(iteractions, bestfiteness);
         this.mochila = mochila;
@@ -70,17 +73,18 @@ public class SolverKnapSack {
         this._parentsPopulation = new Population(this._sizePopulation, this._sizeGenome, this._sizeGenotype, this._sizeAllelo, this._typeIndividual);
         //Ciclo que define a mochila que pode ser utilizada para cada individuo do tipo KnapSack
         for (int i = 0; i < _parentsPopulation.getPopulation().size(); i++) {
-            ((KnapSack)_parentsPopulation.getPopulation().get(0)).setMocha(mochila);
+            ((KnapSack)_parentsPopulation.getPopulation().get(i)).setMocha(mochila);
         }
         
     }
     
     public void run(){
-//        this._operators = new ArrayList<Operator>(4);
-//        this._operators.add(new Tournament(8, 2));        
-//        this._operators.add(new Crossover2());
-//        this._operators.add(new Flipbit(0.01));
-//        this._operators.add(new operators.replacements.Tournament(this._sizePopulation, 2));
+        this._operators = new ArrayList<Operator>(4);
+        //this._operators.add(new Tournament(8, 2));        
+        this._operators.add(new UniformCrossover());
+        this._operators.add(new Truncation(this._sizePopulation));
+        //this._operators.add(new Flipbit(0.01));
+        this._operators.add(new SUS());
         while((this._numberIteractions < this._stopCriterion.getNumberIteractions()) && 
               (this._parentsPopulation.getBestFiteness() < this._stopCriterion.getGoodFiteness())) {
         
@@ -96,8 +100,6 @@ public class SolverKnapSack {
                 }
 
             }
-        
-            
             this._numberIteractions++;
         }
         
