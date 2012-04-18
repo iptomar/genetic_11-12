@@ -13,6 +13,7 @@ import operators.mutation.Flipbit;
 import operators.recombinations.Crossover2;
 import operators.replacements.Replacement;
 import operators.selections.Roulette;
+import utils.EventsSolver;
 import utils.exceptions.SolverException;
 
 /**
@@ -32,15 +33,20 @@ public class Solver {
     private StopCriterion _stopCriterion;
     private int _numberIteractions;
 
-    public Solver() {
-        this(100, 20, new OnesMax(), 100, 18);
+    private ArrayList<Operator> operadores;
+    private EventsSolver eventSolver;
+    
+    public Solver(EventsSolver eventSolver) {
+        this(100, 20, new OnesMax(), 100, 18, new ArrayList<Operator>(), eventSolver);
     }
 
-    public Solver(int sizePopulation, int sizeAllelo, Individual typeIndividual, int iteractions, int bestfiteness) {
+    public Solver(int sizePopulation, int sizeAllelo, Individual typeIndividual, int iteractions, int bestfiteness, ArrayList<Operator> operadores, EventsSolver eventSolver) {
         this._sizePopulation = sizePopulation;
         this._sizeAllelo = sizeAllelo;
         this._typeIndividual = typeIndividual;
         this._stopCriterion = new StopCriterion(iteractions, bestfiteness);
+        this.operadores = operadores;
+        this.eventSolver = eventSolver;
     }
 
     public void run() throws SolverException {
@@ -48,14 +54,9 @@ public class Solver {
         // Capturar erros de codigo não programados
         try {
 
-            this._operators = new ArrayList<Operator>(4);
-//        this._operators.add(new Tournament(8, 2));        
-//        this._operators.add(new SUS(10));   
-            this._operators.add(new Roulette(10));
-            this._operators.add(new Crossover2());
-            this._operators.add(new Flipbit(0.01));
-            this._operators.add(new operators.replacements.Tournament(this._sizePopulation, 2));
-
+            // Evento inicial quando o solver inicia
+            this.eventSolver.EventStartSolver();
+            
             this._numberIteractions = 0;
             this._parentsPopulation = new Population(this._sizePopulation, this._sizeGenome, this._sizeGenotype, this._sizeAllelo, this._typeIndividual);
 
@@ -75,28 +76,19 @@ public class Solver {
 
                 }
                 
+                // no final de cada iteração dispara um evento que passa
+                // o numero da iteração e a população gerada
+                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                
                 this._numberIteractions++;
             }
 
-            System.out.println("Hall of Fame");
-            System.out.println(this._parentsPopulation.getHallOfFame(5).toString());
-
-            System.out.println("");
-
-            System.out.println("Population");
-            System.out.println(this._parentsPopulation.toString());
-
+            // Evento final quando o solver esta terminado
+            this.eventSolver.EventFinishSolver(_parentsPopulation);
+            
         } catch (Exception ex) {
             throw new SolverException();
         }
     }
 
-    public static void main(String[] args) {
-        Solver solve = new Solver();
-        try {
-            solve.run();
-        } catch (SolverException ex) {
-            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }
