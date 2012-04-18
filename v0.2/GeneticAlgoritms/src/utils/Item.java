@@ -37,6 +37,18 @@ public class Item {
         this.peso = Population.RANDOM_GENERATOR.nextInt(pesoMax);;
         this.valor = Population.RANDOM_GENERATOR.nextInt(valorMax);;
     }
+    
+    /**
+     * Construtor da classe que é passado por parametro o peso do item e o valor do mesmo
+     * O boolean é apenas para diferenciar construtores, não sendo importante
+     * @param PesoItem - Peso do item
+     * @param ValorItem - Valor do item
+     * @param b - False ou true, apenas para diferenciar construtores
+     */
+    public Item(int PesoItem, int ValorItem, boolean b){
+        this.peso = PesoItem;
+        this.valor = ValorItem;
+    }
 
     /**
      * Construtor da classe onde não não precisos parametros para a instanciar

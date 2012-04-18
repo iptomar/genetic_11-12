@@ -46,4 +46,9 @@ public class OnesMax extends Individual {
         return new OnesMax(this);
     }
 
+    @Override
+    public String toString() {
+        throw new UnsupportedOperationException("Ainda não está implementado para OnesMax.");
+    }
+
 }

@@ -249,6 +249,51 @@ public class Population implements Iterable<Individual> {
         }
         return __bestFiteness;
     }
+    
+    /**
+     * Método que devolve o número de individúos que tem o fitness máximo na população
+     * @return - Número de individuos na população que tem o valor de fitness máximo
+     */
+    public int getNumBestFitness(){
+        int bestFitness = getBestFiteness();
+        int numBests = 0;
+        for (int i = 0; i < this._sizePopulation; i++) {
+            Individual Ind = this.getIndividual(i);
+            if (bestFitness == Ind.fiteness()) numBests++;
+        }
+        return numBests;
+    }
+    
+    /**
+     * **************************************************************************
+     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
+     * **************************************************************************
+     */
+    /**
+     * Método que devolve o melhor individuo da população para ser analisado
+     * @return (Individual) - O melhor individuo da população
+     */
+    public Individual getBestInd(){
+        int bestFitness = getBestFiteness();
+        for (int i = 0; i < this._sizePopulation; i++) {
+            Individual Ind = this.getIndividual(i);
+            if (bestFitness == Ind.fiteness()) return Ind;
+        }
+        return null;
+    }
+    
+    /**
+     * **************************************************************************
+     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
+     * **************************************************************************
+     */
+    /**
+     * Método que devolve uma string com as informações do melhor individuo desta população
+     * @return (String) - String com o conteudo do melhor individuo da população
+     */
+    public String getBestIndString(){
+        return getBestInd().toString();
+    }
 
     public Population getHallOfFame(int sizeHallOfFame) {
         final Population __newPopulation =

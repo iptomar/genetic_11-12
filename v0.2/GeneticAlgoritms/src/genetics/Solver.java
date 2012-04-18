@@ -35,7 +35,6 @@ public class Solver {
     private ArrayList<Operator> operadores;
     private EventsSolver eventSolver;
     
-    private DesvioPadrao desvioPadrao;
     
     public Solver(EventsSolver eventSolver) {
         this(100, 20, new OnesMax(), 100, 18, new ArrayList<Operator>(), eventSolver);
@@ -48,8 +47,6 @@ public class Solver {
         this._stopCriterion = new StopCriterion(iteractions, bestfiteness);
         this.operadores = operadores;
         this.eventSolver = eventSolver;
-        
-        desvioPadrao = new DesvioPadrao();
     }
 
     public void run() throws SolverException {
@@ -78,19 +75,15 @@ public class Solver {
                     }
 
                 }
-                
-                // converte população final em double[] e atribui ao objecto desvioPadrao
-                desvioPadrao.setArray(devolveArrayFitnessPopulacao(_parentsPopulation));
-                
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation, this.desvioPadrao);
+                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
                 
                 this._numberIteractions++;
             }
 
             // Evento final quando o solver esta terminado
-            this.eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation, this.desvioPadrao);
+            this.eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
             
         } catch (Exception ex) {
             Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);

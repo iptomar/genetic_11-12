@@ -51,6 +51,21 @@ public class Mochila {
         items = new ArrayList<Item>(numItems);
         criaItems();
     }
+    
+    public Mochila(int pesoMochila, ArrayList<Item> Items, boolean penalizacao){
+        //define o peso máximo de transporte por mochila e também se haverá penalização no fitness dos individuos o não
+        this.pesoMaximo = pesoMochila;
+        this.penalizacao = penalizacao;
+        this.items = Items;
+        //Variaveis a zero para um calculo bem efectuado do maximo de peso e valor por item
+        this.maxPesoItem = 0;
+        this.maxValorItem = 0;
+        //Ciclo que calculará o máximo de valor por item e o máximo de peso por item
+        for (int i = 0; i < items.size(); i++) {
+            if(maxPesoItem < items.get(i).getPeso()) maxPesoItem = items.get(i).getPeso();
+            if(maxValorItem < items.get(i).getValor()) maxValorItem = items.get(i).getValor();
+        }
+    }
     /**
      * Construtor da classe onde são passado por parametros o peso máximo da mochila, o máximo de peso que cada item poderá conter,
      * o valor máximo que cada item poderá ter e o número de items que serão criados e que a mochila poderá transportar.
@@ -110,6 +125,7 @@ public class Mochila {
      */
     public void setItems(ArrayList<Item> items) {
         this.items = items;
+        this.numItems = this.items.size();
     }
 
     /**

@@ -57,7 +57,7 @@ public class KnapSack extends Individual {
         //Variaveis que recebe o fitness total do individuo (valor dos seus items) e o peso total dos mesmos
         int fitness = 0;
         int peso = 0;
-        //Array de boolean referente ao individuo
+        //Array de boolean referente ao allelo do individuo
         boolean[] allelo = new boolean[this.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
         for (Chromosome __chromosome : this) {
@@ -164,5 +164,34 @@ public class KnapSack extends Individual {
             }
         }
         return newFitness;
+    }
+
+    @Override
+    public String toString() {
+        //Stringbuilder para ir fazendo apend do conteudo a mostrar ao utilizador
+        StringBuilder output = new StringBuilder();
+        //Quebra de linha
+        String NL = System.getProperty("line.separator");
+        output.append("--------------- KnapSack Individual ---------------").append(NL);
+        //Variaveis para receber o peso e o valor do individuo 
+        int fitness = 0;
+        int peso = 0;
+        //Array de boolean referente ao allelo do individuo
+        boolean[] allelo = ((boolean[]) this.getChromosome(0).getGene(0).getAllele());
+        //Cilco que percorre o allelo do individuo para retirar o eseu peso e valor
+        for (int i = 0; i < allelo.length; i++) {
+            if (allelo[i]) {
+                fitness += mocha.getItems().get(i).getValor();
+                peso += mocha.getItems().get(i).getPeso();
+                output.append(" 1 ");
+            }
+            else{
+                output.append(" 0 ");
+            }
+        }
+        output.append(NL).append("Fitness do individuo: ").append(fitness).append(NL);
+        output.append("Peso do individuo: ").append(peso).append(NL);
+        output.append("Peso máximo permitido no problema :").append(mocha.getPesoMaximo());
+        return output.toString();
     }
 }

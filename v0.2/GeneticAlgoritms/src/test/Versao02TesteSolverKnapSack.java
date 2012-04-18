@@ -24,7 +24,7 @@ public class Versao02TesteSolverKnapSack {
         //Mochila a ser utilizada no problema
         Mochila mochila = new Mochila(25,15,30,10);
         //Solver a ser corrido
-        SolverKnapSack solver = new SolverKnapSack(mochila);
-        solver.run();
+//        SolverKnapSack solver = new SolverKnapSack(mochila);
+//        solver.run();
     }
 }

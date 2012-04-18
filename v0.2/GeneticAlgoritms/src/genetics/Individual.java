@@ -112,19 +112,10 @@ public abstract class Individual implements Iterable<Chromosome> {
         return _genome;
     }
     
-    @Override
-    public String toString() {
-        final StringBuilder __output = new StringBuilder();
-
-        for (Chromosome __chromosome : this) {
-            __output.append(__chromosome.toString());
-        }
-
-        return __output.toString();
-    }
-    
     public abstract int fiteness();
     public abstract Boolean[] inicializationAllelo();
+    @Override
+    public abstract String toString();
     
     @Override
     public abstract Individual clone();

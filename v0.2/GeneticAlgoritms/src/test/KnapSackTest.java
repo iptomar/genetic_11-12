@@ -36,7 +36,7 @@ public class KnapSackTest {
         boolean[] fitness = {true,true,true,true};
         
         Indiv1.getChromosome(0).getGene(0).setAllele(fitness);
-        System.out.println("Fitness do Individuo 1: " + Indiv1.fiteness());
+        System.out.println("" + Indiv1.toString());
         
         
         //---------- TESTE NÚMERO 2 -----------
@@ -58,7 +58,7 @@ public class KnapSackTest {
         boolean[] fitness2 = {false,false,false,false,false,true,false,true};
         
         Indiv2.getChromosome(0).getGene(0).setAllele(fitness2);
-        System.out.println("Fitness do Individuo 2: " + Indiv2.fiteness());
+        System.out.println("" + Indiv2.toString());
         
         
     }
