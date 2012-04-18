@@ -16,9 +16,9 @@ public class Desvio {
     public static void main(String[] args) {
         // TODO code application logic here
         DesvioPadrao dv = new DesvioPadrao();
-        System.out.println("Variância: " + dv.getVariancia());
-        System.out.println("Média:" + dv.getMedia());
-        System.out.println("Desvio Padrão: " + dv.getDesvioPadrao());
+        System.out.println("Variância: " + dv.getVariancia().doubleValue());
+        System.out.println("Média:" + dv.getMedia().doubleValue());
+        System.out.println("Desvio Padrão: " + dv.getDesvioPadrao().doubleValue());
         
     }
 }

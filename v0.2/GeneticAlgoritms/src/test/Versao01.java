@@ -4,7 +4,6 @@
  */
 package test;
 
-import genetics.KnapSack;
 import genetics.OnesMax;
 import genetics.Population;
 import genetics.Solver;
@@ -23,7 +22,7 @@ import utils.exceptions.SolverException;
  *
  * @author Aurélien Mota
  */
-public class Versao02 {
+public class Versao01 {
     
     public static void main(String[] args) {
  
@@ -35,7 +34,7 @@ public class Versao02 {
         operators.add(new operators.replacements.Tournament(100, 2));
         
         // Instanciar solver
-        Solver solver = new Solver(100, 100, new KnapSack(), 10000, 99, operators, new EventsSolver() {
+        Solver solver = new Solver(100, 100, new OnesMax(), 10000, 99, operators, new EventsSolver() {
 
             @Override
             public void EventStartSolver() {
@@ -78,7 +77,7 @@ public class Versao02 {
             // Correr o solver
             solver.run();
         } catch (SolverException ex) {
-            Logger.getLogger(Versao02.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Versao01.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

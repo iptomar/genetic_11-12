@@ -13,44 +13,47 @@ public class DesvioPadrao {
     double soma = 0;
     double somatorio;
     double media;
-    double array[] = {1, 4, 6, 9, 2};
+    private Double[] array;
 
+    public DesvioPadrao() {
+        array = new Double[] { 2.0, 5.0, 7.0, 9.0, 10.0 };
+    }
+    
     //metodo que devolve a media
-    public double getMedia() {
+    public Double getMedia() {
         media = 0;
         soma = 0;
 
-        for (int counter = 0; counter < array.length; counter++) {
-
-            soma += array[counter];
+        for (int counter = 0; counter < getArray().length; counter++) {
+            soma += getArray()[counter];
         }
-        media = soma / array.length;
+        media = soma / getArray().length;
         return media;
     }
 
-  //metodo que devolve a variância
-    public double getVariancia() {
+    //metodo que devolve a variância
+    public Double getVariancia() {
         soma = 0;
         somatorio = 0;
         //Calcula o somatório
-        for (int counter = 0; counter < array.length; counter++) {
-            somatorio += Math.pow(array[counter] - getMedia(), 2);
+        for (int counter = 0; counter < getArray().length; counter++) {
+            somatorio += Math.pow(getArray()[counter] - getMedia(), 2);
         }
-        double variancia = (somatorio / (array.length - 1));
+        double variancia = (somatorio / (getArray().length - 1));
         return variancia;
     }
 
     //metodo que devolve o desvio padrão
-    public double getDesvioPadrao() {
+    public Double getDesvioPadrao() {
         return Math.sqrt(getVariancia());
     }
 
     
-    public double[] getArray() {
+    public Double[] getArray() {
         return array;
     }
     
-    public void setArray(double[] array) {
+    public void setArray(Double[] array) {
         this.array = array;
     }
 }

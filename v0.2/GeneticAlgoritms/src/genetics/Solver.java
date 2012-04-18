@@ -5,14 +5,14 @@
 package genetics;
 
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operators.Genetic;
 import operators.Operator;
-import operators.mutation.Flipbit;
-import operators.recombinations.Crossover2;
 import operators.replacements.Replacement;
-import operators.selections.Roulette;
+import operators.selections.SUS;
+import statistics.DesvioPadrao;
 import utils.EventsSolver;
 import utils.exceptions.SolverException;
 
@@ -24,7 +24,6 @@ public class Solver {
 
     private Population _parentsPopulation;
     private Population _sonsPopulation;
-    private ArrayList<Operator> _operators;
     private int _sizePopulation;
     private int _sizeGenotype = 1;
     private int _sizeGenome = 1;
@@ -35,6 +34,8 @@ public class Solver {
 
     private ArrayList<Operator> operadores;
     private EventsSolver eventSolver;
+    
+    private DesvioPadrao desvioPadrao;
     
     public Solver(EventsSolver eventSolver) {
         this(100, 20, new OnesMax(), 100, 18, new ArrayList<Operator>(), eventSolver);
@@ -47,6 +48,8 @@ public class Solver {
         this._stopCriterion = new StopCriterion(iteractions, bestfiteness);
         this.operadores = operadores;
         this.eventSolver = eventSolver;
+        
+        desvioPadrao = new DesvioPadrao();
     }
 
     public void run() throws SolverException {
@@ -64,31 +67,45 @@ public class Solver {
                     && (this._parentsPopulation.getBestFiteness() < this._stopCriterion.getGoodFiteness())) {
 
                 this._parentsPopulation.incrementAgePopulation();
-                this._sonsPopulation = ((Genetic) this._operators.get(0)).execute(this._parentsPopulation);
+                this._sonsPopulation = ((Genetic) this.operadores.get(0)).execute(this._parentsPopulation);
 
-                for (int __indexOperators = 1; __indexOperators < this._operators.size(); __indexOperators++) {
+                for (int __indexOperators = 1; __indexOperators < this.operadores.size(); __indexOperators++) {
 
-                    if (this._operators.get(__indexOperators) instanceof Genetic) {
-                        _sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(_sonsPopulation);
+                    if (this.operadores.get(__indexOperators) instanceof Genetic) {
+                        _sonsPopulation = ((Genetic) this.operadores.get(__indexOperators)).execute(_sonsPopulation);
                     } else {
-                        _parentsPopulation = ((Replacement) this._operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
+                        _parentsPopulation = ((Replacement) this.operadores.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
                     }
 
                 }
                 
+                // converte população final em double[] e atribui ao objecto desvioPadrao
+                desvioPadrao.setArray(devolveArrayFitnessPopulacao(_parentsPopulation));
+                
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation, this.desvioPadrao);
                 
                 this._numberIteractions++;
             }
 
             // Evento final quando o solver esta terminado
-            this.eventSolver.EventFinishSolver(_parentsPopulation);
+            this.eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation, this.desvioPadrao);
             
         } catch (Exception ex) {
+            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
             throw new SolverException();
         }
     }
 
+    // Recolhe todos os fitness's da população e devolve em um array de Doubles
+    private Double[] devolveArrayFitnessPopulacao(Population populacao) {
+        ArrayList<Double> fitnessArray = new ArrayList<Double>(populacao.getSizePopulation());
+        
+        for (Individual individuo : populacao) {
+            fitnessArray.add((double)individuo.fiteness());
+        }
+        
+        return fitnessArray.toArray(new Double[0]);
+    }
 }

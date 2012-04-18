@@ -197,8 +197,6 @@ public class Population implements Iterable<Individual> {
             __output.append(__individual.toString());
             __output.append(" - ");
             __output.append(__individual.fiteness());
-            __output.append(" - ");
-            __output.append(__individual.getAgeIndividual());
             __output.append("\n");
             __countIndividuals++;
         }
