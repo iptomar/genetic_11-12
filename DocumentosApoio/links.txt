@@ -1,0 +1,5 @@
+﻿http://www.javasimples.com.br/core-java/annotations-o-que-pra-que-serve
+
+http://netbeans.org/kb/docs/java/javase-intro_pt_BR.html
+
+http://www.devmedia.com.br/testes-de-unidade-com-junit/4637
