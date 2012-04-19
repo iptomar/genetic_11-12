@@ -5,14 +5,14 @@
 package genetics;
 
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operators.Genetic;
 import operators.Operator;
+import operators.mutation.Flipbit;
+import operators.recombinations.Crossover2;
 import operators.replacements.Replacement;
-import operators.selections.SUS;
-import statistics.DesvioPadrao;
+import operators.replacements.Tournament;
 import utils.EventsSolver;
 import utils.exceptions.SolverException;
 
@@ -31,21 +31,18 @@ public class Solver {
     private Individual _typeIndividual;
     private StopCriterion _stopCriterion;
     private int _numberIteractions;
-
     private ArrayList<Operator> operadores;
     private EventsSolver eventSolver;
-    
-    
+
     public Solver(EventsSolver eventSolver) {
-        this(100, 20, new OnesMax(), 100, 18, new ArrayList<Operator>(), eventSolver);
+        this(100, 20, new OnesMax(), 100, 18, eventSolver);
     }
 
-    public Solver(int sizePopulation, int sizeAllelo, Individual typeIndividual, int iteractions, int bestfiteness, ArrayList<Operator> operadores, EventsSolver eventSolver) {
+    public Solver(int sizePopulation, int sizeAllelo, Individual typeIndividual, int iteractions, int bestfiteness, EventsSolver eventSolver) {
         this._sizePopulation = sizePopulation;
         this._sizeAllelo = sizeAllelo;
         this._typeIndividual = typeIndividual;
         this._stopCriterion = new StopCriterion(iteractions, bestfiteness);
-        this.operadores = operadores;
         this.eventSolver = eventSolver;
     }
 
@@ -56,7 +53,11 @@ public class Solver {
 
             // Evento inicial quando o solver inicia
             this.eventSolver.EventStartSolver();
-            
+            this.operadores = new ArrayList<Operator>(4);
+            this.operadores.add(new Tournament(8, 2));
+            this.operadores.add(new Crossover2());
+            this.operadores.add(new Flipbit(0.01));
+            this.operadores.add(new operators.replacements.Tournament(this._sizePopulation, 2));
             this._numberIteractions = 0;
             this._parentsPopulation = new Population(this._sizePopulation, this._sizeGenome, this._sizeGenotype, this._sizeAllelo, this._typeIndividual);
 
@@ -78,13 +79,13 @@ public class Solver {
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
                 this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
-                
+
                 this._numberIteractions++;
             }
 
             // Evento final quando o solver esta terminado
             this.eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
             throw new SolverException();
@@ -94,11 +95,11 @@ public class Solver {
     // Recolhe todos os fitness's da população e devolve em um array de Doubles
     private Double[] devolveArrayFitnessPopulacao(Population populacao) {
         ArrayList<Double> fitnessArray = new ArrayList<Double>(populacao.getSizePopulation());
-        
+
         for (Individual individuo : populacao) {
-            fitnessArray.add((double)individuo.fiteness());
+            fitnessArray.add((double) individuo.fiteness());
         }
-        
+
         return fitnessArray.toArray(new Double[0]);
     }
 }

@@ -87,7 +87,7 @@ public class SolverKnapSack {
         // Capturar erros de codigo não programados
         try {
             // Evento inicial quando o solver inicia
-            this.eventSolver.EventStartSolver();
+            //this.eventSolver.EventStartSolver();
 
             this._operators = new ArrayList<Operator>(4);
             //this._operators.add(new Tournament(8, 2));        
@@ -108,12 +108,15 @@ public class SolverKnapSack {
                     } else {
                         _parentsPopulation = ((Replacement) this._operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
                     }
-
+                  
+                    System.out.println("For");
+                    
                 }
 
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-                this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                System.out.println("Evento");
+                //this.eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
 
                 this._numberIteractions++;
             }

@@ -50,5 +50,12 @@ public class OnesMax extends Individual {
     public String toString() {
         throw new UnsupportedOperationException("Ainda não está implementado para OnesMax.");
     }
+    
+    @Override
+    public int compareTo(Object o) {
+        if(this.fiteness() < ((OnesMax)o).fiteness()) return -1;
+        else if(this.fiteness() == ((OnesMax)o).fiteness()) return 0;
+        else return 1;
+    }
 
 }

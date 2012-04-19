@@ -241,10 +241,13 @@ public class Population implements Iterable<Individual> {
 
     public int getBestFiteness() {
         int __bestFiteness = 0;
+        int fitnessAct = 0;
+        Individual Ind = null;
         for (int i = 0; i < this._sizePopulation; i++) {
-            Individual Ind = this.getIndividual(i);
-            if (__bestFiteness < Ind.fiteness()) {
-                __bestFiteness = Ind.fiteness();
+            Ind = this.getIndividual(i);
+            fitnessAct = Ind.fiteness();
+            if (__bestFiteness < fitnessAct) {
+                __bestFiteness = fitnessAct;
             }
         }
         return __bestFiteness;
@@ -313,11 +316,14 @@ public class Population implements Iterable<Individual> {
         return __newPopulation;
     }
 
-    /**
-     * Método que ordena o array de individuos da poipulação pelo seu fitness 
-     */
+//    /**
+//     * Método que ordena o array de individuos da poipulação pelo seu fitness 
+//     */
+//    public void orderPopulation() {
+//        Collections.sort(this._population, new ComparatorIndividual());
+//    }
     public void orderPopulation() {
-        Collections.sort(this._population, new ComparatorIndividual());
+        Collections.sort(this._population);
     }
 
     /**

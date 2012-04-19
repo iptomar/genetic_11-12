@@ -15,10 +15,13 @@ public class ComparatorIndividual implements Comparator<Individual> {
 
     @Override
     public int compare(Individual o1, Individual o2) {
-        
-        if(o1.fiteness() < o2.fiteness())
+        int fitnessO1 = o1.fiteness();
+        int fitnessO2 = o2.fiteness();
+        System.out.println("" + fitnessO1);
+        System.out.println("" + fitnessO2);
+        if(fitnessO1 < fitnessO2)
             return 1;
-        else if(o1.fiteness() >  o2.fiteness())
+        else if(fitnessO1 >  fitnessO2)
             return -1;
         else
             return 0;

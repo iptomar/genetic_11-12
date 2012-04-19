@@ -1,5 +1,7 @@
 package operators.recombinations;
 
+import genetics.Chromosome;
+import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
 
@@ -60,7 +62,18 @@ public class UniformCrossover extends Recombination{
     private Individual aplicaMask(Individual parent, boolean[] mask){
         Individual sonMask = parent.clone();
         //Vai buscar o allelo do pai
-        boolean[] sonAllelo = (boolean[])sonMask.getChromosome(0).getGene(0).getAllele();
+        boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
+        for (Chromosome __chromosome : sonMask) {
+            for (Gene<Boolean[]> __gene : __chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        sonAllelo[__indexAlleloValue] = true;
+                    }
+                    else sonAllelo[__indexAlleloValue] = false;
+                }
+            }
+        }
         for (int i = 0; i < sonAllelo.length; i++) {
             if(mask[i]) sonAllelo[i] = !sonAllelo[i];
         }
@@ -80,8 +93,30 @@ public class UniformCrossover extends Recombination{
         Individual sonMask = parent1.clone();
         Individual daughterMask = parent2.clone();
         //Allelos de cada filho para que possa ser efectuada a troca
-        boolean[] sonAllelo = (boolean[])sonMask.getChromosome(0).getGene(0).getAllele();
-        boolean[] daughterAllelo = (boolean[])daughterMask.getChromosome(0).getGene(0).getAllele();
+        boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
+        for (Chromosome __chromosome : sonMask) {
+            for (Gene<Boolean[]> __gene : __chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        sonAllelo[__indexAlleloValue] = true;
+                    }
+                    else sonAllelo[__indexAlleloValue] = false;
+                }
+            }
+        }
+        boolean[] daughterAllelo = new boolean[daughterMask.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
+        for (Chromosome __chromosome : daughterMask) {
+            for (Gene<Boolean[]> __gene : __chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        daughterAllelo[__indexAlleloValue] = true;
+                    }
+                    else daughterAllelo[__indexAlleloValue] = false;
+                }
+            }
+        }
         //Percorre todas as posições do allelo
         for (int i = 0; i < mask.length; i++) {
             //faz a troca apenas se a máscara for igual a true

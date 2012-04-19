@@ -25,7 +25,7 @@ import utils.exceptions.SolverException;
  */
 public class Versao02 {
     
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
 //        Mochila mochila = new Mochila(20,10,30,40);
 // 
 //        // Operadores
@@ -81,6 +81,6 @@ public class Versao02 {
 //        } catch (SolverException ex) {
 //            Logger.getLogger(Versao02.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-    }
+    //}
     
 }

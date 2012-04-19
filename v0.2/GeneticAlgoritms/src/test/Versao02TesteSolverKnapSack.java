@@ -4,8 +4,13 @@
  */
 package test;
 
+import genetics.KnapSack;
 import genetics.SolverKnapSack;
+import java.util.ArrayList;
+import utils.EventsSolver;
+import utils.Item;
 import utils.Mochila;
+import utils.exceptions.SolverException;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -20,11 +25,20 @@ import utils.Mochila;
  * -------------------------------------------------------------------------
  */
 public class Versao02TesteSolverKnapSack {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SolverException {
         //Mochila a ser utilizada no problema
-        Mochila mochila = new Mochila(25,15,30,10);
+        ArrayList<Item> items = new ArrayList<Item>();
+        
+        for (int i = 0; i < 200; i++) {
+            items.add(new Item(i,i,true));
+        }
+        
+        //Mochila mochila = new Mochila(25,15,30,10);
+        Mochila mochila = new Mochila(200,items, false);
         //Solver a ser corrido
-//        SolverKnapSack solver = new SolverKnapSack(mochila);
-//        solver.run();
+        EventsSolver eventSolver = null;
+        SolverKnapSack solver = new SolverKnapSack(10000,new KnapSack(),99,1000,mochila, eventSolver);
+        //SolverKnapSack solver = new SolverKnapSack(mochila, eventSolver);
+        solver.run();
     }
 }

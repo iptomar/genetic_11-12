@@ -1,0 +1,10 @@
+genetics
+operators
+operators.mutation
+operators.recombinations
+operators.replacements
+operators.selections
+statistics
+test
+utils
+utils.exceptions

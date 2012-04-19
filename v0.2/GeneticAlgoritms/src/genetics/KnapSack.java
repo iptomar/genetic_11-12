@@ -43,8 +43,9 @@ public class KnapSack extends Individual {
      * Construtor que recebe um indiviou do tipo KnapSack e instancia o mesmo
      * @param knap - Individuo do tipo KnapSack 
      */
-    public KnapSack(KnapSack knap) {
+    public KnapSack(KnapSack knap, Mochila mochilaProbl) {
         super(knap);
+        this.mocha = mochilaProbl;
     }
 
     @Override
@@ -105,12 +106,10 @@ public class KnapSack extends Individual {
 
         return __allelo;
     }
-
+    
     @Override
-    public Individual clone() {
-        KnapSack newKnap = new KnapSack(this);
-        newKnap.setMocha(mocha);
-        return newKnap;
+    public Individual clone(){
+        return new KnapSack(this, mocha);
     }
 
     /**
@@ -141,7 +140,18 @@ public class KnapSack extends Individual {
         //Variavel que tem o peso do individuo durante o processo de reparação
         int newPeso = peso;
         //Allelo do individuo em causa
-        boolean[] allelo = ((boolean[]) this.getChromosome(0).getGene(0).getAllele());
+        boolean[] allelo = new boolean[this.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
+        for (Chromosome __chromosome : this) {
+            for (Gene<Boolean[]> __gene : __chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        allelo[__indexAlleloValue] = true;
+                    }
+                    else allelo[__indexAlleloValue] = false;
+                }
+            }
+        }
         int index;
         //Enquanto o peso do individuo ultrapassar o peso máximo da mochila, irá sofrer a reparação no seu allelo
         while (newPeso > mocha.getPesoMaximo()) {
@@ -176,8 +186,19 @@ public class KnapSack extends Individual {
         //Variaveis para receber o peso e o valor do individuo 
         int fitness = 0;
         int peso = 0;
-        //Array de boolean referente ao allelo do individuo
-        boolean[] allelo = ((boolean[]) this.getChromosome(0).getGene(0).getAllele());
+         //Array de boolean referente ao allelo do individuo
+        boolean[] allelo = new boolean[this.getSizeAllelo()];
+        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
+        for (Chromosome __chromosome : this) {
+            for (Gene<Boolean[]> __gene : __chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
+                    if ( __gene.getAllele()[__indexAlleloValue]) {
+                        allelo[__indexAlleloValue] = true;
+                    }
+                    else allelo[__indexAlleloValue] = false;
+                }
+            }
+        }
         //Cilco que percorre o allelo do individuo para retirar o eseu peso e valor
         for (int i = 0; i < allelo.length; i++) {
             if (allelo[i]) {
@@ -193,5 +214,12 @@ public class KnapSack extends Individual {
         output.append("Peso do individuo: ").append(peso).append(NL);
         output.append("Peso máximo permitido no problema :").append(mocha.getPesoMaximo());
         return output.toString();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(this.fiteness() < ((KnapSack)o).fiteness()) return -1;
+        else if(this.fiteness() == ((KnapSack)o).fiteness()) return 0;
+        else return 1;
     }
 }

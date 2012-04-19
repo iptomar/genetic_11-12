@@ -11,7 +11,7 @@ import utils.Mochila;
  * @author goncalo
  */
 
-public abstract class Individual implements Iterable<Chromosome> {
+public abstract class Individual implements Iterable<Chromosome>, Comparable {
     private final ArrayList<Chromosome> _genome;
     private int _sizeGenotype;
     private int _sizeGenome; 

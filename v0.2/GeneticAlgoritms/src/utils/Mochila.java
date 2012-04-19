@@ -57,6 +57,7 @@ public class Mochila {
         this.pesoMaximo = pesoMochila;
         this.penalizacao = penalizacao;
         this.items = Items;
+        this.numItems = items.size();
         //Variaveis a zero para um calculo bem efectuado do maximo de peso e valor por item
         this.maxPesoItem = 0;
         this.maxValorItem = 0;
