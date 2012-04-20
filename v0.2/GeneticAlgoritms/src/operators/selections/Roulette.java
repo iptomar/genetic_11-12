@@ -4,6 +4,7 @@ import genetics.Population;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Ponteiro;
+import utils.PopulationUtils;
 import utils.exceptions.PonteiroForaDoLimiteException;
 
 /**
@@ -39,7 +40,7 @@ public class Roulette extends Selection {
         //correr cada individuo da população
         for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
             //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
-            this.ponteiro = Ponteiro.pontoAleatorio(population.getFitnessTotal());
+            this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
             
             try {
                 //acrecenta um individou para a nova população

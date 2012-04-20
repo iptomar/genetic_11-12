@@ -114,8 +114,17 @@ public abstract class Individual implements Iterable<Chromosome>, Comparable {
     
     public abstract int fiteness();
     public abstract Boolean[] inicializationAllelo();
+    
     @Override
-    public abstract String toString();
+    public String toString() {
+        final StringBuilder __output = new StringBuilder();
+
+        for (Chromosome __chromosome : this) {
+            __output.append(__chromosome.toString());
+        }
+
+        return __output.toString();
+    }
     
     @Override
     public abstract Individual clone();

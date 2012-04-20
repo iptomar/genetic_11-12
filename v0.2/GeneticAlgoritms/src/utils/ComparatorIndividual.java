@@ -17,8 +17,7 @@ public class ComparatorIndividual implements Comparator<Individual> {
     public int compare(Individual o1, Individual o2) {
         int fitnessO1 = o1.fiteness();
         int fitnessO2 = o2.fiteness();
-        System.out.println("" + fitnessO1);
-        System.out.println("" + fitnessO2);
+        
         if(fitnessO1 < fitnessO2)
             return 1;
         else if(fitnessO1 >  fitnessO2)

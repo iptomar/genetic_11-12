@@ -26,7 +26,7 @@ public class Ponteiro {
         
         // verificar se o ponteiro é maior que o total de fitness da população ou
         // se é menor que zero, se sim dispar uma excepção do tipo PonteiroForaDoLimiteException
-        if(ponteiro > population.getFitnessTotal() || ponteiro < 0) 
+        if(ponteiro > PopulationUtils.getFitnessTotal(population) || ponteiro < 0) 
             throw new PonteiroForaDoLimiteException("Ponteiro dentro da class Ponteiro esta fora dos limites do total de fitness da população.");
         
         //corre a população para cada individuo

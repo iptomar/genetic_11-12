@@ -1,6 +1,7 @@
 package operators.replacements;
 
 import genetics.Population;
+import utils.PopulationUtils;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -63,8 +64,10 @@ public class Truncation extends Replacement {
         for (int i = 0; i < sons.getPopulation().size(); i++) {
             newPopulationToOrder.addIndividual(sons.getPopulation().get(i));
         }
+        
         //Ordena a população por fitness
-        newPopulationToOrder.orderPopulation();
+        PopulationUtils.orderPopulation(newPopulationToOrder);
+        
         //Cria uma nova população que irá receber os melhores individuos das duas populações que foram passadas como parametro
         Population newPopulation = new Population(this.dimensionsNewPopulation, parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
         //Copia X de individuos, que serão os X melhores das duas populações juntas

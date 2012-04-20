@@ -4,6 +4,7 @@ import genetics.Population;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Ponteiro;
+import utils.PopulationUtils;
 import utils.exceptions.PonteiroForaDoLimiteException;
 
 /**
@@ -12,10 +13,8 @@ import utils.exceptions.PonteiroForaDoLimiteException;
  */
 public class SUS extends Selection {
 
-    
     private double offset = 0.0; 
     private double ponteiro = 0.0;
-    
     
     public SUS(){
         this(Selection.DIMENDIONS_NEW_POPULATION_DEFAULT);
@@ -42,7 +41,7 @@ public class SUS extends Selection {
         //calcula offset
         this.offset = calculateOffset(population);
         //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
-        this.ponteiro = Ponteiro.pontoAleatorio(population.getFitnessTotal());
+        this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
         //correr cada individuo da população
         for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
             try {
@@ -54,7 +53,7 @@ public class SUS extends Selection {
             }
             
             //faz a incrementação do ponteiro e o mod para voltar ao inicio caso ultrapasse o fitness total
-            this.ponteiro = (this.ponteiro + this.offset) % population.getFitnessTotal();
+            this.ponteiro = (this.ponteiro + this.offset) % PopulationUtils.getFitnessTotal(population);
         }
 
         return newPopulation;
@@ -62,9 +61,8 @@ public class SUS extends Selection {
     
     //calcula o offset total fitness/total individuos da população
     private double calculateOffset(Population population) {
-        double newOffset = 0.0;
-        newOffset = ((double)population.getFitnessTotal()) / ((double)population.getSizePopulation());
-        return newOffset;
+        // Devolve o novo offset
+        return ((double)PopulationUtils.getFitnessTotal(population)) / ((double)population.getSizePopulation());
     }
     
 }

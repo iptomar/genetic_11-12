@@ -7,6 +7,7 @@ package operators.selections;
 import genetics.Individual;
 import genetics.Population;
 import java.util.ArrayList;
+import utils.PopulationUtils;
 
 /**
  *
@@ -50,8 +51,8 @@ public class Tournament extends Selection {
         // Criar nova população
         for (int __numberIndividualsInTheNewPopulation = 0; __numberIndividualsInTheNewPopulation < super._dimensionsNewPopulation; __numberIndividualsInTheNewPopulation++) {
             // Selecionar de forma aleatoria os individuos da população de pais
-            ArrayList<Individual> __individualToEnterInTheTournament = population.getArrayIndividualsRandom(this._sizeTournament, this._removeIndividualFromPopulation);
-            
+            ArrayList<Individual> __individualToEnterInTheTournament = PopulationUtils.getArrayIndividualsRandom(population, this._sizeTournament, this._removeIndividualFromPopulation);
+
             // Selecionar o primeiro individuo, e por defeito é logo o bestIndividuo
             __bestIndividualTournament = __individualToEnterInTheTournament.get(0);
             // remover esse individuo da lista de candidatos

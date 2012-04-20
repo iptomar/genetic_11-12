@@ -4,19 +4,38 @@
  */
 package statistics;
 
+import genetics.Individual;
+import genetics.Population;
+import java.util.ArrayList;
+
 /**
  *
  * @author ASUS
  */
 public class DesvioPadrao {
 
-    double soma = 0;
-    double somatorio;
-    double media;
-    private Double[] array;
+    final private Population _population;
+    
+    private double soma = 0;
+    private double somatorio;
+    private double media;
+    
+    private Double[] _arrayFitness;
 
-    public DesvioPadrao() {
-        array = new Double[] { 2.0, 5.0, 7.0, 9.0, 10.0 };
+    public DesvioPadrao(Population population) {
+        this._population = population;
+        this._convertPopulationFitnessInArrayOfDoubles();
+    }
+    
+    // Converte todos os fitness dos individuos num array de doubles
+    private void _convertPopulationFitnessInArrayOfDoubles() {
+        ArrayList<Double> fitnessArray = new ArrayList<Double>(this._population.getSizePopulation());
+
+        for (Individual individuo : this._population) {
+            fitnessArray.add((double) individuo.fiteness());
+        }
+
+        _arrayFitness = fitnessArray.toArray(new Double[0]);
     }
     
     //metodo que devolve a media
@@ -24,10 +43,10 @@ public class DesvioPadrao {
         media = 0;
         soma = 0;
 
-        for (int counter = 0; counter < getArray().length; counter++) {
-            soma += getArray()[counter];
+        for (int counter = 0; counter < this._arrayFitness.length; counter++) {
+            soma += this._arrayFitness[counter];
         }
-        media = soma / getArray().length;
+        media = soma / this._arrayFitness.length;
         return media;
     }
 
@@ -36,10 +55,10 @@ public class DesvioPadrao {
         soma = 0;
         somatorio = 0;
         //Calcula o somatório
-        for (int counter = 0; counter < getArray().length; counter++) {
-            somatorio += Math.pow(getArray()[counter] - getMedia(), 2);
+        for (int counter = 0; counter < this._arrayFitness.length; counter++) {
+            somatorio += Math.pow(this._arrayFitness[counter] - getMedia(), 2);
         }
-        double variancia = (somatorio / (getArray().length - 1));
+        double variancia = (somatorio / (this._arrayFitness.length - 1));
         return variancia;
     }
 
@@ -47,13 +66,5 @@ public class DesvioPadrao {
     public Double getDesvioPadrao() {
         return Math.sqrt(getVariancia());
     }
-
     
-    public Double[] getArray() {
-        return array;
-    }
-    
-    public void setArray(Double[] array) {
-        this.array = array;
-    }
 }

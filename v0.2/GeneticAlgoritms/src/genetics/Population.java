@@ -1,12 +1,10 @@
 package genetics;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.ComparatorIndividual;
 
 /**
  * Classe que representa uma população de individuos.
@@ -23,33 +21,34 @@ public class Population implements Iterable<Individual> {
     public static final int DEFAULT_SIZE_GENOME = 1;
     public static final int DEFAULT_SIZE_GENOTYPE = 1;
     public static final int DEFAULT_SIZE_ALLELO = 10;
-    public static final Individual DEFAULT_TYPE_POPULATION = new OnesMax();
+    public static final Class DEFAULT_PROTOTYPE_POPULATION = OnesMax.class;
     public static final Random RANDOM_GENERATOR = new Random();
+    
     private ArrayList<Individual> _population;
     private int _sizePopulation;
     private int _sizeGenotype;
     private int _sizeGenome;
     private int _sizeAllelo;
-    private Individual _typePopulation;
+    private Class _prototypeIndividual;
 
-    public Population(Individual typePopulation) {
+    public Population(Class prototypeIndividual) {
         this(Population.DEFAULT_SIZE_POPULATION,
                 Population.DEFAULT_SIZE_GENOME,
                 Population.DEFAULT_SIZE_GENOTYPE,
                 Population.DEFAULT_SIZE_ALLELO,
-                typePopulation);
+                prototypeIndividual);
     }
 
-    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation) {
-        this(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, typePopulation, true);
+    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Class prototypeIndividual) {
+        this(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, prototypeIndividual, true);
     }
 
-    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual typePopulation, boolean initializesPopulation) {
+    public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Class prototypeIndividual, boolean initializesPopulation) {
         this._sizePopulation = sizePopulation;
         this._sizeGenome = sizeGenome;
         this._sizeGenotype = sizeGenotype;
         this._sizeAllelo = sizeAllelo;
-        this._typePopulation = typePopulation;
+        this._prototypeIndividual = prototypeIndividual;
 
         _population = new ArrayList<Individual>(sizePopulation);
 
@@ -60,23 +59,29 @@ public class Population implements Iterable<Individual> {
 
     private void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
+            
             try {
+                
+                // Cria um novo individuo do tipo de class do prototipo
+                Individual __newIndividual = (Individual) _prototypeIndividual.newInstance();
 
-                Individual __newIndividual = (Individual) _typePopulation.getClass().newInstance();
-
+                // Define os parametros de inicialização do individuo
                 __newIndividual.setSizeGenome(_sizeGenome);
                 __newIndividual.setSizeGenotype(_sizeGenotype);
                 __newIndividual.setSizeAllelo(_sizeAllelo);
 
+                // Inicializa o genoma
                 __newIndividual.inicializationGenome();
 
-                this._population.add(__newIndividual);
+                // Adiciona o novo individuo à população actual
+                this.getPopulation().add(__newIndividual);
 
             } catch (InstantiationException ex) {
                 Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
                 Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
     }
 
@@ -92,7 +97,7 @@ public class Population implements Iterable<Individual> {
      * @return the _numberIndividuals
      */
     public int getSizePopulation() {
-        return _population.size();
+        return getPopulation().size();
     }
 
     /**
@@ -105,47 +110,19 @@ public class Population implements Iterable<Individual> {
     /**
      * @return the _typeIndividual
      */
-    public Individual getTypePopulation() {
-        return _typePopulation;
+    public Class getTypePopulation() {
+        return _prototypeIndividual;
     }
 
     /**
-     * @param typePopulation the _typeIndividual to set
+     * @param prototypeIndividual the _typeIndividual to set
      */
-    public void setTypePopulation(Individual typePopulation) {
-        this._typePopulation = typePopulation;
+    public void setTypePopulation(Class prototypeIndividual) {
+        this._prototypeIndividual = prototypeIndividual;
     }
 
     public void addIndividual(Individual individual) {
-        this._population.add(individual);
-    }
-
-    /***
-     * 
-     * @param numberIndividual
-     * @param removeIndividualFromPopulation
-     * @return 
-     */
-    public ArrayList<Individual> getArrayIndividualsRandom(int numberIndividual, boolean removeIndividualFromPopulation) {
-        final ArrayList<Individual> __newArrayIndividual = new ArrayList<Individual>(numberIndividual);
-        int __countIndividual = 0;
-        int __indexIndividual;
-        int __numberIndividualToReturn = numberIndividual;
-
-        // Escolher de forma aleatoria varios individuos        
-        while (__countIndividual < __numberIndividualToReturn) {
-
-            __indexIndividual = Population.RANDOM_GENERATOR.nextInt(this.getSizePopulation() - 1);
-            __newArrayIndividual.add(this.getPopulation().get(__indexIndividual).clone());
-
-            if (removeIndividualFromPopulation) {
-                this._population.remove(this.getPopulation().get(__indexIndividual));
-            }
-
-            __countIndividual++;
-        }
-
-        return __newArrayIndividual;
+        this.getPopulation().add(individual);
     }
 
     /**
@@ -164,7 +141,7 @@ public class Population implements Iterable<Individual> {
 
     @Override
     public Iterator<Individual> iterator() {
-        return this._population.iterator();
+        return this.getPopulation().iterator();
     }
 
     /**
@@ -227,165 +204,142 @@ public class Population implements Iterable<Individual> {
         this._sizeGenome = sizeGenome;
     }
 
-    public void incrementAgePopulation() {
-        for (Individual __individual : this) {
-            __individual.incrementAge();
-        }
-    }
+//    public void incrementAgePopulation() {
+//        for (Individual __individual : this) {
+//            __individual.incrementAge();
+//        }
+//    }
+//
+//    public void resetAgePopulation() {
+//        for (Individual __individual : this) {
+//            __individual.setAgeIndividual(0);
+//        }
+//    }
 
-    public void resetAgePopulation() {
-        for (Individual __individual : this) {
-            __individual.setAgeIndividual(0);
-        }
-    }
 
-    public int getBestFiteness() {
-        int __bestFiteness = 0;
-        int fitnessAct = 0;
-        Individual Ind = null;
-        for (int i = 0; i < this._sizePopulation; i++) {
-            Ind = this.getIndividual(i);
-            fitnessAct = Ind.fiteness();
-            if (__bestFiteness < fitnessAct) {
-                __bestFiteness = fitnessAct;
-            }
-        }
-        return __bestFiteness;
-    }
     
-    /**
-     * Método que devolve o número de individúos que tem o fitness máximo na população
-     * @return - Número de individuos na população que tem o valor de fitness máximo
-     */
-    public int getNumBestFitness(){
-        int bestFitness = getBestFiteness();
-        int numBests = 0;
-        for (int i = 0; i < this._sizePopulation; i++) {
-            Individual Ind = this.getIndividual(i);
-            if (bestFitness == Ind.fiteness()) numBests++;
-        }
-        return numBests;
-    }
+//    /**
+//     * Método que devolve o número de individúos que tem o fitness máximo na população
+//     * @return - Número de individuos na população que tem o valor de fitness máximo
+//     */
+//    public int getNumBestFitness(){
+//        int bestFitness = getBestFiteness();
+//        int numBests = 0;
+//        for (int i = 0; i < this._sizePopulation; i++) {
+//            Individual Ind = this.getIndividual(i);
+//            if (bestFitness == Ind.fiteness()) numBests++;
+//        }
+//        return numBests;
+//    }
     
-    /**
-     * **************************************************************************
-     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
-     * **************************************************************************
-     */
-    /**
-     * Método que devolve o melhor individuo da população para ser analisado
-     * @return (Individual) - O melhor individuo da população
-     */
-    public Individual getBestInd(){
-        int bestFitness = getBestFiteness();
-        for (int i = 0; i < this._sizePopulation; i++) {
-            Individual Ind = this.getIndividual(i);
-            if (bestFitness == Ind.fiteness()) return Ind;
-        }
-        return null;
-    }
+//    /**
+//     * **************************************************************************
+//     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
+//     * **************************************************************************
+//     */
+//    /**
+//     * Método que devolve o melhor individuo da população para ser analisado
+//     * @return (Individual) - O melhor individuo da população
+//     */
+//    public Individual getBestInd(){
+//        int bestFitness = getBestFiteness();
+//        for (int i = 0; i < this._sizePopulation; i++) {
+//            Individual Ind = this.getIndividual(i);
+//            if (bestFitness == Ind.fiteness()) return Ind;
+//        }
+//        return null;
+//    }
     
-    /**
-     * **************************************************************************
-     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
-     * **************************************************************************
-     */
-    /**
-     * Método que devolve uma string com as informações do melhor individuo desta população
-     * @return (String) - String com o conteudo do melhor individuo da população
-     */
-    public String getBestIndString(){
-        return getBestInd().toString();
-    }
+//    /**
+//     * **************************************************************************
+//     * ***** FALTA IMPLEMENTAÇÃO PARA VÁRIOS INDIVIDUOS COM O MESMO FITNESS *****
+//     * **************************************************************************
+//     */
+//    /**
+//     * Método que devolve uma string com as informações do melhor individuo desta população
+//     * @return (String) - String com o conteudo do melhor individuo da população
+//     */
+//    public String getBestIndString(){
+//        return getBestInd().toString();
+//    }
 
-    public Population getHallOfFame(int sizeHallOfFame) {
-        final Population __newPopulation =
-                new Population(
-                sizeHallOfFame,
-                this._sizeGenome,
-                this._sizeGenotype,
-                this._sizeAllelo,
-                this._typePopulation,
-                false);
-
-        Collections.sort(this._population, new ComparatorIndividual());
-        for (Individual __individualHallOfFame : this._population.subList(0, 5)) {
-            __newPopulation.addIndividual(__individualHallOfFame);
-        }
-
-        return __newPopulation;
-    }
+//    public Population getHallOfFame(int sizeHallOfFame) {
+//        final Population __newPopulation =
+//                new Population(
+//                sizeHallOfFame,
+//                this._sizeGenome,
+//                this._sizeGenotype,
+//                this._sizeAllelo,
+//                this._typePopulation,
+//                false);
+//
+//        Collections.sort(this.getPopulation(), new ComparatorIndividual());
+//        for (Individual __individualHallOfFame : this.getPopulation().subList(0, 5)) {
+//            __newPopulation.addIndividual(__individualHallOfFame);
+//        }
+//
+//        return __newPopulation;
+//    }
 
 //    /**
 //     * Método que ordena o array de individuos da poipulação pelo seu fitness 
 //     */
 //    public void orderPopulation() {
-//        Collections.sort(this._population, new ComparatorIndividual());
+//        Collections.sort(this.getPopulation(), new ComparatorIndividual());
 //    }
-    public void orderPopulation() {
-        Collections.sort(this._population);
-    }
+//    public void orderPopulation() {
+//        Collections.sort(this._population);
+//    }
 
-    /**
-     * Método que devolve a média de fitness da população
-     * @return Media - Média de fitness da população
-     */
-    public double getMediaFitness() {
-        double media = 0.0;
-        double soma = 0;
-        //Array do tamanho da população
-        double array[] = new double[_population.size()];
-        //Guarda no array todos os fitness de todos os individuos
-        for (int i = 0; i < _population.size(); i++) {
-            array[i] = _population.get(i).fiteness();
-        }
+//    /**
+//     * Método que devolve a média de fitness da população
+//     * @return Media - Média de fitness da população
+//     */
+//    public double getMediaFitness() {
+//        double media = 0.0;
+//        double soma = 0;
+//        //Array do tamanho da população
+//        double array[] = new double[_population.size()];
+//        //Guarda no array todos os fitness de todos os individuos
+//        for (int i = 0; i < _population.size(); i++) {
+//            array[i] = _population.get(i).fiteness();
+//        }
+//
+//        for (int counter = 0; counter < array.length; counter++) {
+//            soma += array[counter];
+//        }
+//        media = soma / array.length;
+//        //Devolve a média de fitness da população
+//        return media;
+//    }
+//
+//    /**
+//     * Método que devolve o valor da variância da população
+//     * @return Variancia - Variância da população
+//     */
+//    public double getVariancia() {
+//        double mediaFitness = getMediaFitness();
+//        double soma, somatorio = 0.0;
+//        //Array do tamanho da população
+//        double array[] = new double[_population.size()];
+//        //Guarda no array todos os fitness de todos os individuos
+//        for (int i = 0; i < _population.size(); i++) {
+//            array[i] = _population.get(i).fiteness();
+//        }
+//        //Calcula o somatório
+//        for (int counter = 0; counter < array.length; counter++) {
+//            somatorio += Math.pow(array[counter] - mediaFitness, 2);
+//        }
+//        double variancia = (somatorio / (array.length - 1));
+//        return variancia;
+//    }
+//
+//    /**
+//     * Método que devolve o desvio padrão da população
+//     * @return DesvioPadrao - Desvio padrão da população
+//     */
+//    public double getDesvioPadrao() {
+//        return Math.sqrt(getVariancia());
+//    }
 
-        for (int counter = 0; counter < array.length; counter++) {
-            soma += array[counter];
-        }
-        media = soma / array.length;
-        //Devolve a média de fitness da população
-        return media;
-    }
-
-    /**
-     * Método que devolve o valor da variância da população
-     * @return Variancia - Variância da população
-     */
-    public double getVariancia() {
-        double mediaFitness = getMediaFitness();
-        double soma, somatorio = 0.0;
-        //Array do tamanho da população
-        double array[] = new double[_population.size()];
-        //Guarda no array todos os fitness de todos os individuos
-        for (int i = 0; i < _population.size(); i++) {
-            array[i] = _population.get(i).fiteness();
-        }
-        //Calcula o somatório
-        for (int counter = 0; counter < array.length; counter++) {
-            somatorio += Math.pow(array[counter] - mediaFitness, 2);
-        }
-        double variancia = (somatorio / (array.length - 1));
-        return variancia;
-    }
-
-    /**
-     * Método que devolve o desvio padrão da população
-     * @return DesvioPadrao - Desvio padrão da população
-     */
-    public double getDesvioPadrao() {
-        return Math.sqrt(getVariancia());
-    }
-
-    /**
-     * Método que devolve o fitness total da população (soma do fitness de todos os individuos da população)
-     * @return - Fitness total da população
-     */
-    public int getFitnessTotal() {
-        int totalFitness = 0;
-        for (Individual individuo : this) {
-            totalFitness += individuo.fiteness();
-        }
-        return totalFitness;
-    }
 }
