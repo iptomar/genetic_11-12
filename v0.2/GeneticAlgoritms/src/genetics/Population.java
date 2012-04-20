@@ -57,6 +57,32 @@ public class Population implements Iterable<Individual> {
         }
     }
 
+    public Population(Population newPopulation){
+        this(newPopulation.getSizePopulation(), newPopulation.getSizeGenome(), newPopulation._sizeGenotype, newPopulation._sizeAllelo, newPopulation.getTypePopulation(), false);
+        
+        // Cria chromosomes novos
+        for (Individual __individual : newPopulation) {     
+            this._population.add(__individual.clone());
+        }
+    }
+    
+    
+//     public Individual(Individual newIndividual) {
+//        this._sizeGenome        = newIndividual.getSizeGenome(); 
+//        this._sizeGenotype      = newIndividual.getSizeGenotype();
+//        this._sizeAllelo        = newIndividual._sizeAllelo;
+//        this._genome            = new ArrayList<Chromosome>(this._sizeGenome);
+//        this._ageIndividual     = newIndividual.getAgeIndividual();
+//        
+//         Cria chromosomes novos
+//        for (Chromosome __chromosome : newIndividual.getGenome()) {
+//            this._genome.add(new Chromosome(__chromosome));
+//        }
+//    }
+    
+    
+    
+    
     private void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
             
@@ -202,6 +228,11 @@ public class Population implements Iterable<Individual> {
      */
     public void setSizeGenome(int sizeGenome) {
         this._sizeGenome = sizeGenome;
+    }
+    
+    @Override
+    public Population clone() {
+        return new Population(this);
     }
 
 //    public void incrementAgePopulation() {

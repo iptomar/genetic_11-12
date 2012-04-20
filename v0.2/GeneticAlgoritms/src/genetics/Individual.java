@@ -2,7 +2,6 @@ package genetics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import utils.Mochila;
 
 /**
  * Classe que representa um individuo.

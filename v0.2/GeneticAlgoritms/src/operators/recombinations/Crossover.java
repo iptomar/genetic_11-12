@@ -6,57 +6,64 @@ package operators.recombinations;
 
 import genetics.Individual;
 import genetics.Population;
-import java.util.Random;
+import operators.Genetic;
 
 /**
  *
  * @author Chorinca-Notebook
  */
 public class Crossover extends Recombination {
-//criar un novo randel
-    static final Random random = new Random();
-    //meter o numero da variavel (numero de curtes por defeito )igualar a 1
-    static final int NUMBER_CUTS_DEFAULT = 1;
-    private int _numberCuts = Crossover.NUMBER_CUTS_DEFAULT;
 
     @Override
-    
     public Population execute(Population population) {
-        //meter a população e igualar a null
-        Population children = null;
-        //criar a dimensão da população (dimPop)
-        int dimPop = population.getSizePopulation();
-        int i = 0, xy = 0, yy = 0, cut = -1;
-         //criar a dimensão do Genorme  (dimGenome) que vai ter o mesmo valor do dimPop
-        int dimGenome = population.getSizeGenome();
-       // criar os indivíduos (pai , mãe , filho e filha) e igualar a null
-        Individual father = null, mother = null, son = null, daughter = null;
+        final Population __newPopulation = 
+                new Population(
+                    population.getSizePopulation(), 
+                    population.getSizeGenome(), 
+                    population.getSizeGenotype(),
+                    population.getSizeAllelo(),
+                    population.getTypePopulation(), 
+                    false);
         
-        while (i < dimPop) {
-            i += 2;
-            //trocra de chromosome
-            while ((xy = random.nextInt(dimPop)) == (yy = random.nextInt(dimPop)));
-            father = population.getIndividual(xy);
-            mother = population.getIndividual(yy);
-            //cut =divisão o cromossoma 
-            cut = random.nextInt(dimGenome - 1) + 1;
-            //dicidir o cromossoma 
-            for (int j = 0; j < dimGenome; j++) {
-                if (j < cut) {
-                    //o pai da metade o sei cromossoma ao filho
-                    son.setChromosome(j, father.getChromosome(j));
-                    //o mãe da metade o sei cromossoma ao filha
-                    daughter.setChromosome(j, mother.getChromosome(j));
-                } else {
-                    //o pai da metade o sei cromossoma ao filha
-                    son.setChromosome(j, mother.getChromosome(j));
-                     //o mãe da metade o sei cromossoma ao filha
-                    daughter.setChromosome(j, father.getChromosome(j));
-                }
+        // o ciclo anda de 2 em 2 para trazer sempre dois pais
+        for (int __indexParents = 0; __indexParents < population.getSizePopulation(); __indexParents = __indexParents + 2) {
+           //pointOfCutAllelo gerador aleatório da população
+            int __pointOfCutAllelo = Genetic.RANDOM_GENERATOR.nextInt(__newPopulation.getSizeAllelo() - 1) + 1;
+
+            Boolean[] __father = (Boolean[])population.getIndividual(__indexParents).getGenome().get(0).getGene(0).getAllele();  
+            Boolean[] __mother = (Boolean[])population.getIndividual(__indexParents + 1).getGenome().get(0).getGene(0).getAllele();
+
+            Boolean[] __son = new Boolean[__newPopulation.getSizeAllelo()];
+            Boolean[] __daughter = new Boolean[__newPopulation.getSizeAllelo()];
+            //
+            for (int __indexAlleloValuesFather = 0; __indexAlleloValuesFather < __newPopulation.getSizeAllelo(); __indexAlleloValuesFather++) {
+                if(__indexAlleloValuesFather < __pointOfCutAllelo - 1)
+                    __son[__indexAlleloValuesFather] = __father[__indexAlleloValuesFather];
+                else
+                    __daughter[__indexAlleloValuesFather] = __father[__indexAlleloValuesFather];
             }
-            children.addIndividual(daughter);
-            children.addIndividual(son);
+
+            for (int __indexAlleloValuesMother = 0; __indexAlleloValuesMother < __newPopulation.getSizeAllelo(); __indexAlleloValuesMother++) {
+                if(__indexAlleloValuesMother < __pointOfCutAllelo - 1)
+                    __daughter[__indexAlleloValuesMother] = __mother[__indexAlleloValuesMother];
+                else
+                    __son[__indexAlleloValuesMother] = __mother[__indexAlleloValuesMother];
+            }
+
+            Individual __sonIndividual = population.getIndividual(0).clone();
+            // utiliza as caracteristicas do pai mas muda os valores do allelo
+            __sonIndividual.getChromosome(0).getGene(0).setAllele((Object)__son);
+
+            Individual __daughterIndividual = population.getIndividual(0).clone();
+            // utiliza as caracteristicas do pai mas muda os valores do allelo
+            __daughterIndividual.getChromosome(0).getGene(0).setAllele((Object)__daughter);
+
+            __newPopulation.addIndividual(__sonIndividual);
+            __newPopulation.addIndividual(__daughterIndividual);
+        
         }
-        return children;
+        
+        return __newPopulation;
     }
+    
 }

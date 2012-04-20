@@ -24,8 +24,8 @@ public class Solver {
     private Population _parentsPopulation;
     private Population _sonsPopulation;
     private int _sizePopulation;
-    private int _sizeGenotype = 1;
-    private int _sizeGenome = 1;
+    private int _sizeGenotype;
+    private int _sizeGenome;
     private int _sizeAllelo;
     private Class _prototypeIndividual;
     private StopCriterion _stopCriterion;
@@ -36,16 +36,27 @@ public class Solver {
     private DesvioPadrao _desvioPadrao;
     
     public Solver(ArrayList<Operator> operators, EventsSolver eventSolver) {
-        this(100, 20, OnesMax.class, 100, 18, operators, eventSolver);
+        this(100, 20, OnesMax.class, new StopCriterion(100, 18), operators, eventSolver);
     }
 
-    public Solver(int sizePopulation, int sizeAllelo, Class prototypeIndividual, int iteractions, int bestFitness, ArrayList<Operator> operators, EventsSolver eventSolver) {
+    public Solver(int sizePopulation, int sizeAllelo, Class prototypeIndividual, StopCriterion stopCriterion, ArrayList<Operator> operators, EventsSolver eventSolver) {
         this._sizePopulation = sizePopulation;
         this._sizeAllelo = sizeAllelo;
         this._prototypeIndividual = prototypeIndividual;
-        this._stopCriterion = new StopCriterion(iteractions, bestFitness);
+        this._stopCriterion = stopCriterion;
         this._eventSolver = eventSolver;
         this._operators = operators; 
+        
+        this._sizeGenotype = Population.DEFAULT_SIZE_GENOTYPE;
+        this._sizeGenome = Population.DEFAULT_SIZE_GENOME;
+    }
+    
+    public Solver(Population population, StopCriterion stopCriterion, ArrayList<Operator> operators, EventsSolver eventSolver) {
+        this(population.getSizePopulation(), population.getSizeAllelo(), population.getTypePopulation(), stopCriterion, operators, eventSolver);
+        
+        // Por defeito cria logo um clone da população para que ela
+        // a partir de agora seja uma população independente da original
+        this._parentsPopulation = population.clone();
     }
 
     public void run() throws SolverException {

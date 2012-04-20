@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import operators.Operator;
 import operators.mutation.Flipbit;
-import operators.recombinations.Crossover2;
+import operators.recombinations.Crossover;
 import operators.selections.SUS;
 import statistics.DesvioPadrao;
 import utils.EventsSolver;
