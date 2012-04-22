@@ -32,7 +32,7 @@ public class Ponteiro {
         //corre a população para cada individuo
         for (Individual individuo : population) {
             //incrementa o total fitness
-            totalFitness += individuo.fiteness();
+            totalFitness += individuo.fitness();
             
             //escolhe o individuo onde o ponteiro aponta 
             if(ponteiro <= (double)totalFitness) {

@@ -4,13 +4,14 @@
  */
 package genetics;
 
+import genetics.algorithms.OnesMax;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operators.Genetic;
 import operators.Operator;
 import operators.replacements.Replacement;
-import statistics.DesvioPadrao;
+import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
 import utils.exceptions.SolverException;
@@ -27,19 +28,19 @@ public class Solver {
     private int _sizeGenotype;
     private int _sizeGenome;
     private int _sizeAllelo;
-    private Class _prototypeIndividual;
+    private Individual _prototypeIndividual;
     private StopCriterion _stopCriterion;
     private int _numberIteractions;
     private ArrayList<Operator> _operators;
     private EventsSolver _eventSolver;
 
-    private DesvioPadrao _desvioPadrao;
+//    private Statistics _statistics;
     
     public Solver(ArrayList<Operator> operators, EventsSolver eventSolver) {
-        this(100, 20, OnesMax.class, new StopCriterion(100, 18), operators, eventSolver);
+        this(100, 20, new OnesMax(), new StopCriterion(100, 18), operators, eventSolver);
     }
 
-    public Solver(int sizePopulation, int sizeAllelo, Class prototypeIndividual, StopCriterion stopCriterion, ArrayList<Operator> operators, EventsSolver eventSolver) {
+    public Solver(int sizePopulation, int sizeAllelo, Individual prototypeIndividual, StopCriterion stopCriterion, ArrayList<Operator> operators, EventsSolver eventSolver) {
         this._sizePopulation = sizePopulation;
         this._sizeAllelo = sizeAllelo;
         this._prototypeIndividual = prototypeIndividual;
@@ -70,11 +71,6 @@ public class Solver {
             this._numberIteractions = 0;
             this._parentsPopulation = new Population(this._sizePopulation, this._sizeGenome, this._sizeGenotype, this._sizeAllelo, this._prototypeIndividual);
 
-            // Criar um objecto desvio padrao para processar os dados contindos nesta população
-            // Usasse a população dos Pais porque é a população utilizada para criar no final 
-            // a proxima geração de pais
-            this._desvioPadrao = new DesvioPadrao(_parentsPopulation);
-            
             while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
                     && (PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness())) {
 
@@ -89,16 +85,22 @@ public class Solver {
                     }
 
                 }
+
+                // Criar um objecto desvio padrao para processar os dados contindos nesta população
+                // Usasse a população dos Pais porque é a população utilizada para criar no final 
+                // a proxima geração de pais
+//                this._statistics = new Statistics(_parentsPopulation);
+            
                 
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-                this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation, this._desvioPadrao);
+                this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
 
                 this._numberIteractions++;
             }
 
             // Evento final quando o solver esta terminado
-            this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation, this._desvioPadrao);
+            this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
 
         } catch (Exception ex) {
             Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);

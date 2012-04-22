@@ -10,7 +10,7 @@ import java.util.Iterator;
  * @author goncalo
  */
 
-public abstract class Individual implements Iterable<Chromosome>, Comparable {
+public abstract class Individual implements Iterable<Chromosome> {
     private final ArrayList<Chromosome> _genome;
     private int _sizeGenotype;
     private int _sizeGenome; 
@@ -111,7 +111,7 @@ public abstract class Individual implements Iterable<Chromosome>, Comparable {
         return _genome;
     }
     
-    public abstract int fiteness();
+    public abstract int fitness();
     public abstract Boolean[] inicializationAllelo();
     
     @Override

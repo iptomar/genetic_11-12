@@ -5,7 +5,7 @@
 package utils;
 
 import genetics.Population;
-import statistics.DesvioPadrao;
+import statistics.Statistics;
 
 /**
  *
@@ -18,7 +18,7 @@ import statistics.DesvioPadrao;
 public interface EventsSolver {
     
     public void EventStartSolver();    
-    public void EventIteraction(int iteractionNumber, Population currentPopulation, DesvioPadrao desvioPadrao);
-    public void EventFinishSolver(int totalIteracoes, Population lastPopulation, DesvioPadrao desvioPadrao);
+    public void EventIteraction(int iteractionNumber, Population currentPopulation);
+    public void EventFinishSolver(int totalIteracoes, Population lastPopulation);
 
 }

@@ -6,8 +6,10 @@ package utils;
 
 import genetics.Individual;
 import genetics.Population;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.TreeSet;
 
 /**
  *
@@ -30,12 +32,17 @@ public class PopulationUtils {
         PopulationUtils.orderPopulation(population);
         
         // Devolve o numero de individuos que foram pedidos
-        for (Individual __individualHallOfFame : population.getPopulation().subList(0, sizeHallOfFame)) {
-            __newPopulation.addIndividual(__individualHallOfFame);
-        }
+        PopulationUtils._createHallOfFame(__newPopulation, sizeHallOfFame, population.getPopulation());
 
         // Devolve a população com os Hall Of Fame (melhores individuos)
         return __newPopulation;
+    }
+    
+    // Devolve o numero de individuos que foram pedidos
+    private static void _createHallOfFame(Population newPopulation, int sizeHallOfFame, AbstractCollection<Individual> individuals) {
+        for (int __indexIndividual = 0; __indexIndividual < sizeHallOfFame; __indexIndividual++) {
+            newPopulation.addIndividual((Individual)individuals.toArray()[__indexIndividual]);
+        }
     }
     
     /**
@@ -44,7 +51,7 @@ public class PopulationUtils {
     public static void orderPopulation(Population population) {
         // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
         // descendente
-        Collections.sort(population.getPopulation(), new ComparatorIndividual());
+        Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
     }
     
     /**
@@ -62,7 +69,7 @@ public class PopulationUtils {
         // Corre a população toda à procura de individuos que tenham
         // o melhor fitness
         for (Individual __individuals : population) {
-            if(__bestFitness == __individuals.fiteness()) __numberOfIndividualsWithBestFitness++;
+            if(__bestFitness == __individuals.fitness()) __numberOfIndividualsWithBestFitness++;
         }
         
         // Devolve a quantidade de individuos encontrados
@@ -103,7 +110,7 @@ public class PopulationUtils {
         
         // Pede o melhor individuo atraves do metodo getHallOfFame com tamanho 1
         // depois escolhe o primeiro individuo e devolve o seu fitness
-        return PopulationUtils.getHallOfFame(population, NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME).getIndividual(FIRST_INDIVIDUAL).fiteness();
+        return PopulationUtils.getHallOfFame(population, NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME).getIndividual(FIRST_INDIVIDUAL).fitness();
     }
     
      /**
@@ -114,9 +121,36 @@ public class PopulationUtils {
         int __totalFitness = 0;
         
         for (Individual __individual : population) {
-            __totalFitness += __individual.fiteness();
+            __totalFitness += __individual.fitness();
         }
         
         return __totalFitness;
+    }
+    
+    public static Population getHallOfFameWithoutDuplicateIndividuals(Population population, int sizeHallOfFame) {
+        // Nova população que vai guardar os Hall Of Fame
+        final Population __newPopulation =
+                new Population(
+                sizeHallOfFame,
+                population.getSizeGenome(),
+                population.getSizeGenotype(),
+                population.getSizeAllelo(),
+                population.getTypePopulation(),
+                false);
+
+        TreeSet<Individual> __population = new TreeSet<Individual>(new ComparatorIndividual());
+        
+        // Ordenar População pelo fitness de forma descendente
+        //PopulationUtils.orderPopulation(population);
+        
+        // Devolve o numero de individuos que foram pedidos
+        for (Individual __individualHallOfFame : population.getPopulation()) {
+            __population.add(__individualHallOfFame);
+        }
+
+        PopulationUtils._createHallOfFame(__newPopulation, sizeHallOfFame, __population);
+        
+        // Devolve a população com os Hall Of Fame (melhores individuos)
+        return __newPopulation;
     }
 }

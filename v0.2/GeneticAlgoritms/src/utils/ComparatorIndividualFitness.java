@@ -11,7 +11,7 @@ import java.util.Comparator;
  *
  * @author Chorinca-Notebook
  */
-public class ComparatorIndividual implements Comparator<Individual> {
+public class ComparatorIndividualFitness implements Comparator<Individual> {
 
     @Override
     public int compare(Individual o1, Individual o2) {
@@ -22,12 +22,9 @@ public class ComparatorIndividual implements Comparator<Individual> {
             return 1;
         else if(fitnessO1 >  fitnessO2)
             return -1;
-        else {
-            if(o1.toString().equals(o2.toString()))
-                return 0;
-            else
-                return 1;
-        }  
+        else
+            return 0;
+        
     }
     
 }

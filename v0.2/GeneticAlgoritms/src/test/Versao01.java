@@ -4,18 +4,16 @@
  */
 package test;
 
-import genetics.OnesMax;
-import genetics.Population;
-import genetics.Solver;
-import genetics.StopCriterion;
+import genetics.algorithms.OnesMax;
+import genetics.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operators.Operator;
 import operators.mutation.Flipbit;
 import operators.recombinations.Crossover;
-import operators.selections.SUS;
-import statistics.DesvioPadrao;
+import operators.selections.Tournament;
+import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
 import utils.exceptions.SolverException;
@@ -32,17 +30,18 @@ public class Versao01 {
         
         // Operadores
         ArrayList<Operator> __operators = new ArrayList<Operator>();     
-        __operators.add(new SUS(10));        
+        //__operators.add(new SUS(70)); 
+        __operators.add(new Tournament(70, 2));       
         __operators.add(new Crossover());
         __operators.add(new Flipbit(0.01));
         __operators.add(new operators.replacements.Tournament(100, 2));
         
         int __sizePopulation = 100; 
         int __sizeAllelo = 100;
-        Class __prototypeIndividual = OnesMax.class;
+        Individual __prototypeIndividual = new OnesMax();
         
         int __iteractions = 10000;
-        int __bestFitness = 99;
+        int __bestFitness = 100;
         StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
         
         // Instanciar solver
@@ -60,27 +59,33 @@ public class Versao01 {
             }
 
             @Override
-            public void EventIteraction(int iteractionNumber, Population currentPopulation, DesvioPadrao desvioPadrao) {
+            public void EventIteraction(int iteractionNumber, Population currentPopulation) {
                 // de 10 em 10 vai mostrar estatistica
                 if( (iteractionNumber % 10) == 0){
+                    
+                    Statistics __statistics = new Statistics(currentPopulation);
+                    
                     System.out.println("--------------------------------------------------");
                     System.out.println("Iteração:" + iteractionNumber);
-                    System.out.println("Variância: " + desvioPadrao.getVariancia().doubleValue());
-                    System.out.println("Média:" + desvioPadrao.getMedia().doubleValue());
-                    System.out.println("Desvio Padrão: " + desvioPadrao.getDesvioPadrao().doubleValue());
+                    System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
+                    System.out.println("Média:" + __statistics.getMedia().doubleValue());
+                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
                     System.out.println("--------------------------------------------------");
                     System.out.println("");
                 }
             }
 
             @Override
-            public void EventFinishSolver(int totalIteracoes, Population lastPopulation, DesvioPadrao desvioPadrao) {
+            public void EventFinishSolver(int totalIteracoes, Population lastPopulation) {
+                
+                Statistics __statistics = new Statistics(lastPopulation);
+                
                 System.out.println("Solver Terminou");
                 System.out.println("--------------------------------------------------");
                 System.out.println("Total Iteração:" + totalIteracoes);
-                System.out.println("Variância: " + desvioPadrao.getVariancia().doubleValue());
-                System.out.println("Média:" + desvioPadrao.getMedia().doubleValue());
-                System.out.println("Desvio Padrão: " + desvioPadrao.getDesvioPadrao().doubleValue());
+                System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
+                System.out.println("Média:" + __statistics.getMedia().doubleValue());
+                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
                 System.out.println("--------------------------------------------------");
                 System.out.println("");
                 

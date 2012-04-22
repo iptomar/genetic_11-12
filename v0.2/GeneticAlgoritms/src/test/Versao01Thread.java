@@ -4,10 +4,8 @@
  */
 package test;
 
-import genetics.OnesMax;
-import genetics.Population;
-import genetics.Solver;
-import genetics.StopCriterion;
+import genetics.algorithms.OnesMax;
+import genetics.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +13,7 @@ import operators.Operator;
 import operators.mutation.Flipbit;
 import operators.recombinations.Crossover;
 import operators.selections.SUS;
-import statistics.DesvioPadrao;
+import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
 import utils.exceptions.SolverException;
@@ -30,7 +28,7 @@ public class Versao01Thread extends Thread {
         
         int __sizePopulation = 100; 
         int __sizeAllelo = 100;
-        Class __prototypeIndividual = OnesMax.class;
+        Individual __prototypeIndividual = new OnesMax();
         
         Population __population = new Population(
                 __sizePopulation, 
@@ -99,7 +97,7 @@ public class Versao01Thread extends Thread {
             }
 
             @Override
-            public void EventIteraction(int iteractionNumber, Population currentPopulation, DesvioPadrao desvioPadrao) {
+            public void EventIteraction(int iteractionNumber, Population currentPopulation) {
                 // de 10 em 10 vai mostrar estatistica
 //                if( (iteractionNumber % 10) == 0){
 //                    System.out.println("--------------------------------------------------");
@@ -113,7 +111,10 @@ public class Versao01Thread extends Thread {
             }
 
             @Override
-            public void EventFinishSolver(int totalIteracoes, Population lastPopulation, DesvioPadrao desvioPadrao) {
+            public void EventFinishSolver(int totalIteracoes, Population lastPopulation) {
+                
+                Statistics __statistics = new Statistics(lastPopulation);
+                
                 StringBuilder __buffer = new StringBuilder();
                 
                 __buffer.append("\n");
@@ -123,11 +124,11 @@ public class Versao01Thread extends Thread {
                 __buffer.append("\n");
                 __buffer.append("Total Iteração:" + totalIteracoes);
                 __buffer.append("\n");
-                __buffer.append("Variância: " + desvioPadrao.getVariancia().doubleValue());
+                __buffer.append("Variância: " + __statistics.getVariancia().doubleValue());
                 __buffer.append("\n");
-                __buffer.append("Média:" + desvioPadrao.getMedia().doubleValue());
+                __buffer.append("Média:" + __statistics.getMedia().doubleValue());
                 __buffer.append("\n");
-                __buffer.append("Desvio Padrão: " + desvioPadrao.getDesvioPadrao().doubleValue());
+                __buffer.append("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
                 __buffer.append("\n");
                 __buffer.append("--------------------------------------------------");
                 __buffer.append("\n");
