@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pedro
+ * @author André
  */
 public class TournamentTest {
     
