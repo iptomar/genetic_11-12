@@ -22,7 +22,7 @@ import genetics.Population;
  * A mochila terá que ficar definida no individuo para que seja possivel o cálculo do fitness do mesmo.
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
-public class KnapSack extends Individual<Boolean[]> {
+public class KnapSack extends Individual {
 
     public      enum            ModeFunction { PENALTY, RANDOM, PSEUDO_RANDOM }  
     
@@ -71,7 +71,7 @@ public class KnapSack extends Individual<Boolean[]> {
     }
     
     @Override
-    public double fitness() {
+    public int fitness() {
         int __fitness;
         
         if(this._calculateTotalWeight() <= this._maxWeight)

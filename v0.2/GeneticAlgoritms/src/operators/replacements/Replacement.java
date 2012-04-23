@@ -8,7 +8,7 @@ import genetics.Population;
 import operators.Operator;
 
 /**
- * Class pai que todos os operadoes de replacement vão herdar
+ *
  * @author Chorinca-Notebook
  */
 public abstract class Replacement extends Operator {

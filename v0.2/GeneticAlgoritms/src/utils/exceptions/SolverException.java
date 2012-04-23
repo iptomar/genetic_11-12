@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils.exceptions;
 
 /**
- * Excepção que é disparada quando ocorre um erro no solver.
+ * Exception para indicar que houve algum poblema na classe Solver
  * @author PedroIsi
  */
 public class SolverException extends Exception {

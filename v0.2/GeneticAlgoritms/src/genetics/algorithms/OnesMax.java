@@ -5,7 +5,7 @@ import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
 
-public class OnesMax extends Individual<Boolean[]> {
+public class OnesMax extends Individual {
 
     public OnesMax() {
         
@@ -20,10 +20,11 @@ public class OnesMax extends Individual<Boolean[]> {
     }
     
     @Override
-    public double fitness() {
+    public int fitness() {
         int __numberOfOnes = 0;
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {
+//                System.out.println("" + __gene.getAllele().length);
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
                     if ( __gene.getAllele()[__indexAlleloValue]) {
                         __numberOfOnes++;

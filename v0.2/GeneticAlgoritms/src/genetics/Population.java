@@ -118,16 +118,25 @@ public class Population implements Iterable<Individual> {
             
         }
     }
-
+/**
+ * Método que devolve o indivíduo que está no índex.
+ * @param index
+ * @return 
+ */
     public Individual getIndividual(int index) {
         return getPopulation().get(index);
     }
-
+/**
+ * O método permite definir o indivíduo que está no índex.
+ * @param index
+ * @param individual 
+ */
     public void setIndividual(int index, Individual individual) {
         getPopulation().add(index, individual);
     }
 
     /**
+     * O método devolve o tamanho da população
      * @return the _numberIndividuals
      */
     public int getSizePopulation() {
@@ -135,6 +144,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * O método perimite definer o tamanho da população.
      * @param sizePopulation the _numberIndividuals to set
      */
     public void setSizePopulation(int sizePopulation) {
@@ -142,6 +152,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * O método devolve o tipo de indivíduos que estão na população.
      * @return the _typeIndividual
      */
     public Individual getTypePopulation() {
@@ -149,17 +160,22 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * O método permite definir o tipo de indivíduos que estão presentes na população.
      * @param prototypeIndividual the _typeIndividual to set
      */
     public void setTypePopulation(Individual prototypeIndividual) {
         this._prototypeIndividual = prototypeIndividual;
     }
-
+    /**
+     * O método permite adicionar um novo individuo à população.
+     * @param individual 
+     */
     public void addIndividual(Individual individual) {
         this.getPopulation().add(individual);
     }
 
     /**
+     * O método que devolve o array list com os individuos
      * @return the _population
      */
     public ArrayList<Individual> getPopulation() {
@@ -167,6 +183,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * O método permite definir o array list dos indivíduos na população.
      * @param population the _population to set
      */
     public void setPopulation(ArrayList<Individual> population) {
@@ -179,6 +196,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * Método que devolve o tamanho do alelo
      * @return the _sizeAllelo
      */
     public int getSizeAllelo() {
@@ -186,6 +204,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * O método define o tamanho do alelo.
      * @param sizeAllelo the _sizeAllelo to set
      */
     public void setSizeAllelo(int sizeAllelo) {
@@ -211,6 +230,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * Método que devolve o tamanho do genotype.
      * @return the _sizeGenotype
      */
     public int getSizeGenotype() {
@@ -218,6 +238,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * Método que define o tamanho do genotype.
      * @param sizeGenotype the _sizeGenotype to set
      */
     public void setSizeGenotype(int sizeGenotype) {
@@ -225,6 +246,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * Método que devolve o tamanho do genoma.
      * @return the _sizeGenome
      */
     public int getSizeGenome() {
@@ -232,6 +254,7 @@ public class Population implements Iterable<Individual> {
     }
 
     /**
+     * Método que define o tamanho do genoma.
      * @param sizeGenome the _sizeGenome to set
      */
     public void setSizeGenome(int sizeGenome) {

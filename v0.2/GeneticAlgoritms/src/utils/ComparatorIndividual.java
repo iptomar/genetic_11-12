@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
 import genetics.Individual;
@@ -15,8 +11,8 @@ public class ComparatorIndividual implements Comparator<Individual> {
 
     @Override
     public int compare(Individual o1, Individual o2) {
-        double fitnessO1 = o1.fitness();
-        double fitnessO2 = o2.fitness();
+        int fitnessO1 = o1.fitness();
+        int fitnessO2 = o2.fitness();
         
         if(fitnessO1 < fitnessO2)
             return 1;

@@ -2,115 +2,128 @@ package genetics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 /**
  * Classe que representa um cromossoma. Neste momento existe apenas um cromossoma,
  * mas está preparada para no futuro se fazer a implementação de mais.
  * Recebe como parâmetro a variável typeIndividual, que representa o tipo do individuo(ex:boolean)
  * É composta por um ArrayList de elementos do tipo Gene, com o nome genotype.
- * Implementa a interface Iterable, que permite que o cromossoma consiga directamente
- * devolver o array genotype, que permite com um ciclo for aceder directamente a 
- * cada gene.
  * @author goncalo
  */
 public class Chromosome implements Iterable<Gene> {
-
+    /**
+     * ArrayList de Genes que será o genotype do cromossoma
+     */
     private ArrayList<Gene> _genotype;
-    //é necessário ter um individuo, porque é este que guarda a variável que contém o tipo do gene
+    /**
+     * Tipo de individuo ao qual se refere este cromossoma
+     */
     private Individual _individual;
 
     /**
-     * Construtor por defeito que passa o tipo de individuo
-     * @param typeIndividual 
+     * Construtor da classe que recebe apenas o tipo de individuo a que este cromossoma vai pertencer e inicializa
+     * o cromossoma, criando assim tantos Genes quantos os definidos para o individuo, inicializando os mesmos.
+     * @param typeIndividual (Individual) - Tipo de individuo a que este cromossoma pertence
      */
     public Chromosome(Individual typeIndividual) {
         this._individual    = typeIndividual;
         this._genotype      = new ArrayList<Gene>(typeIndividual.getSizeGenotype());
-        
+        //Inicializa o cromossoma
         this._inicializationGenotype();
     }
     
     /**
-     * Construtor que faz a cópia de um novo cromossoma
-     * @param newChromosome 
+     * Construtor da classe que recebe como parametro um cromossoma já definido, fazendo a cópia do mesmo
+     * para eta nova instancia da classe e copiando para a variavel _individual o individuo e os parametros definidos
+     * para o mesmo.
+     * @param newChromosome (Chormosome) - Cromossoma a ser copiado para esta nova instancia da classe 
      */
     public Chromosome(Chromosome newChromosome) {
         this._genotype = new ArrayList<Gene>(newChromosome.getGenotype().size());
-        
-        //for each que através do iterador permite aceder a todos os genes.
-        //não é necessário utilizar o ciclo for com os sets e gets
         for (Gene __gene : newChromosome) {
             this._genotype.add(new Gene(__gene));
         }
-        
         this._individual = newChromosome.getIndividual();
     }
     
     /**
-     * Inicializa os genes e passa como parametro qual o tipo e os valores que o gene vai ter
+     * Método que faz a inicialização deste cromossoma, inicializando tantos genes como os definidos para
+     * o individuo ao qual o cromossoma pertence
      */
     private void _inicializationGenotype() {
         for (int __indexGene = 0; __indexGene < this.getIndividual().getSizeGenotype(); __indexGene++) {
              this.getGenotype().add(new Gene(getIndividual().inicializationAllelo()));
         }
     }
-    
+    /**
+     * Método que devolve o Gene que istá no index do ArrayList de genes deste cromossoma
+     * @param index (int) - Index do gene que se pretende
+     * @return (Gene) - Gene que está definido no index do ArrayList de genes do cromossoma
+     */
     public Gene getGene(int index){
         return getGenotype().get(index);
     }
     
+    /**
+     * Método que permite adicionar um gene ao cromossoma
+     * @param gene (Gene) - Gene a ser adicionado ao cromossoma
+     */
     public void setGene(Gene gene){
         getGenotype().add(gene);
     }
 
-    @Override
-    public Iterator<Gene> iterator() {
-        return this.getGenotype().iterator();
-    }
-    
     /**
-     * Método que devolve o valor guardado dentro do cromossoma
-     * @return 
-     */
-    @Override
-    public String toString() {
-        //Optimização que ao criar uma nova string, é reservado automaticamente
-        //um espaço em memória que fica disponível para adicionar novos caracteres futuramente.
-        //Como já tem espaço reservado em memória, ao adicionar novos dados já não é preciso reservar espaço novamente
-        StringBuilder __output = new StringBuilder();
-        
-        for (Gene __gene : this) {
-            __output.append(__gene.toString());
-        }
-        
-        return __output.toString();
-    }
-
-    /**
-     * @return the _genotype
+     * Método que devolve o ArrayList de genes (genotype) deste cromossoma
+     * @return _genotype(ArrayList<Gene>) - ArrayList que contem todos os genes deste cromossoma
      */
     public ArrayList<Gene> getGenotype() {
         return _genotype;
     }
 
     /**
-     * @param genotype the _genotype to set
+     * Método que permite fazer a definição do genotype deste cromossoma
+     * @param genotype (ArrayList<Gene>) - ArrayList de genes (genotype) a ser definido para este cromossoma
      */
     public void setGenotype(ArrayList<Gene> genotype) {
         this._genotype = genotype;
     }
 
     /**
-     * @return the _individual
+     * Método que devolve o individuo e seus parametros ao qual este cromossoma pertence
+     * @return _individual (Individual) - Individuo e seus parametros ao qual o cromossoma pertence
      */
     public Individual getIndividual() {
         return _individual;
     }
 
     /**
-     * @param individual the _individual to set
+     * Método que permite fazer a definição do individuo e seus parametros ao qual o cromossoma pertence
+     * @param individual (Individual) - Individuo e seus parametros ao qual o cromossoma pertence
      */
     public void setIndividual(Individual individual) {
         this._individual = individual;
+    }
+    
+    /**
+     * Método que devolve uma string com as informações do cromossoma.
+     * Este método irá percorrer todos os genes que contem e devolver uma string com a informação
+     * de todos os genes.
+     * @return (String) - String com a informação de todos os genes que o cromossoma contem
+     */
+    @Override
+    public String toString() {
+        StringBuilder __output = new StringBuilder();
+        //Percorre todos os genes deste cromossoma
+        for (Gene __gene : this) {
+            //Faz o append da informação do gene.toString() e muda de linha, para que os genes fiquem separados
+            //por linha
+            __output.append(__gene.toString()).append(System.getProperty("line.separator"));
+        }
+        //Devolve a string com a informação do cromossoma
+        return __output.toString();
+    }
+    
+    @Override
+    public Iterator<Gene> iterator() {
+        return this.getGenotype().iterator();
     }
 }
