@@ -140,7 +140,7 @@ public class Population implements Iterable<Individual> {
      * @return the _numberIndividuals
      */
     public int getSizePopulation() {
-        return getPopulation().size();
+        return this._sizePopulation;
     }
 
     /**
