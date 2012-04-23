@@ -7,10 +7,12 @@ import java.util.Iterator;
  * Classe que representa um individuo.
  * Recebe como parâmetro o tamanho do genoma, tamanho do genótipo e tamanho dos alelos.
  * É composta por um ArrayList com elementos do tipo Chromossome, chamados genome.
+ * Implementa a interface Iterable, que permite que o cromossoma consiga directamente
+ * devolver o array genome, que permite com um ciclo for aceder directamente a 
+ * cada cromossoma.
  * @author goncalo
  */
-
-public abstract class Individual implements Iterable<Chromosome> {
+public abstract class Individual<A> implements Iterable<Chromosome> {
     private final ArrayList<Chromosome> _genome;
     private int _sizeGenotype;
     private int _sizeGenome; 
@@ -38,8 +40,8 @@ public abstract class Individual implements Iterable<Chromosome> {
         this._ageIndividual     = newIndividual.getAgeIndividual();
         
         // Cria chromosomes novos
-        for (Chromosome __chromosome : newIndividual.getGenome()) {
-            this._genome.add(new Chromosome(__chromosome));
+        for (Object __chromosome : newIndividual.getGenome()) {
+            this._genome.add(new Chromosome((Chromosome)__chromosome));
         }
     }
 
@@ -111,8 +113,8 @@ public abstract class Individual implements Iterable<Chromosome> {
         return _genome;
     }
     
-    public abstract int fitness();
-    public abstract Boolean[] inicializationAllelo();
+    public abstract double fitness();
+    public abstract A inicializationAllelo();
     
     @Override
     public String toString() {

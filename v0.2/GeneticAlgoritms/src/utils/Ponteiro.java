@@ -16,13 +16,13 @@ import utils.exceptions.PonteiroForaDoLimiteException;
 public class Ponteiro {
     
     //define um ponto aleatorio entre zero e o total de fitness da população
-    public static double pontoAleatorio(int totalFitnessPopulacao){
-        return Genetic.RANDOM_GENERATOR.nextDouble() * (double)totalFitnessPopulacao;
+    public static double pontoAleatorio(double totalFitnessPopulacao){
+        return Genetic.RANDOM_GENERATOR.nextDouble() * totalFitnessPopulacao;
     }
     
     //devolve individuo para onde o ponto aponta
     public static Individual devolveIndividuoParaOndeOPonteiroAponta(double ponteiro, Population population) throws PonteiroForaDoLimiteException{
-        int totalFitness = 0;
+        double totalFitness = 0;
         
         // verificar se o ponteiro é maior que o total de fitness da população ou
         // se é menor que zero, se sim dispar uma excepção do tipo PonteiroForaDoLimiteException
@@ -35,7 +35,7 @@ public class Ponteiro {
             totalFitness += individuo.fitness();
             
             //escolhe o individuo onde o ponteiro aponta 
-            if(ponteiro <= (double)totalFitness) {
+            if(ponteiro <= totalFitness) {
                 //clone para criar um novo individuo e não ser individuo da pop original
                 return individuo.clone();
             }

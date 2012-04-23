@@ -41,7 +41,7 @@ public class Versao01 {
         Individual __prototypeIndividual = new OnesMax();
         
         int __iteractions = 10000;
-        int __bestFitness = 100;
+        Double __bestFitness = 100.0;
         StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
         
         // Instanciar solver

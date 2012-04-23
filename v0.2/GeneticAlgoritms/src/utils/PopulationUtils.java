@@ -59,7 +59,7 @@ public class PopulationUtils {
      * @return - Número de individuos na população que tem o valor de fitness máximo
      */
     public static int getNumberIndividualsWithBestFitness(Population population){
-        int __bestFitness = 0;
+        double __bestFitness;
         int __numberOfIndividualsWithBestFitness = 0;
         
         // Pede o melhor individuo atraves do metodo getHallOfFame com tamanho 1
@@ -104,7 +104,7 @@ public class PopulationUtils {
         return __newArrayIndividual;
     }
     
-    public static int getBestFitness(Population population) {
+    public static double getBestFitness(Population population) {
         final int NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME = 1;        
         final int FIRST_INDIVIDUAL = 0;
         
@@ -117,8 +117,8 @@ public class PopulationUtils {
      * Método que devolve o fitness total da população (soma do fitness de todos os individuos da população)
      * @return - Fitness total da população
      */
-    public static int getFitnessTotal(Population population) {
-        int __totalFitness = 0;
+    public static Double getFitnessTotal(Population population) {
+        double __totalFitness = 0.0;
         
         for (Individual __individual : population) {
             __totalFitness += __individual.fitness();

@@ -37,7 +37,7 @@ public class Solver {
 //    private Statistics _statistics;
     
     public Solver(ArrayList<Operator> operators, EventsSolver eventSolver) {
-        this(100, 20, new OnesMax(), new StopCriterion(100, 18), operators, eventSolver);
+        this(100, 20, new OnesMax(), new StopCriterion(100, 18.0), operators, eventSolver);
     }
 
     public Solver(int sizePopulation, int sizeAllelo, Individual prototypeIndividual, StopCriterion stopCriterion, ArrayList<Operator> operators, EventsSolver eventSolver) {

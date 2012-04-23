@@ -43,7 +43,7 @@ public class Versao02 {
         Individual __prototypeIndividual = new K50(KnapSack.ModeFunction.PSEUDO_RANDOM);
         
         int __iteractions = 1000;
-        int __bestFitness = 1921;
+        Double __bestFitness = 1921.0;
         StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
 
         // Instanciar solver

@@ -33,7 +33,7 @@ public class Statistics {
         ArrayList<Double> fitnessArray = new ArrayList<Double>(this._population.getSizePopulation());
 
         for (Individual individuo : this._population) {
-            fitnessArray.add((double) individuo.fitness());
+            fitnessArray.add(individuo.fitness());
         }
 
         _arrayFitness = fitnessArray.toArray(new Double[0]);

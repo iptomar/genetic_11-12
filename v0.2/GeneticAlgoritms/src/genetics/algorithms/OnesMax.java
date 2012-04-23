@@ -5,7 +5,7 @@ import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
 
-public class OnesMax extends Individual {
+public class OnesMax extends Individual<Boolean[]> {
 
     public OnesMax() {
         
@@ -20,7 +20,7 @@ public class OnesMax extends Individual {
     }
     
     @Override
-    public int fitness() {
+    public double fitness() {
         int __numberOfOnes = 0;
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {

@@ -13,9 +13,9 @@ package genetics;
 public class StopCriterion {
     
     private int _numberIteractions;    
-    private int _goodFiteness;
+    private Double _goodFiteness;
 
-    public StopCriterion(int numberIteractions, int goodFiteness) {
+    public StopCriterion(int numberIteractions, Double goodFiteness) {
         this._numberIteractions = numberIteractions;
         this._goodFiteness = goodFiteness;
     }
@@ -37,14 +37,14 @@ public class StopCriterion {
     /**
      * @return the _goodFiteness
      */
-    public int getGoodFiteness() {
+    public Double getGoodFiteness() {
         return _goodFiteness;
     }
 
     /**
      * @param goodFiteness the _goodFiteness to set
      */
-    public void setGoodFiteness(int goodFiteness) {
+    public void setGoodFiteness(Double goodFiteness) {
         this._goodFiteness = goodFiteness;
     }
     

@@ -64,8 +64,8 @@ public class UniformCrossover extends Recombination{
         //Vai buscar o allelo do pai
         boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
-        for (Chromosome __chromosome : sonMask) {
-            for (Gene<Boolean[]> __gene : __chromosome) {
+        for (Object __chromosome : sonMask) {
+            for (Gene<Boolean[]> __gene : (Chromosome)__chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
                     if ( __gene.getAllele()[__indexAlleloValue]) {
                         sonAllelo[__indexAlleloValue] = true;
@@ -95,8 +95,8 @@ public class UniformCrossover extends Recombination{
         //Allelos de cada filho para que possa ser efectuada a troca
         boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
-        for (Chromosome __chromosome : sonMask) {
-            for (Gene<Boolean[]> __gene : __chromosome) {
+        for (Object __chromosome : sonMask) {
+            for (Gene<Boolean[]> __gene : (Chromosome)__chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
                     if ( __gene.getAllele()[__indexAlleloValue]) {
                         sonAllelo[__indexAlleloValue] = true;
@@ -107,8 +107,8 @@ public class UniformCrossover extends Recombination{
         }
         boolean[] daughterAllelo = new boolean[daughterMask.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
-        for (Chromosome __chromosome : daughterMask) {
-            for (Gene<Boolean[]> __gene : __chromosome) {
+        for (Object __chromosome : daughterMask) {
+            for (Gene<Boolean[]> __gene : (Chromosome)__chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
                     if ( __gene.getAllele()[__indexAlleloValue]) {
                         daughterAllelo[__indexAlleloValue] = true;

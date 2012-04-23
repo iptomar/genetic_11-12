@@ -71,7 +71,7 @@ public class Versao01Thread extends Thread {
         // neste exemplo abaixo o StopCriterion iam
         // ser usados nas 4 threads ao mesmo tempo
         int __iteractions = 500;
-        int __bestFitness = 100;
+        Double __bestFitness = 100.0;
         StopCriterion _stopCriterion = new StopCriterion(__iteractions, __bestFitness);
         
         // Operadores
