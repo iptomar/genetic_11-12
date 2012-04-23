@@ -38,10 +38,23 @@ public class PopulationUtils {
         return __newPopulation;
     }
     
-    // Devolve o numero de individuos que foram pedidos
+    /**
+     * Cria uma população com os individuos que foram passados como parametro em
+     * que o numero de individuos é determinado pelo sizeHallOfFame
+     * @param newPopulation
+     * @param sizeHallOfFame
+     * @param individuals 
+     */
     private static void _createHallOfFame(Population newPopulation, int sizeHallOfFame, AbstractCollection<Individual> individuals) {
-        for (int __indexIndividual = 0; __indexIndividual < sizeHallOfFame; __indexIndividual++) {
-            newPopulation.addIndividual((Individual)individuals.toArray()[__indexIndividual]);
+        int __indexIndividual = 0;
+        
+        // Só para o ciclo quando obter todos os individuos pedidos atraves do sizeHallOfFame
+        // ou quando deixar de haver individuos dentro do array que ainda não tenham sido
+        // adicionados à nova população
+        while((__indexIndividual < sizeHallOfFame) && 
+                (__indexIndividual < individuals.toArray().length)) {
+            newPopulation.addIndividual((Individual)individuals.toArray()[__indexIndividual]); 
+            __indexIndividual++;
         }
     }
     
@@ -77,7 +90,9 @@ public class PopulationUtils {
     }
     
     /***
-     * 
+     * Método que vai buscar individuos individuos aleatoriamente á população.
+     * O número de individuos é passado por parâmetro, e tem a opção de retirar o individuo
+     * da população ou mantê-lo.
      * @param numberIndividual
      * @param removeIndividualFromPopulation
      * @return 
@@ -103,7 +118,11 @@ public class PopulationUtils {
 
         return __newArrayIndividual;
     }
-    
+    /***
+     * Devolve o melhor fitness que existe na população
+     * @param population
+     * @return 
+     */
     public static double getBestFitness(Population population) {
         final int NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME = 1;        
         final int FIRST_INDIVIDUAL = 0;
@@ -127,6 +146,13 @@ public class PopulationUtils {
         return __totalFitness;
     }
     
+    /***
+     * Devolve um Hall of Fame com os melhores invididuos, a quantidade define no sizeHallFame,
+     * mas esses individuos não se repetem, são todos individuos unicos na população
+     * @param population
+     * @param sizeHallOfFame
+     * @return 
+     */
     public static Population getHallOfFameWithoutDuplicateIndividuals(Population population, int sizeHallOfFame) {
         // Nova população que vai guardar os Hall Of Fame
         final Population __newPopulation =

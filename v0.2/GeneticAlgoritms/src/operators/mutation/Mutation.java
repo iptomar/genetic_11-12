@@ -7,7 +7,7 @@ package operators.mutation;
 import operators.Genetic;
     
 /**
- *
+ * Class pai que todos os operadoes de mutação vão herdar
  * @author Chorinca-Notebook
  */
 public abstract class Mutation extends Genetic {    

@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import utils.PopulationUtils;
 
 /**
- *
+ * Operador que pega em uma população e faz lutar os individuos para ver 
+ * qual o melhor. No final colaca os melhores numa nova população.
  * @author Chorinca-Notebook
  */
 public class Tournament extends Selection {
@@ -22,15 +23,28 @@ public class Tournament extends Selection {
     
     private boolean _removeIndividualFromPopulation = DEFAULT_REMOVE_INDIVIDUAL_FROM_POPULATION;
     
+    /**
+     * Construtor por defeito dp Tournament
+     */
     public Tournament(){
         this(Selection.DIMENDIONS_NEW_POPULATION_DEFAULT, Tournament.SIZE_TOURNAMENT_DEFAULT);
     }
     
+     /**
+     * Construtor do Tournament
+     * @param dimensionsNewPopulation Dimensão da nova população que vai ser gerada
+     * @param sizeTournament Numero de individuos a entrar num torneio
+     */
     public Tournament(int dimensionsNewPopulation, int sizeTournament){
         super._dimensionsNewPopulation = dimensionsNewPopulation;
         this._sizeTournament = sizeTournament;
     }
     
+    /**
+     * Aplica o operador de Tournament a uma população
+     * @param population População que entra no torneio
+     * @return Devolve a população com os melhores individuos
+     */
     @Override
     public Population execute(Population population) {
         // nova população a ser criada com os individuos mais aptos

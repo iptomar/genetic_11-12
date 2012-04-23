@@ -21,6 +21,7 @@ import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
 import utils.exceptions.SolverException;
+import utils.exceptions.SonsInicialitazionException;
 
 /**
  *
@@ -103,10 +104,14 @@ public class Versao02 {
         
         
         try {
+            
             // Correr o solver
             solver.run();
+            
+        } catch (SonsInicialitazionException ex) {
+            Logger.getLogger(Versao02.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SolverException ex) {
-            Logger.getLogger(Versao01.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Versao02.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

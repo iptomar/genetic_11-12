@@ -10,6 +10,7 @@ import java.util.Iterator;
  * Implementa a interface Iterable, que permite que o cromossoma consiga directamente
  * devolver o array genome, que permite com um ciclo for aceder directamente a 
  * cada cromossoma.
+ * O tipo generico A é o tipo de dados que o allelo pode assumir
  * @author goncalo
  */
 public abstract class Individual<A> implements Iterable<Chromosome> {
@@ -113,7 +114,9 @@ public abstract class Individual<A> implements Iterable<Chromosome> {
         return _genome;
     }
     
+    // método abstracto que implementa o fitness
     public abstract double fitness();
+    // método abstracto que implementa a inicialização dos allelos para este individuo
     public abstract A inicializationAllelo();
     
     @Override
@@ -127,6 +130,7 @@ public abstract class Individual<A> implements Iterable<Chromosome> {
         return __output.toString();
     }
     
+    // método abstracto que implementa a cópia de um individuo
     @Override
     public abstract Individual clone();
 

@@ -23,6 +23,8 @@ public class Population implements Iterable<Individual> {
     public static final int DEFAULT_SIZE_GENOTYPE = 1;
     public static final int DEFAULT_SIZE_ALLELO = 10;
     public static final Individual DEFAULT_PROTOTYPE_POPULATION = new OnesMax();
+    
+    // gerador de números aleatórios
     public static final Random RANDOM_GENERATOR = new Random();
     
     private ArrayList<Individual> _population;
@@ -32,6 +34,11 @@ public class Population implements Iterable<Individual> {
     private int _sizeAllelo;
     private Individual _prototypeIndividual;
 
+    /**
+     * Construtor por defeito, que cria uma população com os valores definidos
+     * também por defeito.
+     * @param typePopulation 
+     */
     public Population(Individual prototypeIndividual) {
         this(Population.DEFAULT_SIZE_POPULATION,
                 Population.DEFAULT_SIZE_GENOME,
@@ -39,11 +46,28 @@ public class Population implements Iterable<Individual> {
                 Population.DEFAULT_SIZE_ALLELO,
                 prototypeIndividual);
     }
-
+    
+    /**
+     * Criação de uma população com todos os parâmetros e gera a população aleatoriamente
+     * @param sizePopulation
+     * @param sizeGenome
+     * @param sizeGenotype
+     * @param sizeAllelo
+     * @param typePopulation 
+     */
     public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual prototypeIndividual) {
         this(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, prototypeIndividual, true);
     }
 
+    /**
+     * Construtor idêntico ao anterior, mas com a opção de criar uma população aleatória ou não.
+     * @param sizePopulation
+     * @param sizeGenome
+     * @param sizeGenotype
+     * @param sizeAllelo
+     * @param typePopulation
+     * @param initializesPopulation 
+     */
     public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual prototypeIndividual, boolean initializesPopulation) {
         this._sizePopulation = sizePopulation;
         this._sizeGenome = sizeGenome;
@@ -53,11 +77,16 @@ public class Population implements Iterable<Individual> {
 
         _population = new ArrayList<Individual>(sizePopulation);
 
+        // Se for para iniciar aleatoriamente a população( boolean = true)
+        // chama-se a função inicializationPopulation()
         if (initializesPopulation) {
             _inicializationPopulation();
         }
     }
 
+    /**
+     * Inicialização de uma população de forma aleatória.
+     */
     public Population(Population newPopulation){
         this(newPopulation.getSizePopulation(), newPopulation.getSizeGenome(), newPopulation._sizeGenotype, newPopulation._sizeAllelo, newPopulation.getTypePopulation(), false);
         
@@ -67,6 +96,9 @@ public class Population implements Iterable<Individual> {
         }
     }
     
+    /**
+     * Inicialização de uma população de forma aleatória.
+     */
     private void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
 
@@ -208,6 +240,7 @@ public class Population implements Iterable<Individual> {
     
     @Override
     public Population clone() {
+        // cria uma nova população
         return new Population(this);
     }
     

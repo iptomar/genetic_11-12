@@ -5,7 +5,7 @@
 package utils.exceptions;
 
 /**
- *
+ * Excepção que é disparada quando ocorre um erro no solver.
  * @author PedroIsi
  */
 public class SolverException extends Exception {

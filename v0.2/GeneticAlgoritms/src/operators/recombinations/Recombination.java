@@ -7,7 +7,7 @@ package operators.recombinations;
 import operators.Genetic;
 
 /**
- *
+ * Class pai que todos os operadoes de recombinação vão herdar
  * @author Chorinca-Notebook
  */
 public abstract class Recombination extends Genetic {
