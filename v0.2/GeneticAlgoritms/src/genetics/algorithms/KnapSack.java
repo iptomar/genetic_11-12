@@ -39,12 +39,23 @@ public class KnapSack extends Individual {
     private     int[][]         _table;
     private     int             _penaltyOrder;
 
+    /**
+     * Construtor por defeito
+     */
     public KnapSack() { }
     
+    /**
+     * Construtor do KnapSack que cria uma copia a partir de um individuo do tipo KnapSack
+     * @param newKnapSack 
+     */
     public KnapSack(KnapSack newKnapSack){
         this((Individual)newKnapSack);
     }
     
+    /**
+     * Construtor do KnapSack que cria uma copia a partir de um individuo do tipo Individual
+     * @param newIndividual 
+     */
     public KnapSack(Individual newIndividual){
         super(newIndividual);
         
@@ -55,6 +66,13 @@ public class KnapSack extends Individual {
         this._isPenalized   = false;
     }
     
+    /**
+     * Construtor do KnapSack
+     * @param maxWeight Peso maximo do saco
+     * @param table Matriz com os valores e pesos
+     * @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
+     * @param penaltyOrder Qual a ordem de penalização aplicar
+     */
     public KnapSack(int maxWeight, int[][] table, ModeFunction modeFunction, int penaltyOrder){
         this._maxWeight     = maxWeight;
         this._table         = table;
@@ -63,6 +81,12 @@ public class KnapSack extends Individual {
         this._isPenalized   = false;
     }
     
+    /**
+     * Construtor do KnapSack
+     * @param data String com os dados
+     * @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
+     * @param penaltyOrder Qual a ordem de penalização aplicar
+     */
     public KnapSack(String data, ModeFunction modeFunction, int penaltyOrder){
         this._modeFunction  = modeFunction;
         this._isPenalized   = false;
@@ -70,13 +94,19 @@ public class KnapSack extends Individual {
         this._parseStringData(data);
     }
     
+    /**
+     * Calcula o fitness
+     * @return Devolve o fitness
+     */
     @Override
     public int fitness() {
         int __fitness;
         
+        // Se o peso estiver dentro dos limites então devolve o fitness logo
         if(this._calculateTotalWeight() <= this._maxWeight)
             return this._calculateTotalValue();
         
+        // Senão aplica os criterios de penalização
         if(this._modeFunction == ModeFunction.PENALTY){
             __fitness = this._applyPenalty(this._penaltyOrder);
         } else if(this._modeFunction == ModeFunction.RANDOM){
@@ -85,6 +115,7 @@ public class KnapSack extends Individual {
             __fitness = this._applyPesudoRandom();
         }
         
+        // Devolve o fitness ja com as penalidades aplicadas
         return __fitness;
     }
     
@@ -99,30 +130,39 @@ public class KnapSack extends Individual {
         __totalValueGene        = 0;
         __totalValueGeneInvert  = 0;
         
+        // Ciclo que so termina quando não existir overWeight
         while(__overWeight > 0) {
             for (Chromosome __chromosome : this) {
                 for (Gene<Boolean[]> __gene : __chromosome) {
                     
+                    // Calcula o valor total do gene
                     for (int __indexAllelo = 0; __indexAllelo < __gene.getAllele().length; __indexAllelo++) {
                         if(__gene.getAllele()[__indexAllelo]){
                             __totalValueGene += (double)this._table[__indexAllelo][VALUE] / (double)this._table[__indexAllelo][WEIGHT];
                         }
                     }
                     
+                    // Calcula o valor total do gene invertido, mas desta vez ao valor total anterior
+                    // vai subtrair o valor desse gene, e desta forma os objectos com a pior
+                    // relação valor/peso são os que tem maior probabilidade de serem escolhidos
                     for (int __indexAllelo = 0; __indexAllelo < __gene.getAllele().length; __indexAllelo++) {
                         if(__gene.getAllele()[__indexAllelo]){
                             __totalValueGeneInvert += __totalValueGene - ((double)this._table[__indexAllelo][VALUE] / (double)this._table[__indexAllelo][WEIGHT]);
                         }
                     }
                     
+                    // Gerar um numero aleatorio entre 0 e o valor total invertido
                     __alleloPickRandom = Population.RANDOM_GENERATOR.nextDouble() * __totalValueGeneInvert;
                     
                     __totalValueGeneInvert = 0;
 
+                    // Corre os allelos todos
                     for (int __indexAllelo = 0; __indexAllelo < __gene.getAllele().length; __indexAllelo++) {
                         if(__gene.getAllele()[__indexAllelo]){
                             __totalValueGeneInvert += __totalValueGene - ((double)this._table[__indexAllelo][VALUE] / (double)this._table[__indexAllelo][WEIGHT]);
                             
+                            // E quando encontrar um que o seu acumulado seja maior ou igual ao numero aleatorio
+                            // é esse objecto que é removido
                             if(__alleloPickRandom <= __totalValueGeneInvert) {
                                 __gene.getAllele()[__indexAllelo] = !__gene.getAllele()[__indexAllelo];
                                 __overWeight -= this._table[__indexAllelo][WEIGHT];
@@ -134,9 +174,14 @@ public class KnapSack extends Individual {
             }
         }
         
+        // devolve o novo valor
         return this._calculateTotalValue();
     }
     
+    /**
+     * Metodo responsavel por tirar um objecto, de forma aleatoria do saco
+     * @return Devolve o valor quando o peso já estiver dentro dos limites aceitaveis
+     */
     private int _applyRandom() {
         boolean __valueAlleloPickRandom;
         int     __indexAlleloPickRandom;
@@ -145,23 +190,36 @@ public class KnapSack extends Individual {
         // Calcula o peso em excesso
         __overWeight = this._calculateTotalWeight() - this._maxWeight;
         
+        // Ciclo que so termina quando não existir overWeight
         while(__overWeight > 0) {
             for (Chromosome __chromosome : this) {
                 for (Gene<Boolean[]> __gene : __chromosome) {
+                    // Gera uma posição aleatoria para escolher um allelo
                     __indexAlleloPickRandom = Population.RANDOM_GENERATOR.nextInt(__gene.getAllele().length);
+                    // Recolhe o valor do allelo
                     __valueAlleloPickRandom = __gene.getAllele()[__indexAlleloPickRandom];
                     
+                    // verifica se o allelo esta a 1
                     if(__valueAlleloPickRandom == true) {
+                        // Se dim troca o valor para 0
                         __gene.getAllele()[__indexAlleloPickRandom] = !__valueAlleloPickRandom;
+                        // E retira o peso desse objecto ao overWeight
                         __overWeight -= this._table[__indexAlleloPickRandom][WEIGHT];
                     }
                 }
             }
         }
         
+        // devolve o novo valor
         return this._calculateTotalValue();
     }
     
+    /**
+     * Metodo responsavel por aplicar a penalidade aos individuos caso ultrapassem
+     * o peso maximo
+     * @param penaltyOrder Ordem de penalização: Linear, Quadratica...
+     * @return Devolve o fitness ja com a penalidade aplicada
+     */
     private int _applyPenalty(int penaltyOrder) {
         int __overWeight;
         int __fitness;
@@ -177,14 +235,22 @@ public class KnapSack extends Individual {
             this._isPenalized = true;
         }
 
+        // Aplica a penalidade ao fitness
         __fitness = this._calculateTotalValue() - (int)Math.pow(__overWeight, penaltyOrder);
         
+        // Devolve zero caso a penalidade deixe o fitness a negativo, senão
+        // devolve o valor do fitness
         return __fitness < 0 ? 0 : __fitness;
     }
     
+    /**
+     * Calcula o valor deste individuo
+     * @return 
+     */
     private int _calculateTotalValue() {
         int __totalValue = 0;
         
+        // Ciclo que soma o valor do individuo. Valor esse que são os bits a 1
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
@@ -198,9 +264,14 @@ public class KnapSack extends Individual {
         return __totalValue;
     }
     
+    /**
+     * Calcula o peso deste individuo
+     * @return Devolve o peso total do individuo
+     */
     private int _calculateTotalWeight() {
         int __totalWeight = 0;
         
+        // Ciclo que soma o peso do individuo. Peso esse que são os bits a 1
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
@@ -214,6 +285,10 @@ public class KnapSack extends Individual {
         return __totalWeight;
     }
 
+    /**
+     * Inicialização do Allelo a usar no KnapSack
+     * @return Devolve o allelo ja criado
+     */
     @Override
     public Boolean[] inicializationAllelo() {
         Boolean[] __allelo = new Boolean[super.getSizeAllelo()];  
@@ -287,23 +362,37 @@ public class KnapSack extends Individual {
         this._penaltyOrder = penaltyOrder;
     }
     
+    /**
+     * Pega numa string de dados e transforma na matriz com valor e peso
+     * @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
+     */
     protected final void _parseStringData(String data){
+        // Constantes com as posições em que se encontram os dados na string de dados
         final int       SIZE_GENE       = 0;
         final int       MAX_KNAPSACK    = 1;
         final int       DATA_START      = 2;
+        // Constante com o caracter de separação
         final String    CHAR_SEPARATOR  = " ";
         
+        // Variavel que vai conter a string ja partida
         final String[]  __dataSplit;
         
+        // Devide a string de dados com base no caracter escolhido para separar
         __dataSplit = data.split(CHAR_SEPARATOR);
         
+        // Tira da string o peso maximo
         this._maxWeight = Integer.parseInt(__dataSplit[MAX_KNAPSACK]);
+        // Tira da string o tamanho do allelo
         super.setSizeAllelo(Integer.parseInt(__dataSplit[SIZE_GENE]));
         
+        // Cria a matriz com os valores
         this._table = new int[super.getSizeAllelo()][2];
         
+        // Corre os dados que foram passados como parametro
         for (int __indexData = 0; __indexData < super.getSizeAllelo(); __indexData++) {
+            // Copia os dados relacionados com os valores
             this._table[__indexData][VALUE]     = Integer.parseInt(__dataSplit[DATA_START + __indexData]);
+            // Copia os dados relacionados com os pesos
             this._table[__indexData][WEIGHT]    = Integer.parseInt(__dataSplit[DATA_START + super.getSizeAllelo() + __indexData]);
         }
     }
