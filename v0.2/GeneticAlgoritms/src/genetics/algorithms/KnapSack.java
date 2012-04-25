@@ -42,7 +42,10 @@ public class KnapSack extends Individual {
     /**
      * Construtor por defeito
      */
-    public KnapSack() { }
+    public KnapSack() { 
+        // Invoca o construtor do Individual
+        super();
+    }
     
     /**
      * Construtor do KnapSack que cria uma copia a partir de um individuo do tipo KnapSack
@@ -74,6 +77,8 @@ public class KnapSack extends Individual {
      * @param penaltyOrder Qual a ordem de penalização aplicar
      */
     public KnapSack(int maxWeight, int[][] table, ModeFunction modeFunction, int penaltyOrder){
+        // Invoca o construtor do Individual
+        super();
         this._maxWeight     = maxWeight;
         this._table         = table;
         this._modeFunction  = modeFunction;
@@ -83,11 +88,13 @@ public class KnapSack extends Individual {
     
     /**
      * Construtor do KnapSack
-     * @param data String com os dados
+     * @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
      * @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
      * @param penaltyOrder Qual a ordem de penalização aplicar
      */
     public KnapSack(String data, ModeFunction modeFunction, int penaltyOrder){
+        // Invoca o construtor do Individual
+        super();
         this._modeFunction  = modeFunction;
         this._isPenalized   = false;
         this._penaltyOrder  = penaltyOrder;

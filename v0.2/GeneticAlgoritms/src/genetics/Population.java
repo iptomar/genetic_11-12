@@ -1,6 +1,7 @@
 package genetics;
 
 import genetics.algorithms.OnesMax;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -140,7 +141,7 @@ public class Population implements Iterable<Individual> {
      * @return the _numberIndividuals
      */
     public int getSizePopulation() {
-        return this._sizePopulation;
+        return this._population.size();
     }
 
     /**

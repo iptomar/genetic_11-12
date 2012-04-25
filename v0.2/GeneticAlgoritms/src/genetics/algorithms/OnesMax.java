@@ -8,7 +8,8 @@ import genetics.Population;
 public class OnesMax extends Individual {
 
     public OnesMax() {
-        
+        // Invoca o construtor do Individual
+        super();
     }
     
     public OnesMax(OnesMax newOnesMax){
