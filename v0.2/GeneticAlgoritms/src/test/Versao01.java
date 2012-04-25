@@ -24,7 +24,7 @@ import utils.exceptions.SolverException;
  */
 public class Versao01 {
     
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        
 //        // Parametros do Solver
 //        
@@ -37,11 +37,11 @@ public class Versao01 {
 //        __operators.add(new operators.replacements.Tournament(100, 2));
 //        
 //        int __sizePopulation = 100; 
-//        int __sizeAllelo = 100;
+//        int __sizeAllelo = 1000;
 //        Individual __prototypeIndividual = new OnesMax();
 //        
 //        int __iteractions = 10000;
-//        int __bestFitness = 100;
+//        double __bestFitness = 1000.0;
 //        StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
 //        
 //        // Instanciar solver
@@ -67,9 +67,9 @@ public class Versao01 {
 //                    
 //                    System.out.println("--------------------------------------------------");
 //                    System.out.println("Iteração:" + iteractionNumber);
-//                    System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
-//                    System.out.println("Média:" + __statistics.getMedia().doubleValue());
-//                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+//                    System.out.println("Variância: " + __statistics.getVarianciaPopulation().doubleValue());
+//                    System.out.println("Média:" + __statistics.getMediaFitnessPopulation().doubleValue());
+//                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadraoPopulation().doubleValue());
 //                    System.out.println("--------------------------------------------------");
 //                    System.out.println("");
 //                }
@@ -83,9 +83,9 @@ public class Versao01 {
 //                System.out.println("Solver Terminou");
 //                System.out.println("--------------------------------------------------");
 //                System.out.println("Total Iteração:" + totalIteracoes);
-//                System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
-//                System.out.println("Média:" + __statistics.getMedia().doubleValue());
-//                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+//                System.out.println("Variância: " + __statistics.getVarianciaPopulation().doubleValue());
+//                System.out.println("Média:" + __statistics.getMediaFitnessPopulation().doubleValue());
+//                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadraoPopulation().doubleValue());
 //                System.out.println("--------------------------------------------------");
 //                System.out.println("");
 //                
@@ -102,6 +102,6 @@ public class Versao01 {
 //        } catch (SolverException ex) {
 //            Logger.getLogger(Versao01.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-    }
-    
+//    }
+//    
 }
