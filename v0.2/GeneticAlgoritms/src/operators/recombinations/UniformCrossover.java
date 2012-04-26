@@ -24,12 +24,12 @@ public class UniformCrossover extends Recombination {
     //Variaveis que receberão os individuos pais e os filhos depois de ser aplicada a mascara nos pais
     private Individual parent1, parent2, son1, son2;
     //Array de booleans que será a máscara a ser utilizada no método
-    private boolean[] mask;
+    private Boolean[] mask;
 
     @Override
     public Population execute(Population parents) {
         //Cria a máscara a ser utilizada na população
-        mask = new boolean[parents.getSizeAllelo()];
+        mask = new Boolean[parents.getSizeAllelo()];
         for (int i = 0; i < mask.length; i++) {
             mask[i] = Population.RANDOM_GENERATOR.nextBoolean();;
         }
@@ -62,12 +62,12 @@ public class UniformCrossover extends Recombination {
      * @param parent2 - Mãe
      * @param mask - Máscara do uniforme crossover
      */
-    private void aplicaMask(Individual parent1, Individual parent2, boolean[] mask) {
+    private void aplicaMask(Individual parent1, Individual parent2, Boolean[] mask) {
         //Guarda os filhos que serão a cópia dos seus respectivos pais
         Individual sonMask = parent1.clone();
         Individual daughterMask = parent2.clone();
         //Allelos de cada filho para que possa ser efectuada a troca
-        boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
+        Boolean[] sonAllelo = new Boolean[sonMask.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
         for (Chromosome __chromosome : sonMask) {
             for (Gene<Boolean[]> __gene : __chromosome) {
@@ -80,7 +80,7 @@ public class UniformCrossover extends Recombination {
                 }
             }
         }
-        boolean[] daughterAllelo = new boolean[daughterMask.getSizeAllelo()];
+        Boolean[] daughterAllelo = new Boolean[daughterMask.getSizeAllelo()];
         //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
         for (Chromosome __chromosome : daughterMask) {
             for (Gene<Boolean[]> __gene : __chromosome) {
@@ -97,7 +97,7 @@ public class UniformCrossover extends Recombination {
         for (int i = 0; i < mask.length; i++) {
             //faz a troca apenas se a máscara for igual a true
             if (mask[i]) {
-                boolean aux = sonAllelo[i];
+                Boolean aux = sonAllelo[i];
                 //Troca os booleans dos allelos do filho para a filha
                 sonAllelo[i] = daughterAllelo[i];
                 daughterAllelo[i] = aux;

@@ -70,10 +70,7 @@ public class PopulationUtils {
          * *********************** MAS REBENTA COM ESTILO :) **********************
          * ************************************************************************
          */
-        try {
-            Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
-        } catch (ClassCastException ex) {
-        }
+        Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
     }
 
     /**

@@ -6,6 +6,7 @@ package test;
 
 import genetics.Population;
 import operators.recombinations.UniformCrossover;
+import utils.PopulationUtils;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -35,6 +36,8 @@ public class Error {
         utils.PopulationUtils.orderPopulation(parents);
         sons = crossover.execute(parents);
         utils.PopulationUtils.orderPopulation(sons);
-        System.out.println("dsfgdfg");
+        //System.out.println("dsfgdfg");
+        
+        System.out.println(PopulationUtils.getHallOfFameWithoutDuplicateIndividuals(sons, 5));
     }
 }

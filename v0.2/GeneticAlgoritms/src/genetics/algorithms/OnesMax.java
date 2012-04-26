@@ -23,14 +23,15 @@ public class OnesMax extends Individual {
     @Override
     public int fitness() {
         int __numberOfOnes = 0;
-        for (Chromosome __chromosome : this) {
+        for (Chromosome __chromosome : this) {            
             for (Gene<Boolean[]> __gene : __chromosome) {
-//                System.out.println("" + __gene.getAllele().length);
+
                 for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
                     if ( __gene.getAllele()[__indexAlleloValue]) {
                         __numberOfOnes++;
                     }
                 }
+
             }
         }
         return __numberOfOnes;
