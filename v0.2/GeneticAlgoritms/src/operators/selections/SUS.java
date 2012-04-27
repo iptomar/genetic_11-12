@@ -15,6 +15,15 @@ public class SUS extends Selection {
 
     private double offset = 0.0; 
     private double ponteiro = 0.0;
+     
+
+    public double getOffset() {
+        return offset;
+    }
+
+    public double getPonteiro() {
+        return ponteiro;
+    }
     
     public SUS(){
         this(Selection.DIMENDIONS_NEW_POPULATION_DEFAULT);
