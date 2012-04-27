@@ -8,13 +8,22 @@ import utils.PopulationUtils;
 import utils.exceptions.PonteiroForaDoLimiteException;
 
 /**
- *
- * @author Aurélien Mota Nº13673
- */
+*
+* @author Aurélien Mota Nº13673
+*/
 public class SUS extends Selection {
 
-    private double offset = 0.0; 
+    private double offset = 0.0;
     private double ponteiro = 0.0;
+     
+
+    public double getOffset() {
+        return offset;
+    }
+
+    public double getPonteiro() {
+        return ponteiro;
+    }
     
     public SUS(){
         this(Selection.DIMENDIONS_NEW_POPULATION_DEFAULT);
@@ -28,14 +37,14 @@ public class SUS extends Selection {
     @Override
     public Population execute(Population population) {
         //criar nova população
-        //variavel so de leitura ao ser inicializada 
-        final Population newPopulation = 
+        //variavel so de leitura ao ser inicializada
+        final Population newPopulation =
                 new Population(
-                    super._dimensionsNewPopulation, 
-                    population.getSizeGenome(), 
+                    super._dimensionsNewPopulation,
+                    population.getSizeGenome(),
                     population.getSizeGenotype(),
                     population.getSizeAllelo(),
-                    population.getTypePopulation(), 
+                    population.getTypePopulation(),
                     false);
         
         //calcula offset

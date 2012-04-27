@@ -64,16 +64,7 @@ public class PopulationUtils {
     public static void orderPopulation(Population population) {
         // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
         // descendente
-        /**
-         * ************************************************************************
-         * *** AO MEXER NESTE TRY CATCH FICA AQUI O AVISO QUE ISTO IRÁ REBENTAR ***
-         * *********************** MAS REBENTA COM ESTILO :) **********************
-         * ************************************************************************
-         */
-        try {
-            Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
-        } catch (ClassCastException ex) {
-        }
+        Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
     }
 
     /**

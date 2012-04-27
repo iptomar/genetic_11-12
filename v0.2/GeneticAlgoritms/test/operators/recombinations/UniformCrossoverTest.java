@@ -23,6 +23,10 @@ public class UniformCrossoverTest {
      */
     private Population parents;
     private Population sons;
+    private int parentsUm = 0;
+    private int sonsUm = 0;
+    private int parentsZero = 0;
+    private int sonsZero = 0;
     
     
     public UniformCrossoverTest() {
@@ -36,7 +40,7 @@ public class UniformCrossoverTest {
     }
     
     public void UniformCrossoverTest(){
-        this.parents = new Population(499, 1, 1, 10, new genetics.algorithms.OnesMax());
+        this.parents = new Population(1000, 1, 1, 10, new genetics.algorithms.OnesMax());
     }
 
     @BeforeClass
@@ -67,8 +71,30 @@ public class UniformCrossoverTest {
         UniformCrossover crossover = new UniformCrossover();
         //Ordena a população pai por fitness
         utils.PopulationUtils.orderPopulation(parents);
+        //Percorre a população pai e verifica o numero de uns que existem
+        for (int i = 0; i < parents.getPopulation().size(); i++) {
+            Boolean[] allelo = (Boolean[])parents.getPopulation().get(i).getChromosome(0).getGene(0).getAllele();
+            for (int j = 0; j < allelo.length; j++) {
+                if(allelo[j]) parentsUm++;
+                else parentsZero++;
+            }
+        }
         //Executa o uniform crossover na população parents
         sons = crossover.execute(parents);
+        //Percorre a população filho e verifica o numero de uns que existem
+        for (int i = 0; i < sons.getPopulation().size(); i++) {
+            Boolean[] allelo = (Boolean[])sons.getPopulation().get(i).getChromosome(0).getGene(0).getAllele();
+            for (int j = 0; j < allelo.length; j++) {
+                if(allelo[j]) sonsUm++;
+                 else sonsZero++;
+            }
+        }
+        //Verifica se o número de zeros+uns da parte dos pais é igual ao número de zeros+uns da parte dos filhos
+        assertEquals("Número de zeros e uns somados da parte dos pais não é igual à soma de zeros e uns da parte dos filhos.",parentsUm+parentsZero, sonsUm+sonsZero);
+        //Verifica se o número de uns nos pais é igual ao número de uns nos filhos
+        assertEquals("O número de uns não é igual na parte dos pais e na parte dos filhos.",parentsUm, sonsUm);
+        //Verifica se o número de zeros nos pais é igual ao número de zeros nos filhos
+        assertEquals("O número de zeros não é igual na parte dos pais e na parte dos filhos.",parentsZero, sonsZero);
         //utils.PopulationUtils.orderPopulation(sons);
         System.out.println("Parents size: " + parents.getSizePopulation());
         System.out.println("Sons size: " + sons.getSizePopulation());

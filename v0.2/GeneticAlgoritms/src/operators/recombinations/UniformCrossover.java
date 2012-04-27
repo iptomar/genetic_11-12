@@ -4,6 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import operators.Genetic;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -22,92 +23,147 @@ public class UniformCrossover extends Recombination {
 
     private Population sons;
     //Variaveis que receberão os individuos pais e os filhos depois de ser aplicada a mascara nos pais
-    private Individual parent1, parent2, son1, son2;
+    private Individual parent1, parent2;
     //Array de booleans que será a máscara a ser utilizada no método
-    private boolean[] mask;
+    private Boolean[] mask = null;
+    //Variavel que recebel a probabilidade de haver a recombinação ou nao entre dois filhos
+    private double probability;
+
+    /**
+     * Construtor da classe em que a probabilidade dos filhos sofrerem uma recombinação é de 75%
+     */
+    public UniformCrossover() {
+        this(0.75);
+    }
+
+    /**
+     * Construtor da classe onde é passado por parametro a probabilidade de dois filhos sofrerem a recombinação
+     * @param probability (double) - Probabilidade, entre 0 e 1, de dois filhos sofrerem a recombinação
+     */
+    public UniformCrossover(double probability) {
+        this.probability = probability;
+    }
 
     @Override
     public Population execute(Population parents) {
-        //Cria a máscara a ser utilizada na população
-        mask = new boolean[parents.getSizeAllelo()];
-        for (int i = 0; i < mask.length; i++) {
-            mask[i] = Population.RANDOM_GENERATOR.nextBoolean();;
+        //Fará apenas a mascara aleatória caso a mesma não esteja ainda definida
+        if (mask == null) {
+            //Cria a máscara a ser utilizada na população
+            setMask(new Boolean[parents.getSizeAllelo()]);
+            for (int i = 0; i < mask.length; i++) {
+                mask[i] = Population.RANDOM_GENERATOR.nextBoolean();;
+            }
         }
         //Nova população que irá receber os filhos depois de ser aplicado o uniform-crossover na população pai
         sons = new Population(parents.getSizePopulation(), parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
-        for (int i = 0; i < parents.getSizePopulation(); i++) {
+        for (int i = 0; i < parents.getSizePopulation(); i += 2) {
             //Verifica se existem ainda dois pais para a recombinação
             try {
-                    parent1 = parents.getIndividual(i);
-                    //puderá dar nullPointerException
-                    parent2 = parents.getIndividual(i + 1);
-                    aplicaMask(parent1, parent2, mask);
-                    sons.addIndividual(son1);
-                    sons.addIndividual(son2);
+                parent1 = parents.getIndividual(i);
+                //puderá dar nullPointerException
+                parent2 = parents.getIndividual(i + 1);
+                //Guarda os filhos que serão a cópia dos seus respectivos pais
+                Individual son = parent1.clone();
+                Individual daughter = parent2.clone();
+                //Calcula um random a ver se cai na probabilidade para fazer a recombinação
+                if (Genetic.RANDOM_GENERATOR.nextDouble() < this.probability) {
+                    //Caso o random caia na probabilidade, faz a troca
+                    aplicaMask(son, daughter, mask);
+                }
+                sons.addIndividual(son);
+                sons.addIndividual(daughter);
             } catch (IndexOutOfBoundsException ex) {
                 //Senão não houverem dois pais e apenas um, adiciona o individuo em falta sem sofrer alterações
                 sons.addIndividual(parents.getIndividual(i));
             }
-            //Incrementa o i mais uma vez para andar de dois em dois
-            i++;
         }
         //devolve a população de filhos que sofreu o uniform crossover
         return sons;
     }
 
     /**
-     * Método que recebe dois pais, copia os seus allelos para os filhos e só fará a troca de genes na posição X dos
-     * filhos caso a máscara dessa posição seja true
-     * @param parent1 - Pai
-     * @param parent2 - Mãe
+     * Método que recebe os dois filhos para serem então recombinados, bem como a mascára de recombinação
+     * @param son - Filho a ser aplicado a troca
+     * @param daughter - Filha a ser aplicada a troca
      * @param mask - Máscara do uniforme crossover
      */
-    private void aplicaMask(Individual parent1, Individual parent2, boolean[] mask) {
-        //Guarda os filhos que serão a cópia dos seus respectivos pais
-        Individual sonMask = parent1.clone();
-        Individual daughterMask = parent2.clone();
-        //Allelos de cada filho para que possa ser efectuada a troca
-        boolean[] sonAllelo = new boolean[sonMask.getSizeAllelo()];
-        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
-        for (Chromosome __chromosome : sonMask) {
-            for (Gene<Boolean[]> __gene : __chromosome) {
-                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
-                    if (__gene.getAllele()[__indexAlleloValue]) {
-                        sonAllelo[__indexAlleloValue] = true;
-                    } else {
-                        sonAllelo[__indexAlleloValue] = false;
+    protected void aplicaMask(Individual son, Individual daughter, Boolean[] mask) {
+        //para todos os cromossomas dos individuos
+        for (int i = 0; i < son.getSizeGenome(); i++) {
+            //cromossomas dos filhos
+            Chromosome cSon = son.getChromosome(i);
+            Chromosome cDaug = daughter.getChromosome(i);
+            //para todos os genes 
+            for (int j = 0; j < cSon.getGenotype().size(); j++) {
+                //genes dos filhos
+                Gene gSon = cSon.getGene(j);
+                Gene gDaug = cDaug.getGene(j);
+
+                Object aux = gSon.getAllele();
+                //array de 
+                if (aux instanceof Object[]) {
+                    //array com os genes
+                    Object[] aSon = (Object[]) gSon.getAllele();
+                    Object[] aDaug = (Object[]) gDaug.getAllele();
+                    for (int k = 0; k < aDaug.length; k++) {
+                        //se for para trocar
+                        if (mask[k]) {
+                            //trocar os alelos entre o filho e a filha
+                            Object auxBit = aSon[k];
+                            aSon[k] = aDaug[k];
+                            aDaug[k] = auxBit;
+                        }
                     }
+                } else {
+                    gSon.setAllele(gDaug.getAllele());
+                    gDaug.setAllele(aux);
                 }
+
+
+
             }
         }
-        boolean[] daughterAllelo = new boolean[daughterMask.getSizeAllelo()];
-        //Copia do allelo do individuo para uma variavel local(allelo) afim de ser modificada
-        for (Chromosome __chromosome : daughterMask) {
-            for (Gene<Boolean[]> __gene : __chromosome) {
-                for (int __indexAlleloValue = 0; __indexAlleloValue < __gene.getAllele().length; __indexAlleloValue++) {
-                    if (__gene.getAllele()[__indexAlleloValue]) {
-                        daughterAllelo[__indexAlleloValue] = true;
-                    } else {
-                        daughterAllelo[__indexAlleloValue] = false;
-                    }
-                }
-            }
-        }
-        //Percorre todas as posições do allelo
-        for (int i = 0; i < mask.length; i++) {
-            //faz a troca apenas se a máscara for igual a true
-            if (mask[i]) {
-                boolean aux = sonAllelo[i];
-                //Troca os booleans dos allelos do filho para a filha
-                sonAllelo[i] = daughterAllelo[i];
-                daughterAllelo[i] = aux;
-            }
-        }
-        //Define os novos allelos para os filhos
-        sonMask.getChromosome(0).getGene(0).setAllele(sonAllelo);
-        daughterMask.getChromosome(0).getGene(0).setAllele(daughterAllelo);
-        //Cria os novos objectos filhos
-        son1 = sonMask.clone();
-        son2 = sonMask.clone();
     }
+    
+    /**
+     * Método que permite fazer a definição da máscara a ser executada na recombinação
+     * @param mask (Boolean[]) - Máscara a ser utilizada na recombinação dos filhos
+     */
+    public void setMask(Boolean[] mask) {
+        this.mask = mask;
+    }
+    
+    //Pequeno teste ao operador
+//    public static void main(String[] args) {
+//        OnesMax i1 = new OnesMax();
+//        Boolean[] _i1Allelo = new Boolean[]{true, true, true, true, true, true, true, true, true, true};
+//
+//        i1.inicializationGenome();
+//
+//        for (Object __chromosome : i1) {
+//            for (Gene __gene : (Chromosome) __chromosome) {
+//                __gene.setAllele(_i1Allelo);
+//            }
+//        }
+//
+//        OnesMax i2 = new OnesMax();
+//        Boolean[] _i2Allelo = new Boolean[]{false, false, false, false, false, false, false, false, false, false};
+//
+//        i2.inicializationGenome();
+//
+//        for (Object __chromosome : i2) {
+//            for (Gene __gene : (Chromosome) __chromosome) {
+//                __gene.setAllele(_i2Allelo);
+//            }
+//        }
+//
+//        //Boolean[] __mask = new Boolean[] { false, false,false,false,false,false,false,false,false,false };
+//        //Boolean[] __mask = new Boolean[] { true, true, true, true, true, true, true, true, true, true };
+//        Boolean[] __mask = new Boolean[]{false, false, false, false, false, true, true, true, true, true};
+//
+//        UniformCrossover __uniformeCrossover = new UniformCrossover();
+//        __uniformeCrossover.aplicaMask(i1, i2, __mask);
+//
+//        System.out.println("");
+//    }
 }

@@ -1,69 +1,101 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package operators.recombinations;
 
-import genetics.Individual;
 import genetics.Population;
-import operators.Genetic;
 
-/**
+/* -------------------------------------------------------------------------
+ * -------------------------------------------------------------------------
+ *  I n s t i t u t o   P o l i t e c n i c o   d e   T o m a r
+ *   E s c o l a   S u p e r i o r   d e   T e c n o l o g i a
  *
- * @author Chorinca-Notebook
+ * @author Ruben Felix <Ruben.Felix@gmail.com>
+ * -------------------------------------------------------------------------
+ * Número de Aluno: 13691 
+ * E-mail: Ruben.Felix@gmail.com
+ * -------------------------------------------------------------------------
+ * -------------------------------------------------------------------------
  */
 public class Crossover extends Recombination {
 
+    /**
+     * Variavél que obtem o número de cortes a ser utilizado no crossover
+     */
+    private int numCuts;
+    /**
+     * Objecto uniform crossover que será uma ajuda para o crossover
+     */
+    private UniformCrossover UC;
+    /**
+     * Variavel que receberá a probabilidade de recombinação
+     */
+    private double probability;
+
+    /**
+     * Construtor da classe em que apenas é feito um corte ao allelo dos individuos a ser recombinados
+     * e a probabilidade da recombinação acontecer é de 75%
+     */
+    public Crossover() {
+        this(1, 0.75);
+    }
+
+    /**
+     * Construtor do operador em que são passados por parametro o número de cortes que o allelo sofrerá, bem como a probabilidade
+     * da recombinação acontecer a dois individuos.
+     * @param numCuts (int) - Número de cortes no allelo dos individuos
+     * @param probability (double) - Valor entre 0 e 1 que será a probabilidade da recombinação acontecer (Ex: 0.40 indica 40% de probabilidade de acontecer a recombinação)
+     */
+    public Crossover(int numCuts, double probability) {
+        this.numCuts = numCuts;
+        this.probability = probability;
+        UC = new UniformCrossover(probability);
+    }
+
+    /**
+     * Execução do operador croossover onde será aplicado à população que se pretende com os parametros definidos
+     * @param population (Population) - População de pais à qual será aplicado a recombinação crossover
+     * @return (Population) sons - População de filhos que já sofreu a recombinação do operador crossover
+     */
     @Override
     public Population execute(Population population) {
-        final Population __newPopulation = 
-                new Population(
-                    population.getSizePopulation(), 
-                    population.getSizeGenome(), 
-                    population.getSizeGenotype(),
-                    population.getSizeAllelo(),
-                    population.getTypePopulation(), 
-                    false);
-        
-        // o ciclo anda de 2 em 2 para trazer sempre dois pais
-        for (int __indexParents = 0; __indexParents < population.getSizePopulation(); __indexParents = __indexParents + 2) {
-           //pointOfCutAllelo gerador aleatório da população
-            int __pointOfCutAllelo = Genetic.RANDOM_GENERATOR.nextInt(__newPopulation.getSizeAllelo() - 1) + 1;
-
-            Boolean[] __father = (Boolean[])population.getIndividual(__indexParents).getGenome().get(0).getGene(0).getAllele();  
-            Boolean[] __mother = (Boolean[])population.getIndividual(__indexParents + 1).getGenome().get(0).getGene(0).getAllele();
-
-            Boolean[] __son = new Boolean[__newPopulation.getSizeAllelo()];
-            Boolean[] __daughter = new Boolean[__newPopulation.getSizeAllelo()];
-            //
-            for (int __indexAlleloValuesFather = 0; __indexAlleloValuesFather < __newPopulation.getSizeAllelo(); __indexAlleloValuesFather++) {
-                if(__indexAlleloValuesFather < __pointOfCutAllelo - 1)
-                    __son[__indexAlleloValuesFather] = __father[__indexAlleloValuesFather];
-                else
-                    __daughter[__indexAlleloValuesFather] = __father[__indexAlleloValuesFather];
-            }
-
-            for (int __indexAlleloValuesMother = 0; __indexAlleloValuesMother < __newPopulation.getSizeAllelo(); __indexAlleloValuesMother++) {
-                if(__indexAlleloValuesMother < __pointOfCutAllelo - 1)
-                    __daughter[__indexAlleloValuesMother] = __mother[__indexAlleloValuesMother];
-                else
-                    __son[__indexAlleloValuesMother] = __mother[__indexAlleloValuesMother];
-            }
-
-            Individual __sonIndividual = population.getIndividual(0).clone();
-            // utiliza as caracteristicas do pai mas muda os valores do allelo
-            __sonIndividual.getChromosome(0).getGene(0).setAllele((Object)__son);
-
-            Individual __daughterIndividual = population.getIndividual(0).clone();
-            // utiliza as caracteristicas do pai mas muda os valores do allelo
-            __daughterIndividual.getChromosome(0).getGene(0).setAllele((Object)__daughter);
-
-            __newPopulation.addIndividual(__sonIndividual);
-            __newPopulation.addIndividual(__daughterIndividual);
-        
-        }
-        
-        return __newPopulation;
+        //calcula a máscara a ser utilizada pelo uniform-crossover para que o crossover funcione correctamente sem a máscara ser calculada aleatóriamente
+        UC.setMask(calculaMask(population.getSizeAllelo()));
+        //Corre o uniform-crossover com a máscara calculada, acabando assim por fazer apenas um crossover normal
+        return UC.execute(population);
     }
-    
+
+    /**
+     * Método que calculará a máscara a ser utilizada tendo em conta o número de cortes que se pretende e também
+     * o tamanho do allelo do individuo
+     * @param sizeAllelo (int) - Tamanho do allelo do individuo
+     * @return (Boolean[]) mask - Máscara a ser utilizada para o corte correcto dos allelos dos individuos a sofrerem a recombinação
+     */
+    private Boolean[] calculaMask(int sizeAllelo) {
+        //Variavel que detem em quantas divisões será dividido o allelo do individuo
+        int divAllelo = numCuts + 1;
+        //Variavel que receberá a máscara calculada
+        Boolean[] mask = new Boolean[sizeAllelo];
+        //Variavel que conta o número de casas que deterá cada divisão do allelo
+        int parse = sizeAllelo / divAllelo;
+        //Boolean para saber se true ou false para a máscara; Irá ser comutado ao longo dos ciclo for's que percorrem o preenchimento da máscara
+        boolean maskApp = false;
+        for (int i = 0; i < sizeAllelo; i += parse) {
+            for (int j = 0; j < parse; j++) {
+                //Certeza que não ultrapassa o tamanho da máscara
+                if (i + j < mask.length) {
+                    mask[i + j] = maskApp;
+                }
+            }
+            //Comutação do boolean a ser posto na máscara
+            maskApp = !maskApp;
+        }
+        //Devolve a máscara já calculada
+        return mask;
+    }
+    //Pequeno teste ao operador
+//    public static void main(String[] args) {
+//
+//        Crossover crossover = new Crossover(2,0.75);
+//        Boolean[] __mask = crossover.calculaMask(11);
+//
+//        System.out.println("");
+//    }
 }
