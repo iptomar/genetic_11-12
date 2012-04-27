@@ -7,7 +7,10 @@ package operators;
 
 
 import genetics.Population;
+import java.security.Timestamp;
 import java.util.Random;
+import java.util.TimeZone;
+import sun.security.timestamp.Timestamper;
 
 /**
  *
@@ -15,7 +18,7 @@ import java.util.Random;
  */
 public abstract class Genetic extends Operator {
     
-    static final public Random RANDOM_GENERATOR = new Random();
+    static final public Random RANDOM_GENERATOR = new Random(TimeZone.LONG);
     
     public abstract Population execute(Population population);
     

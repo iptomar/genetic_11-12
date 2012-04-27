@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package operators.selections;
 
 import utils.PopulationUtils;
@@ -26,14 +30,14 @@ public class SUSTest {
     int sizeAllelo = 10;
     int DimSelectedPopulation = 5;
     int testeAleatorio = 100;
-
+    
     public SUSTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
-
+    
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
@@ -58,14 +62,14 @@ public class SUSTest {
 
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-        //TESTE AO NUMERO ALEATORIO QUE É GERADO PARA O VALOR ALEATORIO - Conta o numero de vezes em que sai os nnumeros
+        //TESTE AO NUMERO ALEATORIO QUE É GERADO PARA O VALOR ALEATORIO - Conta o numero de vezes em que sai os numeros
 
-
+        
         maxFitness = 100;
         double[] ndigits = new double[maxFitness];
-
+        
         int nAleatorio = 10000;
-
+        
         for (int i = 0; i < nAleatorio; i++) {
             s = new SUS(DimSelectedPopulation);
             s.execute(p);
@@ -79,12 +83,12 @@ public class SUSTest {
         }
         //**********************************************************************************************************************
 //**********************************************************************************************************************
-        //TESTE AO NUMERO ALEATORIO QUE É GERADO PARA O VALOR ALEATORIO - Testa se há sequencia
+        //TESTE AO NUMERO ALEATORIO QUE É GERADO PARA O VALOR ALEATORIO - Testa se há sequencia      
         maxFitness = 100;
         double[] ndigits1 = new double[maxFitness];
         double[] ndigits2 = new double[maxFitness];
         nAleatorio = 10000;
-
+        
         for (int i = 0; i < nAleatorio; i++) {
             s = new SUS(DimSelectedPopulation);
             s.execute(p);
@@ -95,20 +99,20 @@ public class SUSTest {
             s.execute(p);
             ndigits2[(int) s.getPonteiro()] += 1;
         }
-
-
+        
+        
         assertTrue(ndigits1 != ndigits2);
 
 
 
 //****************************************************************************************************************
 //****************************************************************************************************************
-// teste ao numero de individuos da população que sai é < ou = ao numero de individuos da população que entra
+//  teste ao numero de individuos da população que sai é < ou = ao numero de individuos da população que entra 
         p = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
-
+        
         int popEntrada = p.getSizePopulation();
         int popSaida = s.execute(p).getSizePopulation();
-
+        
         assertTrue(popSaida <= popEntrada);
 
 //*****************************************************************************************************************
@@ -117,38 +121,49 @@ public class SUSTest {
         Population pi = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
         Population pf = s.execute(pi);
 
-// for (int i = 0; i < pi.getSizePopulation(); i++) {
-// for (int j = 0; j < pf.getSizePopulation(); j++) {
-// if (pi.getIndividual(i).fitness() == pf.getIndividual(j).fitness()) {
-// pf.getPopulation().remove(j);
-// break;
-// }
-// }
-//
-// }
 
 
-        for (int j = 0; j < pi.getSizePopulation(); j++) {
-            for (int i = 0; i < pf.getSizePopulation(); i++) {
-                if (pf.getIndividual(i).fitness() == pi.getIndividual(j).fitness()) {
-                    pf.getPopulation().remove(i);
+        int tpf = pf.getSizePopulation();
+        for (int j = 0; j < tpf; j++) {
+            for (int i = 0; i < pi.getSizePopulation(); i++) {
+                if (pf.getIndividual(0).fitness() == pi.getIndividual(i).fitness()) {
+                    pf.getPopulation().remove(0);
+                    pf.DecSize();
                     break;
                 }
             }
-
         }
-
-
+        
+        
+        
+        
         boolean t = false;
         if (pf.getSizePopulation() == 0) {
             t = true;
         }
-
+        
         assertTrue(t);
-        //assertArrayEquals(p.getIndividual(i), s.execute(p).getIndividual(j));
+        //assertArrayE    assertTrue(t);quals(p.getIndividual(i), s.execute(p).getIndividual(j));
 
 
 
 //****************************************************************************************************************
+//****************************************************************************************************************
+//                                            
+//  teste ao numero de individuos da população que sai é = ao numero de individuos que definimos inicialmente para serem seleccionados
+        p = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
+        int popSaida2 = s.execute(p).getSizePopulation();
+        
+        assertTrue(popSaida == DimSelectedPopulation);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }
