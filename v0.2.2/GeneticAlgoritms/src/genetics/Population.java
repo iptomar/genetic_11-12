@@ -10,7 +10,7 @@ import java.util.Random;
  * Recebe como parãmetros o tamanho da população, o tamanho do genoma,
  * tamanho do genótipo, tamanho dos alelos e o tipo da população(ex:boolean)
  * É composta por um ArrayList de elementos do tipo Individual
- *
+ * 
  * @author goncalo
  */
 public class Population implements Iterable<Individual> {
@@ -21,8 +21,10 @@ public class Population implements Iterable<Individual> {
     public static final int DEFAULT_SIZE_GENOTYPE = 1;
     public static final int DEFAULT_SIZE_ALLELO = 10;
     public static final Individual DEFAULT_PROTOTYPE_POPULATION = new OnesMax();
+    
     // gerador de números aleatórios
     public static final Random RANDOM_GENERATOR = new Random();
+    
     private ArrayList<Individual> _population;
     private int _sizePopulation;
     private int _sizeGenotype;
@@ -33,7 +35,7 @@ public class Population implements Iterable<Individual> {
     /**
      * Construtor por defeito, que cria uma população com os valores definidos
      * também por defeito.
-     * @param typePopulation
+     * @param typePopulation 
      */
     public Population(Individual prototypeIndividual) {
         this(Population.DEFAULT_SIZE_POPULATION,
@@ -42,14 +44,14 @@ public class Population implements Iterable<Individual> {
                 Population.DEFAULT_SIZE_ALLELO,
                 prototypeIndividual);
     }
-
+    
     /**
      * Criação de uma população com todos os parâmetros e gera a população aleatoriamente
      * @param sizePopulation
      * @param sizeGenome
      * @param sizeGenotype
      * @param sizeAllelo
-     * @param typePopulation
+     * @param typePopulation 
      */
     public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual prototypeIndividual) {
         this(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, prototypeIndividual, true);
@@ -62,7 +64,7 @@ public class Population implements Iterable<Individual> {
      * @param sizeGenotype
      * @param sizeAllelo
      * @param typePopulation
-     * @param initializesPopulation
+     * @param initializesPopulation 
      */
     public Population(int sizePopulation, int sizeGenome, int sizeGenotype, int sizeAllelo, Individual prototypeIndividual, boolean initializesPopulation) {
         this._sizePopulation = sizePopulation;
@@ -83,15 +85,15 @@ public class Population implements Iterable<Individual> {
     /**
      * Inicialização de uma população de forma aleatória.
      */
-    public Population(Population newPopulation) {
+    public Population(Population newPopulation){
         this(newPopulation.getSizePopulation(), newPopulation.getSizeGenome(), newPopulation._sizeGenotype, newPopulation._sizeAllelo, newPopulation.getTypePopulation(), false);
-
+        
         // Cria chromosomes novos
-        for (Individual __individual : newPopulation) {
+        for (Individual __individual : newPopulation) {     
             this._population.add(__individual.clone());
         }
     }
-
+    
     /**
      * Inicialização de uma população de forma aleatória.
      */
@@ -111,24 +113,22 @@ public class Population implements Iterable<Individual> {
 
             // Adiciona o novo individuo à população actual
             this.getPopulation().add(__newIndividual);
-
+            
         }
     }
-
-    /**
-     * Método que devolve o indivíduo que está no índex.
-     * @param index
-     * @return
-     */
+/**
+ * Método que devolve o indivíduo que está no índex.
+ * @param index
+ * @return 
+ */
     public Individual getIndividual(int index) {
         return getPopulation().get(index);
     }
-
-    /**
-     * O método permite definir o indivíduo que está no índex.
-     * @param index
-     * @param individual
-     */
+/**
+ * O método permite definir o indivíduo que está no índex.
+ * @param index
+ * @param individual 
+ */
     public void setIndividual(int index, Individual individual) {
         getPopulation().add(index, individual);
     }
@@ -138,7 +138,7 @@ public class Population implements Iterable<Individual> {
      * @return the _numberIndividuals
      */
     public int getSizePopulation() {
-        return this._sizePopulation;
+        return this._population.size();
     }
 
     /**
@@ -164,10 +164,9 @@ public class Population implements Iterable<Individual> {
     public void setTypePopulation(Individual prototypeIndividual) {
         this._prototypeIndividual = prototypeIndividual;
     }
-
     /**
      * O método permite adicionar um novo individuo à população.
-     * @param individual
+     * @param individual 
      */
     public void addIndividual(Individual individual) {
         this.getPopulation().add(individual);
@@ -259,10 +258,15 @@ public class Population implements Iterable<Individual> {
     public void setSizeGenome(int sizeGenome) {
         this._sizeGenome = sizeGenome;
     }
-
+    
     @Override
     public Population clone() {
         // cria uma nova população
         return new Population(this);
     }
+    
+    public void DecSize(){
+        _sizePopulation--;
+    }
+    
 }
