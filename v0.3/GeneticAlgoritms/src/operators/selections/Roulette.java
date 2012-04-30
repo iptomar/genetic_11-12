@@ -41,7 +41,6 @@ public class Roulette extends Selection {
         for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
             //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
             this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
-            
             try {
                 //acrecenta um individou para a nova população
                 newPopulation.addIndividual(

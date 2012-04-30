@@ -1,5 +1,6 @@
 package operators.recombinations;
 
+import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
@@ -18,7 +19,6 @@ import operators.Genetic;
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
-
 /**
  * Classe responsável por aplicar o OrderCrossover na população pai que recebe. Esta classe poderá ser instanciada com uma probabilidade
  * de acontecimento da recombinação por defeito (75%) ou o utilizador, aquando da sua construção, poderá definir a probabilidade de recombinação
@@ -27,7 +27,7 @@ import operators.Genetic;
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
 public class OrderCrossover extends Recombination {
-    
+
     //Variavel que recebel a probabilidade de haver a recombinação ou nao entre dois filhos
     private double probability;
     //Variavel que obterá a população filho
@@ -59,12 +59,18 @@ public class OrderCrossover extends Recombination {
         //Verifica se os allelos dos individuos são ou não array de objectos para saber como tratar da recombinação dos individuos
         if (parents.getIndividual(0).getChromosome(0).getGene(0).getAllele() instanceof Object[]) {
             //Caso o allelo seja um array de objectos, calcula o ponto de corte ao nivel desse array
-            cutPlace = Population.RANDOM_GENERATOR.nextInt(parents.getSizeAllelo());
+            do {
+                cutPlace = Population.RANDOM_GENERATOR.nextInt(parents.getSizeAllelo() - 1);
+                //certifica-se que o corte está entre 1 e o penultimo allelo, de forma a que o corte possa ser efectuado
+            } while (cutPlace > 0 && cutPlace < parents.getSizeAllelo() - 2);
             alleloArray = true;
         } //Caso não seja array's de objectos
         else {
             //Caso o allelo não seja um array, calcula o ponte de corte de acordo com o número de genes que cada cromossoma tem
-            cutPlace = Population.RANDOM_GENERATOR.nextInt(parents.getSizeGenotype());
+            do {
+                cutPlace = Population.RANDOM_GENERATOR.nextInt(parents.getSizeGenotype() - 1);
+                //certifica-se que o corte está entre 1 e o penultimo gene, de forma a que o corte possa ser efectuado
+            } while (cutPlace > 0 && cutPlace < parents.getSizeGenotype() - 2);
             alleloArray = false;
         }
         for (int i = 0; i < parents.getSizePopulation(); i += 2) {
@@ -106,16 +112,43 @@ public class OrderCrossover extends Recombination {
      */
     private void aplicaCorte(Individual son, Individual daughter, int cutPlace, boolean array) throws Exception {
         /**
-         * Caso seja array de objectos no allelo do individuo
-         * **********************************************************
-         * ***************** NÃO IMPLEMENTADO ***********************
-         * **********************************************************
+         * Variaveis que seram os pais dos individuos, já que os filhos que entram são igiaus aos pais: ainda não sofreram alterações genéticas
          */
-        if(array){
-            
-        }
-        //Caso não seja um array de objectos, o operador será aplicado ao nivel do crossoma do individuo
-        else{
+        Individual pai = son.clone();
+        Individual mae = daughter.clone();
+        /**
+         * Caso seja array de objectos no allelo do individuo
+         */
+        if (array) {
+            //para todos os cromossomas dos individuos
+            for (int i = 0; i < son.getSizeGenome(); i++) {
+                //cromossomas dos filhos
+                Chromosome cSon = son.getChromosome(i);
+                Chromosome cDaug = daughter.getChromosome(i);
+                //para todos os genes 
+                for (int j = 0; j < cSon.getGenotype().size(); j++) {
+                    //genes dos filhos
+                    Gene gSon = cSon.getGene(j);
+                    Gene gDaug = cDaug.getGene(j);
+                    //array com os genes
+                    Object[] aSon = new Object[pai.getSizeAllelo()];
+                    Object[] aDaug = new Object[pai.getSizeAllelo()];
+                    //Dimensão do allelo
+                    int dim = aSon.length;
+                    //Copia os primeiros genes antes do corte, que serão iguais ao progenitores
+                    for (int y = 0; y < cutPlace; y++) {
+                        aSon[y] = ((Object[])pai.getChromosome(i).getGene(j).getAllele())[y];
+                        aDaug[y] = ((Object[])mae.getChromosome(i).getGene(j).getAllele())[y];
+                    }
+                    //procura os próximos genes válidos para serem inseridos
+                    for (int k = cutPlace; k < dim; k++) {
+                        aSon[k] = procuraArray(k, (Object[]) mae.getChromosome(i).getGene(j).getAllele(), aSon);
+                        aDaug[k] = procuraArray(k, (Object[]) pai.getChromosome(i).getGene(j).getAllele(), aDaug);
+                    }
+                }
+            }
+        } //Caso não seja um array de objectos, o operador será aplicado ao nivel do crossoma do individuo
+        else {
             //Ciclo que percorre todos os cromossomas dos dois filhos
             for (int i = 0; i < son.getSizeGenome(); i++) {
                 //ArrayList's que contem todos os genes do cromossoma em questão
@@ -132,24 +165,32 @@ public class OrderCrossover extends Recombination {
                 //Percorre o resto dos genes que faltam (parte direita do sitio de corte)
                 for (int j = cutPlace; j < son.getSizeGenotype(); j++) {
                     //Caso a filha ainda não contenha o próximo gene do pai, copia
-                    if(!novosGenesDaug.contains(genesSon.get(j))) novosGenesDaug.add(genesSon.get(j));
-                    //Caso contrário, terá que ir procurar qual o próximo gene a ser adicionado sem ser repetido
-                    else{
+                    if (!novosGenesDaug.contains(genesSon.get(j))) {
+                        novosGenesDaug.add(genesSon.get(j));
+                    } //Caso contrário, terá que ir procurar qual o próximo gene a ser adicionado sem ser repetido
+                    else {
                         Gene geneAdd = procuraNextValidGene(genesSon, novosGenesDaug, j);
                         //Verifica se encontrou o gene ou não
-                        if(geneAdd != null) novosGenesDaug.add(geneAdd);
-                        //Caso seja null, devolve excepção ao utilizador
-                        else throw new Exception("OrderCrossover mal implementado na procura de um gene válido.");
+                        if (geneAdd != null) {
+                            novosGenesDaug.add(geneAdd);
+                        } //Caso seja null, devolve excepção ao utilizador
+                        else {
+                            throw new Exception("OrderCrossover mal implementado na procura de um gene válido.");
+                        }
                     }
                     //Caso o filho ainda não contenha o próximo gene da mãe, copia o mesmo
-                    if(!novosGenesSon.contains(genesDaug.get(j))) novosGenesSon.add(genesDaug.get(j));
-                    //Caso contrário, terá que ir buscar o próximo gene válido
-                    else{
+                    if (!novosGenesSon.contains(genesDaug.get(j))) {
+                        novosGenesSon.add(genesDaug.get(j));
+                    } //Caso contrário, terá que ir buscar o próximo gene válido
+                    else {
                         Gene geneAdd = procuraNextValidGene(genesDaug, novosGenesSon, j);
                         //Verifica se encontrou o gene ou não válido para adição
-                        if(geneAdd != null) novosGenesSon.add(geneAdd);
-                        //Caso seja null, devolve excepção ao utilizador
-                        else throw new Exception("OrderCrossover mal implementado na procura de um gene válido.");
+                        if (geneAdd != null) {
+                            novosGenesSon.add(geneAdd);
+                        } //Caso seja null, devolve excepção ao utilizador
+                        else {
+                            throw new Exception("OrderCrossover mal implementado na procura de um gene válido.");
+                        }
                     }
                 }
                 //Define o arraylist de genes para os cromossomas em questão, tanto do filho como da filha
@@ -158,7 +199,7 @@ public class OrderCrossover extends Recombination {
             }
         }
     }
-    
+
     /**
      * Método auxiliar que procurará qual o próximo gene válido a ser utilizado no processo de recombinação genético entre pais e filhos
      * @param son (ArrayList<Gene>) - ArrayList de genes do filho/filha
@@ -166,18 +207,52 @@ public class OrderCrossover extends Recombination {
      * @param place (int) - Index de começo de procura
      * @return (Gene) - Gene encontrado
      */
-    private Gene procuraNextValidGene(ArrayList<Gene> son, ArrayList<Gene> mother, int place){
+    private Gene procuraNextValidGene(ArrayList<Gene> son, ArrayList<Gene> mother, int place) {
         //Comeca no sitio onde foi enontrado o duplicado e segue até ao fim da lista
-        for(int i = place; i < mother.size(); i++) {
+        for (int i = place; i < mother.size(); i++) {
             //Caso o filho ainda não contenha o gene da mãe, devolve esse mesmo gene
-            if(!son.contains(mother.get(i))) return mother.get(i);
+            if (!son.contains(mother.get(i))) {
+                return mother.get(i);
+            }
         }
         //Caso tenha ido até ao fim da lista e ainda não tenha encontrado nenhum gene válido para adicionar, começa entao agora do principio da lista
         for (int i = 0; i < place; i++) {
             //Caso o filho ainda não contenha o gene da mãe, devolve esse mesmo gene
-            if(!son.contains(mother.get(i))) return mother.get(i);
+            if (!son.contains(mother.get(i))) {
+                return mother.get(i);
+            }
         }
         //Caso não encontre, devolve null
         return null;
+    }
+
+    /**
+     * Método que permite definir qual o próximo gene a ser adicionado depois do corte a um filho ou uma filha
+     * @param pos (int) - Posição onde a procura começará
+     * @param progenitor (Object[]) - ArrayList de objectos que consta no gene do progenitor
+     * @param descendente (Object[]) - ArrayList de objectos que consta no gene do descendente
+     * @return (Object) - Próximo objecto válido para ser adicionado ao gene do descendente
+     */
+    private Object procuraArray(int pos, Object[] progenitor, Object[] descendente) {
+        //p := pos-1
+        int p = pos - 1;
+        //q := pos
+        int q = pos;
+        //enquanto (p >= 0)
+        while (p >= 0) {
+            //se (descendente.gene[p] = progenitor.gene[q]) entao
+            if (descendente[p] == progenitor[p]) {
+                //q := q+1
+                q++;
+                //q := q%tamanho(progenitor.gene[])
+                q = q % progenitor.length;
+                //p := pos
+                p = pos;
+            }
+            //p := p-1
+            p--;
+        }
+        //retorna progenitor.gene[q]
+        return progenitor[q];
     }
 }

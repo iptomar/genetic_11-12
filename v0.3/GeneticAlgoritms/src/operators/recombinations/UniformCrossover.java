@@ -117,9 +117,6 @@ public class UniformCrossover extends Recombination {
                     gSon.setAllele(gDaug.getAllele());
                     gDaug.setAllele(aux);
                 }
-
-
-
             }
         }
     }

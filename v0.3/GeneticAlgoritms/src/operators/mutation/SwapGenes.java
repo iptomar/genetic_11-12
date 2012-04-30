@@ -21,16 +21,10 @@ import operators.Genetic;
  * -------------------------------------------------------------------------
  */
 /**
- * Operador de mutação Swap Genes que escolhe  dois allelos aleatórios de um indivíduo e trocá-os de sítio, sendo que a probabilidade de
- * mutação do operador é definida por defeito como sendo 1 / TamanhoCromossoma. Se o utilizador pretender outra probabilidade, poderá então passar
- * a mesma em um dos contrutores da classe.
+ * Operador de mutação Swap Genes que escolhe  dois allelos aleatórios de um indivíduo, ou em caso de um array de objectos por allelo, escolhe dois
+ * objectos desse array e trocá-os de sítio, sendo que a probabilidade de mutação do operador é definida por defeito como sendo 1 / TamanhoCromossoma. 
+ * Se o utilizador pretender outra probabilidade, poderá então passar a mesma em um dos contrutores da classe.
  * @author Ruben Felix <Ruben.Felix@gmail.com>
- */
-/**
- * *************************************************************************************
- * ** OPERADOR APENAS PREPARADO PARA FAZER A TROCA ENTRE DOIS GENES DE UM CROMOSSOMA ***
- * ** EM CASO DE HAVER APENAS UM GENE, O OPERADOR DISPARA UMA EXCEPTION AO UTILIZADOR **
- * *************************************************************************************
  */
 public class SwapGenes extends Mutation {
 
@@ -65,12 +59,14 @@ public class SwapGenes extends Mutation {
         for (int i = 0; i < population.getSizePopulation(); i++) {
             //Verifica se será efectuada a troca de genes no individuo conforme a probabilidade e o double gerado aleatóriamente
             if (Genetic.RANDOM_GENERATOR.nextDouble() < super.probability) {
-                //Try catch para ver se o individuo apenas tem um gene. Se sim, lança uma excepção já que o mesmo não poderá sofrer o operador
-                //swap genes que apenas funcionará quando um individuo tem mais que um gene no seu cromossoma
                 try {
+                    //Try catch para ver se o individuo apenas tem um gene. Se sim, lança uma excepção já que o mesmo não poderá sofrer o operador
+                    //swap genes que apenas funcionará quando um individuo tem mais que um gene no seu cromossoma
                     sons.addIndividual(trocaGenes(population.getIndividual(i)));
                 } catch (Exception ex) {
-                    System.out.println("" + ex);
+                    System.out.println("Erro: " + ex);
+                    //Apesar da excepção, adiciona o filho da mutação (igual ao pai, já que a mutação não ocorreu) para que o programa não pare de correr
+                    sons.addIndividual(population.getIndividual(i));
                 }
                 //Caso não haja troca de genes, adiciona o individuo sem qualquer alteração na sua informação genética
             } else {
@@ -89,18 +85,51 @@ public class SwapGenes extends Mutation {
     private Individual trocaGenes(Individual ind) throws Exception {
         //Individuo para a mutação
         Individual indTroca = ind.clone();
-        //Verifica se o individuo apenas tem um gene. Se sim, não é possivel efectuar a troca de genes e lança um excepção
-        if (indTroca.getSizeGenotype() <= 1) {
-            throw new Exception("SwapGenes Esception: Size of genotype equals 0. Cannot do swap genes on population.");
-        } else {
+        //Verifica se o allelo do individuo é um array de objectos. Se for, o operador será efectuado ao nivel dos objectos que estão dentro de cada allelo
+        if (indTroca.getSizeAllelo() > 1 && indTroca.getChromosome(0).getGene(0).getAllele() instanceof Object[]) {
+            //Variaveis que recebem os números aleatórios que referem os dois objectos dos allelos que serão trocados ao allelo do individuo
+            //A primeira é calculada aleatóriamente e pode ir de 0 até ao fim do array de objectos que o allelo tem
+            int firstGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeAllelo() - 1);
+            int secondGene;
+            do {
+                //O segundo apontador para o objecto do array contido no allelo será calculado entre 0 e o tamanho do array do allelo do individuo, sendo que este apontador 
+                //terá obrigatóriamente ser diferente do primeira, caso contrário, não haveria qualquer tipo de troca
+                secondGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeAllelo() - 1);
+            } while (secondGene == firstGene);
+            //Para todos os cromossomas do individuo
+            for (int i = 0; i < indTroca.getSizeGenome(); i++) {
+                //cromossomas do individuo
+                Chromosome cSon = indTroca.getChromosome(i);
+                //para todos os genes 
+                for (int j = 0; j < cSon.getGenotype().size(); j++) {
+                    //genes dos cromossomas
+                    Gene gSon = cSon.getGene(j);
+                    Object aux = gSon.getAllele();
+                    if (aux instanceof Object[]) {
+                        //array com os genes
+//                        System.out.println("First point: " + firstGene);
+//                        System.out.println("Second point: " + secondGene);
+                        Object[] aSon = (Object[]) gSon.getAllele();
+                        Object auxBit = aSon[firstGene];
+                        aSon[firstGene] = aSon[secondGene];
+                        aSon[secondGene] = auxBit;
+                    }
+                }
+            }
+        } //Em caso de haver apenas um gene por cromossoma e o allelo não é um array de objectos, lança uma excepção ao utilizador já que o operador não pode ser aplicado
+        else if (indTroca.getSizeGenotype() <= 1) {
+            throw new Exception("Erro na aplicação do SwapGenes. Os individuos não são passiveis de sofrer a mutação no seu genoma.");
+        } //Senão significa que o allelo tem mais que um objecto, havendo assim uma mutação a nivel desses objectos
+        //Verifica se há mais que um gene por cromossoma para fazer a troca de genes em vez de fazer a troca no array que o allelo tem 
+        else if (indTroca.getSizeGenotype() > 1) {
             //Variaveis que recebem os números aleatórios que referem os dois genes que serão trocados ao genotype do individuo
             //A primeira é calculada aleatóriamente e pode ir de 0 até ao fim dos genes do cromossoma
-            int firstGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeGenotype()-1);
+            int firstGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeGenotype() - 1);
             int secondGene;
             do {
                 //O segundo apontador para o gene será calculado entre 0 e o número de genes do individuo, sendo que este apontador 
                 //terá obrigatóriamente ser diferente do primeira, caso contrário, não haveria qualquer tipo de troca
-                secondGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeGenotype()-1);
+                secondGene = Population.RANDOM_GENERATOR.nextInt(indTroca.getSizeGenotype() - 1);
             } while (secondGene == firstGene);
             //Sout dos dois pontos calculados (para testes)
 //            System.out.println("First point: " + firstGene);
@@ -118,19 +147,23 @@ public class SwapGenes extends Mutation {
                 //Define, na segunda posição calculada, o gene que estava na primeira posição calculada 
                 genes.set(secondGene, geneAux);
             }
+        } //Caso nenhuma das opções, lança um erro ao utilizador
+        else {
+            throw new Exception("Erro na aplicação do SwapGenes...");
         }
+        //Devolve o individuo já com a mutação genética efectuada
         return indTroca;
     }
-//    //Pequeno teste à classe
+//Pequeno teste à classe
 //    public static void main(String[] args) throws Exception {
-//        OnesMax i1 = new OnesMax();        
-//        i1.setSizeAllelo(1);
+//        OnesMax i1 = new OnesMax();
+//        i1.setSizeAllelo(5);
 //        i1.setSizeGenome(1);
-//        i1.setSizeGenotype(5);
+//        i1.setSizeGenotype(1);
 //        i1.inicializationGenome();
 //
 //        SwapGenes sg = new SwapGenes();
 //        System.out.println("" + i1);
-//        System.out.println("" + sg.trocaGenes(i1));        
+//        System.out.println("" + sg.trocaGenes(i1));
 //    }
 }
