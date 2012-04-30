@@ -20,7 +20,6 @@ import operators.Genetic;
  */
 public class UniformCrossover extends Recombination {
     //Variavel que obterá a população filho
-
     private Population sons;
     //Variaveis que receberão os individuos pais e os filhos depois de ser aplicada a mascara nos pais
     private Individual parent1, parent2;
