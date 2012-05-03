@@ -13,6 +13,16 @@ import utils.exceptions.PonteiroForaDoLimiteException;
  */
 public class Roulette extends Selection {
 
+    private Population popIn;
+
+    public Population getPopIn() {
+        return popIn;
+    }
+    
+    public double getPonteiro() {
+        return ponteiro;
+    }
+
     private double ponteiro = 0.0;
     
     public Roulette(){
@@ -26,6 +36,7 @@ public class Roulette extends Selection {
     
     @Override
     public Population execute(Population population) {
+        this.popIn=population;
         //criar nova população
         //variavel so de leitura ao ser inicializada 
         final Population newPopulation = 
