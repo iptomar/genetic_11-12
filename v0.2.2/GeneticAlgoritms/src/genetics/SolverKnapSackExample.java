@@ -5,6 +5,7 @@
 package genetics;
 
 import genetics.algorithms.K100;
+import genetics.algorithms.K50;
 import java.util.ArrayList;
 import operators.Operator;
 import operators.mutation.Flipbit;

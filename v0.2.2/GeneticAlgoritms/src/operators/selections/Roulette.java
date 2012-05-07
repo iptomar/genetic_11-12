@@ -65,4 +65,14 @@ public class Roulette extends Selection {
         return newPopulation;
     }
     
+    
+    public String getInfo(){
+        String s = "Método usado para fazer uma selecção de indivíduos a uma população. \n"
+                + "Este método tem como parâmetros de entrada o tamanho da nova população,"
+                + " isto é, o número de indivíduos a serem seleccionados da população de entrada.";
+        return s;
+    }
+    
+    //public set
+    
 }

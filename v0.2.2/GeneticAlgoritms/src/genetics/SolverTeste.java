@@ -1,5 +1,6 @@
 package genetics;
 
+import genetics.algorithms.K100;
 import genetics.algorithms.K50;
 import genetics.algorithms.OnesMax;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import operators.mutation.Mutation;
 import operators.recombinations.Crossover;
 import operators.recombinations.Recombination;
 import operators.replacements.Replacement;
+import operators.replacements.Tournament;
 import operators.replacements.Truncation;
 import operators.selections.SUS;
 import operators.selections.Selection;
@@ -149,6 +151,7 @@ public class SolverTeste {
                 this._numberIteractions++;
                 System.out.println("Best Fitness: " + PopulationUtils.getBestFitness(this._parentsPopulation));
                 System.out.println("Iteração número: " + _numberIteractions);
+                
             }
 
         } catch (SonsInicialitazionException ex) {
@@ -168,19 +171,19 @@ public class SolverTeste {
         
         operators.add(new SUS());
         
-        operators.add(new Flipbit(0.05));
+        operators.add(new Flipbit(0.001));
         
-        operators.add(new Truncation(50));
-        //operators.add(new Tournament(100,2));
+       // operators.add(new Truncation(50));
+        operators.add(new Tournament(100,2));
         
         operators.add(new Crossover());
 
         
-        solver = new SolverTeste(100, 50, ((Individual)new K50()), new StopCriterion(100000, 1921.0), operators);
+        solver = new SolverTeste(100000, 100, ((Individual)new K100()), new StopCriterion(10000, 1921.0), operators);
         solver.run();
         
-//        solver = new SolverTeste(50, 100, ((Individual)new K100()), new StopCriterion(100000, 1561.0), operators);
-//        solver.run();
+        //solver = new SolverTeste(50, 100, ((Individual)new K100()), new StopCriterion(100000, 1561.0), operators);
+        //solver.run();
         
 //        solver = new SolverTeste(100, 100, ((Individual) new OnesMax()), new StopCriterion(100000, 100.0), operators);
 //        solver.run();

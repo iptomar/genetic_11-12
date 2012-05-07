@@ -32,15 +32,15 @@ public class TournamentTest {
         /**
          * População de pais, com 100 individuos e com o alelo a 10.
          */
-        Population parents = new Population(100, 1, 1, 10, new genetics.algorithms.OnesMax(), true);
+        Population parents = new Population(1001, 1, 1, 10, new genetics.algorithms.OnesMax(), true);
         /**
          * População de filhos, com 100 individuos e com o alelo a 10.
          */
-        Population sons = new Population(100, 1, 1, 10, new genetics.algorithms.OnesMax(), true);
+        Population sons = new Population(1001, 1, 1, 10, new genetics.algorithms.OnesMax(), true);
         /**
          * Criação do torneio de 100 elementos 2 a 2
          */
-        Tournament instance = new Tournament(100,2);
+        Tournament instance = new Tournament(10000,20);
         /**
          * Execução do torneio
          */
@@ -49,7 +49,7 @@ public class TournamentTest {
         /**
          * Compara se o o size da population do result é 100, que é o numero de individos que sai no torneio
          */
-        assertEquals(result.getPopulation().size(), 100);
+        assertEquals(result.getPopulation().size(), 10000);
         
         /**
          * Ordena os resultados obtidos no torneio
