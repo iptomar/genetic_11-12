@@ -25,6 +25,49 @@ import utils.PopulationUtils;
  */
 public class Truncation extends Replacement {
 
+    
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método de reprodução dos indivíduos.</p>"
+                + "<p>Este método tem como parâmetros de entrada o tamanho da nova população.</p>"
+                + "<p>O parâmetro tem que ser um valor inteiro positivo!</p>";
+
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        int dimensaoPop = Integer.parseInt(parameters);
+        
+        
+        try{
+           super.dimensionsNewPopulation = dimensaoPop;
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           super.dimensionsNewPopulation = 1000;
+           return false;
+       }
+        
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
+    
+   
+    
+    
+    
+    
+    
+    
+    
     /**
      * Construtor da classe onde é passado por parametro a dimensão da nova população
      * @param dimensionsNewPopulation - Dimensão da nova população

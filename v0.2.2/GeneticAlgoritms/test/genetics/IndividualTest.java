@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  *
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
-public class IndividualTest {
+public class IndividualTest extends Individual {
     
     public IndividualTest() {
     }
@@ -283,6 +283,31 @@ public class IndividualTest {
         fail("The test case is a prototype.");
     }
 
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int fitness() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Boolean[] inicializationAllelo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Individual clone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public class IndividualImpl extends Individual {
 
         public int fitness() {
@@ -295,6 +320,16 @@ public class IndividualTest {
 
         public Individual clone() {
             return null;
+        }
+
+        @Override
+        public String getInfo() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public boolean setParameters(String parameters) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 }

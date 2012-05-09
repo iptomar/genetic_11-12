@@ -29,6 +29,48 @@ public class UniformCrossover extends Recombination {
     //Variavel que recebel a probabilidade de haver a recombinação ou nao entre dois filhos
     private double probability;
 
+    
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "<p>Métodos de recombinação que tem como parâmetros a probabilidade</p>"
+                + " <p>de dois filhos sofrerem a recombinação. \nO valor da probabilidade de </p>"
+                + "<p>dois filhos sofrer a recombinação tem que estar entre 0 e 1. </p>";
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        int probabilidade = Integer.parseInt(parameters);
+        
+        
+        
+        try{
+           this.probability=probabilidade;
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           this.probability=0.4;
+           return false;
+       }
+        
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Construtor da classe em que a probabilidade dos filhos sofrerem uma recombinação é de 75%
      */

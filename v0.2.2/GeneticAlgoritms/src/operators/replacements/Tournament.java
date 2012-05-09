@@ -19,6 +19,34 @@ public class Tournament extends Replacement {
     final private int _sizeTournament;
     
     
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método de recombinação dos indivíduos. Este método tem como </p>"
+                + "<p>parâmetros de entrada o tamanho da nova população e o número de </p>"
+                + "<p>indivíduos que vão ser recombinados.Ambos os parâmetros são valores</p>"
+                + "<p> inteiros como positivos!<p>";
+
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        return true;        
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************
+    
+    
+    
+    
+    
     public Tournament(){
         this(Replacement.DIMENDIONS_NEW_POPULATION_DEFAULT, SIZE_TOURNAMENT_DEFAULT);
     }

@@ -17,6 +17,41 @@ public class SUS extends Selection {
     private double ponteiro = 0.0;
      
 
+    
+    
+     //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método usado para fazer uma selecção de indivíduos a uma população. </p>"
+                + "<p>Este método tem como parâmetros de entrada o tamanho da nova população,</p>"
+                + "<p> isto é, o número de indivíduos a serem seleccionados da população de entrada.</p>"
+                + "<p>O parâmetro deverá conter um valor inteiro positivo!</p>";
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        try{
+           this._dimensionsNewPopulation = Integer.parseInt(parameters);
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           this._dimensionsNewPopulation = 100;
+           return false;
+       }
+        
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************   
+    
+    
+    
+    
     public double getOffset() {
         return offset;
     }

@@ -219,4 +219,14 @@ public class KnapSackOld extends Individual {
         //calculado sem alterações
         return fitness;
     }
+
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -33,8 +33,53 @@ public class Crossover extends Recombination {
      * Construtor da classe em que apenas é feito um corte ao allelo dos individuos a ser recombinados
      * e a probabilidade da recombinação acontecer é de 75%
      */
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método de recombinação que tem como parâmetros o número de</p>"
+                + " <p>cortes que o allelo sofre, como a probabilidade da recombinação </p>"
+                + "<p>a cada dois indivíduosO número de cortes tem que ser um valor inteiro</p>"
+                + "<p> e positivo. O valor da probabilidade deverá estar entre 0 e 1 para a </p>"
+                + "<p>recombinação.</p><p></p>"
+                + "<p><marquee > (Ex: 0.40 indica 40% de probabilidade"
+                + " <p>de acontecer a recombinação)</marquee></p>";
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        int nCortes = Integer.parseInt(parameters.split(" ")[0]);
+        int probabilidade= Integer.parseInt(parameters.split(" ")[1]);
+        
+        
+        try{
+           this.numCuts=nCortes;
+           this.probability=probabilidade;
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           this.numCuts=5;
+           this.probability=0.4;
+           return false;
+       }
+        
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
+    
+    
+    
+    
+    
+    
     public Crossover() {
-        this(1, 0.75);
+        //this(1, 0.75);
     }
 
     /**

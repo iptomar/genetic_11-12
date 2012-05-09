@@ -50,4 +50,14 @@ public class OnesMax extends Individual {
     public Individual clone() {
         return new OnesMax(this);
     }
+
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

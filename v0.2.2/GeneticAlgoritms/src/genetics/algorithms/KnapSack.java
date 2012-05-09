@@ -24,6 +24,16 @@ import genetics.Population;
  */
 public class KnapSack extends Individual {
 
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public enum ModeFunction {
 
         PENALTY, RANDOM, PSEUDO_RANDOM
