@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package operators.mutation;
 
 import genetics.Chromosome;
@@ -61,4 +57,32 @@ public class Flipbit extends Mutation {
         
         return __newAllelo;
     } 
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    
+    @Override
+    public String getInfo() {
+        String s = "!!!";
+
+        return s;
+    }
+
+    
+    @Override
+    public boolean setParameters(String parameters) {
+        int dimensaoPop = Integer.parseInt(parameters.split(" ")[0]);
+        int tamanhoTorneio= Integer.parseInt(parameters.split(" ")[1]);
+        
+        try{           
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           return false;
+       }
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
 }

@@ -9,10 +9,10 @@ import operators.Genetic;
 import operators.Operator;
 import operators.mutation.Flipbit;
 import operators.mutation.Mutation;
-import operators.recombinations.Crossover;
 import operators.recombinations.Recombination;
+import operators.recombinations.UniformCrossover;
 import operators.replacements.Replacement;
-import operators.replacements.Truncation;
+import operators.replacements.Tournament;
 import operators.selections.SUS;
 import operators.selections.Selection;
 import utils.PopulationUtils;
@@ -170,10 +170,10 @@ public class SolverTeste {
         
         operators.add(new Flipbit(0.05));
         
-        operators.add(new Truncation(50));
+        operators.add(new Tournament(1000, 2));
         //operators.add(new Tournament(100,2));
         
-        operators.add(new Crossover());
+        operators.add(new UniformCrossover());
 
         
         solver = new SolverTeste(100, 50, ((Individual)new K50()), new StopCriterion(100000, 1921.0), operators);

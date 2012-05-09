@@ -59,10 +59,10 @@ public class Truncation extends Replacement {
         for (int i = 0; i < sons.getPopulation().size(); i++) {
             newPopulationToOrder.addIndividual(sons.getPopulation().get(i));
         }
-        
+
         //Ordena a população por fitness
         PopulationUtils.orderPopulation(newPopulationToOrder);
-        
+
         //Cria uma nova população que irá receber os melhores individuos das duas populações que foram passadas como parametro
         Population newPopulation = new Population(this.dimensionsNewPopulation, parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
         //Copia X de individuos, que serão os X melhores das duas populações juntas
@@ -71,4 +71,33 @@ public class Truncation extends Replacement {
         }
         return newPopulation;
     }
+
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método de reprodução dos indivíduos.</p>"
+                + "<p>Este método tem como parâmetros de entrada o tamanho da nova população.</p>"
+                + "<p>O parâmetro tem que ser um valor inteiro positivo!</p>";
+        return s;
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        int dimensaoPop = Integer.parseInt(parameters);
+
+        try {
+            super.dimensionsNewPopulation = dimensaoPop;
+            return true;
+        } catch (Exception ex) {
+            //parametos por defeito
+            super.dimensionsNewPopulation = 1000;
+            return false;
+        }
+
+    }
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
 }

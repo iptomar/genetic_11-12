@@ -21,7 +21,7 @@ import operators.Genetic;
  * -------------------------------------------------------------------------
  */
 /**
- * Operador de mutação Swap Genes que escolhe  dois allelos aleatórios de um indivíduo, ou em caso de um array de objectos por allelo, escolhe dois
+ * Operador de mutação Swap Genes que escolhe dois allelos aleatórios de um indivíduo, ou em caso de um array de objectos por allelo, escolhe dois
  * objectos desse array e trocá-os de sítio, sendo que a probabilidade de mutação do operador é definida por defeito como sendo 1 / TamanhoCromossoma. 
  * Se o utilizador pretender outra probabilidade, poderá então passar a mesma em um dos contrutores da classe.
  * @author Ruben Felix <Ruben.Felix@gmail.com>

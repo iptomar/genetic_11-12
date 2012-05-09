@@ -18,7 +18,7 @@ public class Tournament extends Selection {
     static final int SIZE_TOURNAMENT_DEFAULT = 2;   
     static final boolean  DEFAULT_REMOVE_INDIVIDUAL_FROM_POPULATION = false;
     
-    final private int _sizeTournament;
+    private int _sizeTournament;
     
     private boolean _removeIndividualFromPopulation = DEFAULT_REMOVE_INDIVIDUAL_FROM_POPULATION;
     
@@ -102,4 +102,36 @@ public class Tournament extends Selection {
     public void setRemoveIndividualFromPopulation(boolean removeIndividualFromPopulation) {
         this._removeIndividualFromPopulation = removeIndividualFromPopulation;
     }
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método usado para fazer uma selecção de indivíduos a uma população.</p>"
+                + "<p>ste método tem como parâmetros de entrada o tamanho da nova população</p> "
+                + "<p>e o número de indivíduos que vão competir entre si.</p>"
+                + "<p>Ambos os parâmetros  são valores inteiros como positivos!</p>";
+        return s;
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        int dimensaoPop = Integer.parseInt(parameters.split(" ")[0]);
+        int tamanhoTorneio= Integer.parseInt(parameters.split(" ")[1]);
+        
+        try{
+           this._dimensionsNewPopulation = dimensaoPop;
+           this._sizeTournament = tamanhoTorneio;
+           return true;
+       }catch(Exception ex){
+           //parametos por defeito
+           this._dimensionsNewPopulation = 100;
+           this._sizeTournament = SIZE_TOURNAMENT_DEFAULT;
+           return false;
+       }
+    }    
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************
 }

@@ -33,17 +33,12 @@ public class Flipbit extends Mutation {
         int dimensaoPop = Integer.parseInt(parameters.split(" ")[0]);
         int tamanhoTorneio= Integer.parseInt(parameters.split(" ")[1]);
         
-        try{
-           
-           
-           
+        try{           
            return true;
        }catch(Exception ex){
            //parametos por defeito
-           
            return false;
        }
-        
     }    
     //*********************************************************************************
     //*********************************************************************************

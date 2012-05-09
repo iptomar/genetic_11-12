@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({genetics.IndividualTest.class, genetics.SolverKnapSackExampleTest.class, genetics.GeneTest.class, genetics.algorithms.AlgorithmsSuite.class, genetics.SolverTest.class, genetics.StopCriterionTest.class, genetics.PopulationTest.class, genetics.ChromosomeTest.class})
+@Suite.SuiteClasses({genetics.SolverKnapSackExampleTest.class, genetics.GeneTest.class, genetics.algorithms.AlgorithmsSuite.class, genetics.SolverTest.class, genetics.StopCriterionTest.class, genetics.PopulationTest.class, genetics.ChromosomeTest.class})
 public class GeneticsSuite {
 
     @BeforeClass

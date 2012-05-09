@@ -79,8 +79,8 @@ public abstract class Individual implements Iterable<Chromosome> {
     /**
      * Métodos abstractos que terão que ser implementados em cada tipo especifico de individuo
      */
-    public abstract int fitness();
-    public abstract Boolean[] inicializationAllelo();
+    public abstract double fitness();
+    public abstract Object[] inicializationAllelo();
     @Override
     public abstract Individual clone();
 
@@ -207,4 +207,24 @@ public abstract class Individual implements Iterable<Chromosome> {
     public Iterator<Chromosome> iterator() {
         return this.getGenome().iterator();
     }
+    
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************
+    /**
+     * Método para obter informações sobre o algoritmo
+     * @return 
+     */
+    public abstract String getInfo();
+    
+    /**
+     * Método para introduzir parametros atrvés de uma string
+     * @param parameters parametros introduzidos por uma string para o problema.
+     * @return True parametros introduzidos correctamente, False erro ao introduzir parametros
+     */
+    public abstract boolean setParameters(String parameters);      
+
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************    
 }

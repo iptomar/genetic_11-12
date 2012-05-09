@@ -106,7 +106,7 @@ public class KnapSack extends Individual {
      * @return Devolve o fitness
      */
     @Override
-    public int fitness() {
+    public double fitness() {
         int __fitness;
 
         // Se o peso estiver dentro dos limites então devolve o fitness logo
@@ -403,5 +403,15 @@ public class KnapSack extends Individual {
             // Copia os dados relacionados com os pesos
             this._table[__indexData][WEIGHT] = Integer.parseInt(__dataSplit[DATA_START + super.getSizeAllelo() + __indexData]);
         }
+    }
+    
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

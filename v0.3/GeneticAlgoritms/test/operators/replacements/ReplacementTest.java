@@ -58,5 +58,15 @@ public class ReplacementTest {
         public Population execute(Population parents, Population sons) {
             return null;
         }
+
+        @Override
+        public String getInfo() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public boolean setParameters(String parameters) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 }

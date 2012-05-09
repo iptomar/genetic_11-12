@@ -46,8 +46,8 @@ public class KnapSackTest {
         System.out.println("fitness");
         KnapSack instance = new KnapSack();
         int expResult = 0;
-        int result = instance.fitness();
-        assertEquals(expResult, result);
+        //int result = instance.fitness();
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

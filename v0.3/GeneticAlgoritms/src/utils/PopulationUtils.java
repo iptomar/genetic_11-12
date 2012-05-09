@@ -107,14 +107,16 @@ public class PopulationUtils {
 
         // Escolher de forma aleatoria varios individuos        
         while (__countIndividual < __numberIndividualToReturn) {
-
-            __indexIndividual = Population.RANDOM_GENERATOR.nextInt(population.getSizePopulation() - 1);
-            __newArrayIndividual.add(population.getPopulation().get(__indexIndividual).clone());
-
-            if (removeIndividualFromPopulation) {
-                population.getPopulation().remove(population.getPopulation().get(__indexIndividual));
+            if ((population.getPopulation().size() - 1) > 0) {
+                __indexIndividual = Population.RANDOM_GENERATOR.nextInt(population.getPopulation().size() - 1);
+                __newArrayIndividual.add(population.getPopulation().get(__indexIndividual).clone());
+                if (removeIndividualFromPopulation) {
+                    population.getPopulation().remove(population.getPopulation().get(__indexIndividual));
+                }
+            } else {
+                Collections.sort(__newArrayIndividual, new ComparatorIndividualFitness());
+                __newArrayIndividual.add(__newArrayIndividual.get(0).clone());
             }
-
             __countIndividual++;
         }
 

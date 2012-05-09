@@ -20,6 +20,7 @@ import operators.Genetic;
  */
 public class UniformCrossover extends Recombination {
     //Variavel que obterá a população filho
+
     private Population sons;
     //Variaveis que receberão os individuos pais e os filhos depois de ser aplicada a mascara nos pais
     private Individual parent1, parent2;
@@ -120,7 +121,7 @@ public class UniformCrossover extends Recombination {
             }
         }
     }
-    
+
     /**
      * Método que permite fazer a definição da máscara a ser executada na recombinação
      * @param mask (Boolean[]) - Máscara a ser utilizada na recombinação dos filhos
@@ -128,7 +129,35 @@ public class UniformCrossover extends Recombination {
     public void setMask(Boolean[] mask) {
         this.mask = mask;
     }
-    
+
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    @Override
+    public String getInfo() {
+        String s = "<p>Métodos de recombinação que tem como parâmetros a probabilidade</p>"
+                + " <p>de dois filhos sofrerem a recombinação. \nO valor da probabilidade de </p>"
+                + "<p>dois filhos sofrer a recombinação tem que estar entre 0 e 1. </p>";
+        return s;
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        int probabilidade = Integer.parseInt(parameters);
+
+        try {
+            this.probability = probabilidade;
+            return true;
+        } catch (Exception ex) {
+            //parametos por defeito
+            this.probability = 0.4;
+            return false;
+        }
+
+    }
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
     //Pequeno teste ao operador
 //    public static void main(String[] args) {
 //        OnesMax i1 = new OnesMax();

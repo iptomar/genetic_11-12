@@ -20,7 +20,7 @@ public class OnesMax extends Individual {
     }
 
     @Override
-    public int fitness() {
+    public double fitness() {
         int __numberOfOnes = 0;
         for (Chromosome __chromosome : this) {
             for (Gene<Boolean[]> __gene : __chromosome) {
@@ -49,5 +49,15 @@ public class OnesMax extends Individual {
     @Override
     public Individual clone() {
         return new OnesMax(this);
+    }
+    
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
