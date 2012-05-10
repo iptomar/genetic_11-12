@@ -4,6 +4,8 @@
  */
 package utils;
 
+import genetics.Chromosome;
+import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
 import java.util.AbstractCollection;
@@ -149,6 +151,28 @@ public class PopulationUtils {
         }
 
         return __totalFitness;
+    }
+    
+    public static double totalFitnessAcumulation(Population population, double[][] costMatrix){
+        double totalFitness = 0;
+        for (Individual individuo : population) {
+            // incrementa o total fitness
+            totalFitness += calculateFitness(individuo, costMatrix);
+        }
+        return totalFitness;
+    }
+    
+    public static double calculateFitness(Individual individual, double[][] costMatrix) {
+        // starting point
+        double fitness = 0;
+        for (Chromosome chromosome : individual) {
+            for (Gene<Integer[]> gene : chromosome) {
+                for (int __indexAlleloValue = 0; __indexAlleloValue < gene.getAllele().length; __indexAlleloValue++) {
+                    fitness += costMatrix[gene.getAllele()[__indexAlleloValue - 1]][gene.getAllele()[__indexAlleloValue % gene.getAllele().length]];
+                }
+            }
+        }
+        return fitness;
     }
 
     /***

@@ -34,7 +34,7 @@ public class Crossover extends Recombination {
      * e a probabilidade da recombinação acontecer é de 75%
      */
     public Crossover() {
-        this(1, 0.75);
+        this(0.75, 1);
     }
 
     /**
@@ -43,7 +43,7 @@ public class Crossover extends Recombination {
      * @param numCuts (int) - Número de cortes no allelo dos individuos
      * @param probability (double) - Valor entre 0 e 1 que será a probabilidade da recombinação acontecer (Ex: 0.40 indica 40% de probabilidade de acontecer a recombinação)
      */
-    public Crossover(int numCuts, double probability) {
+    public Crossover(double probability, int numCuts) {
         this.numCuts = numCuts;
         this.probability = probability;
         UC = new UniformCrossover(probability);
@@ -101,7 +101,7 @@ public class Crossover extends Recombination {
                 + "<p>a cada dois indivíduosO número de cortes tem que ser um valor inteiro</p>"
                 + "<p> e positivo. O valor da probabilidade deverá estar entre 0 e 1 para a </p>"
                 + "<p>recombinação.</p><p></p>"
-                + "<p><marquee > (Ex: 0.40 indica 40% de probabilidade"
+                + "<p><marquee> (Ex: 0.40 indica 40% de probabilidade"
                 + " <p>de acontecer a recombinação)</marquee></p>";
         return s;
     }
