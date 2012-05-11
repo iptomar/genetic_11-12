@@ -196,7 +196,7 @@ public class SUS extends Selection {
         String s = "<p>Método usado para fazer uma selecção de indivíduos a uma população. </p>"
                 + "<p>Este método tem como parâmetros de entrada o tamanho da nova população,</p>"
                 + "<p> isto é, o número de indivíduos a serem seleccionados da população de entrada.</p>"
-                + "<p>O parâmetro deverá conter um valor inteiro positivo!</p>";
+                + "<p>O parâmetro deverá conter um valor inteiro positivo.</p>";
         return s;
     }
 

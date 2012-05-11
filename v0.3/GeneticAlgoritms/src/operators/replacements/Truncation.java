@@ -20,25 +20,25 @@ import utils.PopulationUtils;
  * Este operador recebe duas populações, junta as duas numa só população,
  * ordena a nova população por fitness de individuos do melhor para o pior
  * e devolve uma nova população que será os melhores individuos das duas
- * populações que foram juntas
+ * populações que foram juntas.
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
 public class Truncation extends Replacement {
 
-    /**
-     * Construtor da classe onde é passado por parametro a dimensão da nova população
-     * @param dimensionsNewPopulation - Dimensão da nova população
-     */
-    public Truncation(int dimensionsNewPopulation) {
-        super.dimensionsNewPopulation = dimensionsNewPopulation;
-    }
+//    /**
+//     * Construtor da classe onde é passado por parametro a dimensão da nova população
+//     * @param dimensionsNewPopulation - Dimensão da nova população
+//     */
+//    public Truncation(int dimensionsNewPopulation) {
+//        super.dimensionsNewPopulation = dimensionsNewPopulation;
+//    }
 
     /**
      * Construtor da classe que cria um novo Truncation com o número de individuos
      * da nova população a ser igual ao que está definido por defeito
      */
     public Truncation() {
-        this(Replacement.DIMENDIONS_NEW_POPULATION_DEFAULT);
+        
     }
 
     /**
@@ -50,6 +50,8 @@ public class Truncation extends Replacement {
      */
     @Override
     public Population execute(Population parents, Population sons) {
+        //Serão devolvidos tantos individuos quanto os que entram
+        this.dimensionsNewPopulation = parents.getSizePopulation();
         //Cria uma nova população que irá receber os individuos das duas populações para depois ser ordenada
         Population newPopulationToOrder = new Population((parents.getSizePopulation() + sons.getSizePopulation()), parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
         //Copia os individuos das duas populações para uma só
@@ -77,25 +79,27 @@ public class Truncation extends Replacement {
     //*********************************************************************************    
     @Override
     public String getInfo() {
-        String s = "<p>Método de reprodução dos indivíduos.</p>"
-                + "<p>Este método tem como parâmetros de entrada o tamanho da nova população.</p>"
-                + "<p>O parâmetro tem que ser um valor inteiro positivo!</p>";
+        String s = "<p>Método de reprodução dos indivíduos de duas populações.</p>"
+                + "<p>O operador recebe duas populações, uma pai e uma filho, que</p>"
+                + "<p>serão reproduzidas entre elas. A população devolvida tem o mesmo número</p>"
+                + "<p>de individuos que o número de individuos da população pai que entra para a</p>"
+                + "<p>reprodução.</p>";
         return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        int dimensaoPop = Integer.parseInt(parameters);
-
-        try {
-            super.dimensionsNewPopulation = dimensaoPop;
-            return true;
-        } catch (Exception ex) {
-            //parametos por defeito
-            super.dimensionsNewPopulation = 1000;
-            return false;
-        }
-
+//        int dimensaoPop = Integer.parseInt(parameters);
+//
+//        try {
+//            super.dimensionsNewPopulation = dimensaoPop;
+//            return true;
+//        } catch (Exception ex) {
+//            //parametos por defeito
+//            super.dimensionsNewPopulation = 1000;
+//            return false;
+//        }
+        return false;
     }
     //*********************************************************************************
     //*********************************************************************************

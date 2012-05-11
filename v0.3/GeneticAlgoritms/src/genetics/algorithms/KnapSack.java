@@ -407,11 +407,21 @@ public class KnapSack extends Individual {
     
     @Override
     public String getInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String descricao = "<p>Em caso do individuo ser do tipo KnapSack genérico, será preciso passar mais</p><p>três parametros que serão o peso da mochila, o modo de funcionamento do problema</p><p>e os dados com os pesos e valores da mochila.</p><p></p>";
+        descricao += "<p>Em caso do individuo ser do tipo KnapSack genérico, será preciso passar mais</p><p>três parametros que serão o peso da mochila, o modo de funcionamento do problema</p><p>e os dados com os pesos e valores da mochila.</p><p></p>";
+        descricao += "<p>Exemplo do solver para o KnapSack: setParameters(<num Individuos> <num Cromossomas> <num Genes Cromossoma> <tamanho do array no allelo (OBRIGATORIO SER IGUAL AO NUM DE ITEMS DA MOCHILA)> KnapSack <modo de funcionamento> <ordem de penalidade>$$<String com os valores> <String com os pesos>)</p>";
+        descricao += "<p>Ex: setParameters(1000 1 1 3 KnapSack ModeFunction.RANDOM 2$$3 2 3 10 3 2) - Neste</p>";
+        descricao += "<p>caso, a população será igual à de cima, excepto o allelo do individuo que tem um </p>";
+        descricao += "<p>array de tamanho 3. O ModeFunction refere-se à forma como o problema será abordado </p>";
+        descricao += "<p>em termos de penalidade e o 2 refere-se a uma penalidade de orndem 2. A partir dos $$,</p>";
+        descricao += "<p>será a string de dados que contem o valor1, valor2, valor3 e peso1, peso2 e peso3</p>";
+        descricao += "<p>respectivamente aos items da mochila do problema.</p><p></p>";
+        
+        return descricao;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 }

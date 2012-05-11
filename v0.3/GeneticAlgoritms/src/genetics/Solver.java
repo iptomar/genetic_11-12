@@ -104,13 +104,14 @@ public class Solver extends GenericSolver {
      * o numero maximo de gerações pre-determinado pelo utilizador
      * @throws SolverException Caso exista um erro no correr do solver dispara esta excepção
      */
+    @Override
     public void run() throws SolverException, SonsInicialitazionException {
 
         // Capturar erros de codigo não programados
         try {
 
             // Evento inicial quando o solver inicia
-            this._eventSolver.EventStartSolver();
+//            this._eventSolver.EventStartSolver();
 
             this._numberIteractions = 0;
 
@@ -161,14 +162,18 @@ public class Solver extends GenericSolver {
 
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-                this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+//                this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
 
                 // incrementa mais uma geração/iteração à variavel
                 this._numberIteractions++;
+                System.out.println("Iteration: " + _numberIteractions);
+                System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
+                System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
+                System.out.println("------------------------------------------------------------------------------");
             }
 
             // Evento final quando o solver esta terminado
-            this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
+//            this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
 
         } catch (SonsInicialitazionException ex) {
             Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
@@ -192,7 +197,7 @@ public class Solver extends GenericSolver {
                 + "<p>tamanho do genotype do mesmo, o quarto o tamanho do allelo e o quinto o tipo</p>"
                 + "<p>de individuo.</p>"
                 + "<p></p>"
-                + "<p>Ex: setParameters('1000 1 1 10 OnesMax') - É criado um solver que terá uma </p>"
+                + "<p>Ex: setParameters(1000 1 1 10 OnesMax) - É criado um solver que terá uma </p>"
                 + "<p>população inicial de 1000 individuos, cada um com um cromossoma, cada cromossoma</p>"
                 + "<p>com um gene e cada gene contem um array de tamanho 10. Os individuos são do tipo</p>"
                 + "<p>OnesMax.</p>"
@@ -200,7 +205,7 @@ public class Solver extends GenericSolver {
                 + "<p>três parametros que serão o peso da mochila, o modo de funcionamento do problema</p>"
                 + "<p>e os dados com os pesos e valores da mochila.</p>"
                 + "<p></p>"
-                + "<p>Ex: setParameters('1000 1 1 3 KnapSack ModeFunction.RANDOM 2$$3 2 3 10 3 2') - Neste</p>"
+                + "<p>Ex: setParameters(1000 1 1 3 KnapSack ModeFunction.RANDOM 2$$3 2 3 10 3 2) - Neste</p>"
                 + "<p>caso, a população será igual à de cima, excepto o allelo do individuo que tem um </p>"
                 + "<p>array de tamanho 3. O ModeFunction refere-se à forma como o problema será abordado </p>"
                 + "<p>em termos de penalidade e o 2 refere-se a uma penalidade de orndem 2. A partir dos $$,</p>"
@@ -212,9 +217,9 @@ public class Solver extends GenericSolver {
                 + "<p>o segundo poderá, ou não, ser os parametros desse operador. É opcional os parametros</p>"
                 + "<p>para os operadores, sendo que se não forem passados, o operador será construido com</p>"
                 + "<p>os valores por defeito.</p>"
-                + "<p>Ex: setSelection('SUS 100') - É inicializado um operador de selecção do tipo SUS em</p>"
+                + "<p>Ex: setSelection(SUS 100) - É inicializado um operador de selecção do tipo SUS em</p>"
                 + "<p>que a dimensão da nova população é de 100</p>"
-                + "<p>Ex: setSelection('SUS') - É inicializado um operador de selecção do tipo SUS em que a</p> "
+                + "<p>Ex: setSelection(SUS) - É inicializado um operador de selecção do tipo SUS em que a</p> "
                 + "<p>dimensão da nova população é a por defeito do operador</p>"
                 + "<p></p>"
                 + "<h3>setRecombination</h3>"
@@ -222,9 +227,9 @@ public class Solver extends GenericSolver {
                 + "<p>o segundo poderá, ou não, ser os parametros desse operador. É opcional os parametros</p>"
                 + "<p>para os operadores, sendo que se não forem passados, o operador será construido com os</p>"
                 + "<p>valores por defeito.</p>"
-                + "<p>Ex: setRecombination('OrderCrossover 0.75') - É inicializado um operador de recombinação</p>"
+                + "<p>Ex: setRecombination(OrderCrossover 0.75) - É inicializado um operador de recombinação</p>"
                 + "<p>do tipo OrderCrossover em que a probabilidade de recombinação é de 75%.</p>"
-                + "<p>Ex: setRecombination('OrderCrossover') - É inicializado um operador de recombinação do</p>"
+                + "<p>Ex: setRecombination(OrderCrossover) - É inicializado um operador de recombinação do</p>"
                 + "<p>tipo OrderCrossover em que a probabilidade de recombinação é a de defeito do operador.</p>"
                 + "<p></p>"
                 + "<h3>setMutation</h3>"
@@ -232,9 +237,9 @@ public class Solver extends GenericSolver {
                 + "<p>segundo poderá, ou não, ser os parametros desse operador. É opcional os parametros para</p>"
                 + "<p>os operadores, sendo que se não forem passados, o operador será construido com os</p>"
                 + "<p>valores por defeito.</p>"
-                + "<p>Ex: setMutation('SwapGenes 0.75') - É inicializado um operador de mutação do tipo</p>"
+                + "<p>Ex: setMutation(SwapGenes 0.75) - É inicializado um operador de mutação do tipo</p>"
                 + "<p>SwapGenes em que a probabilidade de mutação é de 75%.</p>"
-                + "<p>Ex: setMutation('SwapGenes') - É inicializado um operador de mutação do tipo SwapGenes</p>"
+                + "<p>Ex: setMutation(SwapGenes) - É inicializado um operador de mutação do tipo SwapGenes</p>"
                 + "<p>em que a probabilidade de mutação é a de defeito do operador.</p>"
                 + "<p></p>"
                 + "<h3>setReplacement</h3>"
@@ -242,16 +247,16 @@ public class Solver extends GenericSolver {
                 + "<p>segundo poderá, ou não, ser os parametros desse operador. É opcional os parametros para os</p>"
                 + "<p>operadores, sendo que se não forem passados, o operador será construido com os valores por</p>"
                 + "<p>defeito.</p>"
-                + "<p>Ex: setReplacement('Truncation 75') - É inicializado um operador de substituição do tipo</p>"
+                + "<p>Ex: setReplacement(Truncation 75) - É inicializado um operador de substituição do tipo</p>"
                 + "<p>Truncation que devolverá 75 individuos.</p>"
-                + "<p>Ex: setReplacement('Truncation') - É inicializado um operador de substituição do tipo </p>"
+                + "<p>Ex: setReplacement(Truncation) - É inicializado um operador de substituição do tipo </p>"
                 + "<p>Truncation que devolverá tantos individuos quantos os que estão definidos por defeito</p>"
                 + "<p>no operador.</p>"
                 + "<p></p>"
                 + "<h3>setStopCrit</h3>"
                 + "<p>É passada uma string onde o primeiro parametro é o valor máximo de iterações permitidas</p>"
                 + "<p>para o problema e o segundo o melhor fitness que a população poderá obter.</p>"
-                + "<p>Ex: setStopCrit('1000 100') - O critério de paragem é definido nas 1000 iterações do</p>"
+                + "<p>Ex: setStopCrit(1000 100) - O critério de paragem é definido nas 1000 iterações do</p>"
                 + "<p>problema ou se um individuo obtiver um fitness de 100.</p>";
         return s;
     }
@@ -280,14 +285,19 @@ public class Solver extends GenericSolver {
             }
             //Caso de ser o operador SUS
             if (tipoSelector.contains("SUS")) {
+                System.out.println("------------------------");
+                System.out.println("SELECTION: SUS");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
                     this._operators.add(new SUS());
                 } else {
                     this._operators.add(new SUS(dimNewPop));
+                    System.out.println("Dim new Pop: " + dimNewPop);
+                    System.out.println("------------------------");
                 }
             }//Caso de ser o operador Roulette
             else if (tipoSelector.contains("Roulette")) {
+                System.out.println("SELECTION: ROULETTE");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
                     this._operators.add(new Roulette());
@@ -296,6 +306,7 @@ public class Solver extends GenericSolver {
                 }
             }//Caso de ser o operador Tournament 
             else if (tipoSelector.contains("Tournament")) {
+                System.out.println("SELECTION: TOURNAMENT");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
                     this._operators.add(new operators.selections.Tournament());
@@ -316,14 +327,15 @@ public class Solver extends GenericSolver {
     public boolean SetMutation(String parms) {
         try {
             String tipoMutacao = parms.split(" ")[0];
-            double probl = 0;
+            double probl = 0.0;
             //Verifica se existe parametros para o operador
             try {
-                probl = Integer.parseInt(parms.split(" ")[1]);
+                probl = Double.parseDouble(parms.split(" ")[1]);
             } catch (Exception ex) {
             };
             //Verifica se é o operador SwapGenes
             if (tipoMutacao.contains("SwapGenes")) {
+                System.out.println("MUTATION: SWAPGENES");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
                     this._operators.add(new SwapGenes());
@@ -332,6 +344,7 @@ public class Solver extends GenericSolver {
                 }
             }//Verifica se é o operador Invertion 
             else if (tipoMutacao.contains("Invertion")) {
+                System.out.println("MUTATION: INVERTION");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
                     this._operators.add(new Invertion());
@@ -340,11 +353,15 @@ public class Solver extends GenericSolver {
                 }
             } //Verifica se é o operador Flipbit 
             else if (tipoMutacao.contains("Flipbit")) {
+                System.out.println("------------------------");
+                System.out.println("MUTATION: FLIPBIT");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
                     this._operators.add(new Flipbit());
                 } else {
                     this._operators.add(new Flipbit(probl));
+                    System.out.println("Probabilidade: " + probl);
+                    System.out.println("------------------------");
                 }
             }
             //devolve true - Tudo correu bem
@@ -366,7 +383,8 @@ public class Solver extends GenericSolver {
             } catch (Exception ex) {
             };
             //Verifica se é um operador do tipo Crossover
-            if (tipoRecomb.contains("Crossover")) {
+            if (tipoRecomb.contains(".Crossover")) {
+                System.out.println("RECOMBINATION: CROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
                     this._operators.add(new Crossover());
@@ -376,6 +394,7 @@ public class Solver extends GenericSolver {
                 }
             }//Verifica se é um operador do tipo OrderCrossover
             else if (tipoRecomb.contains("OrderCrossover")) {
+                System.out.println("RECOMBINATION: ORDERCROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
                     this._operators.add(new OrderCrossover());
@@ -384,6 +403,7 @@ public class Solver extends GenericSolver {
                 }
             } //Verifica se é um operador do tipo PMX
             else if (tipoRecomb.contains("PMX")) {
+                System.out.println("RECOMBINATION: PMX");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
                     this._operators.add(new PMX());
@@ -391,12 +411,16 @@ public class Solver extends GenericSolver {
                     this._operators.add(new PMX(probl));
                 }
             } //Verifica se é um operador do tipo UniformCrossover
-            else if (tipoRecomb.contains("UniformCrossover")) {
+            else if (tipoRecomb.contains(".UniformCrossover")) {
+                System.out.println("------------------------");
+                System.out.println("RECOMBINATION: UNIFORMCROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
                     this._operators.add(new UniformCrossover());
                 } else {
                     this._operators.add(new UniformCrossover(probl));
+                    System.out.println("Probabil Recombination: " + probl);
+                    System.out.println("------------------------");
                 }
             }
             //Devolve true - tudo correu bem na definição do operador
@@ -419,20 +443,29 @@ public class Solver extends GenericSolver {
             };
             //Verifica se é um operador do tipo Tournament
             if (tipoReplac.contains("Tournament")) {
+                System.out.println("------------------------");
+                System.out.println("REPLACEMENT: TOURNAMENT");
                 //Verifica se existem parametros para o operador
                 if (dimNewPop == 0) {
                     this._operators.add(new operators.replacements.Tournament());
                 } else {
                     int sizeTourn = Integer.parseInt(parms.split(" ")[2]);
                     this._operators.add(new operators.replacements.Tournament(dimNewPop, sizeTourn));
+                    System.out.println("Dim New Population: " + dimNewPop);
+                    System.out.println("Size Tournament: " + sizeTourn);
+                    System.out.println("------------------------");
                 }
             }//Verifica se é um operador do tipo Truncation
             else if (tipoReplac.contains("Truncation")) {
+                System.out.println("------------------------");
+                System.out.println("REPLACEMENT: TRUNCATION");
                 //Verifica se existem parametros para o operador
                 if (dimNewPop == 0) {
                     this._operators.add(new Truncation());
                 } else {
                     this._operators.add(new Truncation(dimNewPop));
+                System.out.println("Dim New Population: " + dimNewPop);
+                System.out.println("------------------------");
                 }
             }
             //Devolve true - tudo correu bem na definição do operador

@@ -4,7 +4,7 @@
  */
 package genetics;
 
-import genetics.algorithms.K100;
+import genetics.algorithms.K50;
 import java.util.ArrayList;
 import operators.Operator;
 import operators.mutation.Flipbit;
@@ -32,13 +32,13 @@ public class SolverKnapSackExample {
     
     public SolverKnapSackExample(){
         //Adiciona os operadores que foram escolhidos
-        this.operators.add(new SUS());
-        this.operators.add(new Flipbit(0.01));
+        this.operators.add(new SUS(100));
+        this.operators.add(new Flipbit(0.025));
         operators.add(new Truncation(100));
-        operators.add(new UniformCrossover());
+        operators.add(new UniformCrossover(0.75));
         //Solver do k100 que tem como critério de paragem as iterações e os 1352 de fitness que é o maximo de fitness
         //Não corre porque será preciso passar o EventSolver
-        solver = new Solver(1000, 10, ((Individual)new K100()), new StopCriterion(100000, 1352.0), operators, null);
+        solver = new Solver(100, 50, ((Individual)new K50()), new StopCriterion(100000, 1920.0), operators, null);
     }
     
     public static void main(String[] args) throws SolverException {

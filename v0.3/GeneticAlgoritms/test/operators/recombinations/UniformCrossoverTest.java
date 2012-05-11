@@ -119,7 +119,7 @@ public class UniformCrossoverTest {
         Statistics partnS = new Statistics(parents);
         Statistics sonsS = new Statistics(parents);
         if(partnS.getMediaFitnessPopulation() == sonsS.getMediaFitnessPopulation()){
-            fail("As medias de fitness's das duas populações são iguais.");
+            fail("As medias de fitness das duas populações são iguais.");
         }
         else if(partnS.getDesvioPadraoPopulation() == sonsS.getDesvioPadraoPopulation()) {
             fail("Os devio padrão das duas populações são iguais.");

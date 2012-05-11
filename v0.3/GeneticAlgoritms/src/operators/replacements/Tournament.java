@@ -11,19 +11,25 @@ import java.util.ArrayList;
 public class Tournament extends Replacement {
 
     static final int SIZE_TOURNAMENT_DEFAULT = 2;
-    final private int _sizeTournament;
+    private int _sizeTournament;
 
     public Tournament() {
-        this(Replacement.DIMENDIONS_NEW_POPULATION_DEFAULT, SIZE_TOURNAMENT_DEFAULT);
+        this(SIZE_TOURNAMENT_DEFAULT);
     }
 
-    public Tournament(int dimensionsNewPopulation, int sizeTournament) {
-        super.dimensionsNewPopulation = dimensionsNewPopulation;
+//    public Tournament(int dimensionsNewPopulation, int sizeTournament) {
+//        super.dimensionsNewPopulation = dimensionsNewPopulation;
+//        this._sizeTournament = sizeTournament;
+//    }
+    public Tournament(int sizeTournament) {
+        super.dimensionsNewPopulation = Replacement.DIMENDIONS_NEW_POPULATION_DEFAULT;
         this._sizeTournament = sizeTournament;
     }
 
     @Override
     public Population execute(Population parents, Population sons) {
+        //Serão devolvidos tantos individuos quanto os que entram
+        this.dimensionsNewPopulation = parents.getSizePopulation();
         Population __newPopulation = new Population(
                 super.dimensionsNewPopulation,
                 parents.getSizeGenome(),
@@ -52,16 +58,26 @@ public class Tournament extends Replacement {
     //*********************************************************************************    
     @Override
     public String getInfo() {
-        String s = "<p>Método de recombinação dos indivíduos. Este método tem como </p>"
-                + "<p>parâmetros de entrada o tamanho da nova população e o número de </p>"
-                + "<p>indivíduos que vão ser recombinados.Ambos os parâmetros são valores</p>"
-                + "<p> inteiros como positivos!<p>";
+        String s = "<p>Método de reprodução dos indivíduos de duas populações.</p>"
+                + "<p>O operador recebe duas populações, uma pai e uma filho, que</p>"
+                + "<p>serão reproduzidas entre elas. A população devolvida tem o mesmo número</p>"
+                + "<p>de individuos que o número de individuos da população pai que entra para a</p>"
+                + "<p>reprodução.</p>"
+                + "<p></p>"
+                + "<p>O parametro de entrada do operador será quantos individuos serão escolhidos</p>"
+                + "</p>para o torneio a cada iteração do mesmo</p>";
         return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        return true;
+        try {
+            this._sizeTournament = Integer.parseInt(parameters.split(" ")[0]);
+            return true;
+        } catch (Exception ex) {
+            //Devolve false caso alguma coisa corra mal
+            return false;
+        }
     }
     //*********************************************************************************
     //*********************************************************************************

@@ -113,7 +113,7 @@ public class TruncationTest {
         //Verifica se os individuos retirados do operador Truncation pertencem mesmo ao best-fitness das populações
         for (int i = 0; i < this.sizeTruncation; i++) {
             if(!Individuos.contains(result.getIndividual(i))){
-                fail("Os individuos resultantes do operador não estão nos best fitness's da população pai ou filho.");
+                fail("Os individuos resultantes do operador não estão nos best fitness da população pai ou filho.");
             }
         }
     }

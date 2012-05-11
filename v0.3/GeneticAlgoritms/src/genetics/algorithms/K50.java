@@ -27,4 +27,14 @@ public class K50 extends KnapSack {
                 modeFunction,
                 KnapSack.PENALTY_ORDER_QUADRATIC);
     }
+
+    @Override
+    public String getInfo() {
+        return "<p>K50 Best Fitness - 1920</p>"
+                + "<p>Solver para o K50: setParameters(«num Individuos» «num Cromossomas» «num Genes Cromossoma» «tamanho array allelo (OBRIGATORIO SER 50)» K50)</p>"
+                + "<p>Ex: setParameters(1000 1 1 50 K50) - É criado um solver que terá uma </p>"
+                + "<p>população inicial de 1000 individuos, cada um com um cromossoma, cada cromossoma</p>"
+                + "<p>com um gene e cada gene contem um array de tamanho 50. Os individuos são do tipo</p>"
+                + "<p>K50.</p>";
+    }
 }

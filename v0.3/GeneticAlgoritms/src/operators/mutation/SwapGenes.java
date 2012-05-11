@@ -166,4 +166,14 @@ public class SwapGenes extends Mutation {
 //        System.out.println("" + i1);
 //        System.out.println("" + sg.trocaGenes(i1));
 //    }
+
+    @Override
+    public String getInfo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

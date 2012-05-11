@@ -26,4 +26,6 @@ public class K5 extends KnapSack {
         // Pesos: 12 2 1 4 1
         super._parseStringData("5 15 4 2 1 10 2 12 2 1 4 1");
     }
+    
+   
 }

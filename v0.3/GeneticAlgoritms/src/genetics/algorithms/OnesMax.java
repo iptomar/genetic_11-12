@@ -53,11 +53,12 @@ public class OnesMax extends Individual {
     
     @Override
     public String getInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "<p>Solver para o OnesMax: setParameters(«num Individuos» «num Cromossomas» «num Genes Cromossoma» «tamanho array allelo» OnesMax)</p>"
+                +"<p>Ex: setParameters(1000 1 1 10 OnesMax) - É criado um solver que terá uma </p><p>população inicial de 1000 individuos, cada um com um cromossoma, cada cromossoma</p><p>com um gene e cada gene contem um array de tamanho 10. Os individuos são do tipo</p><p>OnesMax.</p>";
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 }
