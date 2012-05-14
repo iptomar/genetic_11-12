@@ -96,29 +96,24 @@ public class Crossover extends Recombination {
     //*********************************************************************************    
     @Override
     public String getInfo() {
-        String s = "<p>Método de recombinação que tem como parâmetros o número de</p>"
-                + " <p>cortes que o allelo sofre, como a probabilidade da recombinação </p>"
-                + "<p>a cada dois indivíduosO número de cortes tem que ser um valor inteiro</p>"
-                + "<p> e positivo. O valor da probabilidade deverá estar entre 0 e 1 para a </p>"
-                + "<p>recombinação.</p><p></p>"
-                + "<p><marquee> (Ex: 0.40 indica 40% de probabilidade"
-                + " <p>de acontecer a recombinação)</marquee></p>";
+        String s = "<p>Método de recombinação de individuos que tem como parâmetros de entrada o número de</p>"
+                + "<p>cortes que o allelo sofre e a probabilidade da recombinação que dois individuos têm.</p>"
+                + "<p>O número de cortes tem que ser um valor inteiro positivo.</p>"
+                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
+                + "<p>o parametro 0.40 representa 40% de probabilidade de recombinação dos individuos.</p>";
         return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        int nCortes = Integer.parseInt(parameters.split(" ")[0]);
-        int probabilidade = Integer.parseInt(parameters.split(" ")[1]);
-
         try {
+            int nCortes = Integer.parseInt(parameters.split(" ")[0]);
+            int probabilidade = Integer.parseInt(parameters.split(" ")[1]);
             this.numCuts = nCortes;
             this.probability = probabilidade;
             return true;
         } catch (Exception ex) {
-            //parametos por defeito
-            this.numCuts = 5;
-            this.probability = 0.4;
+            //Caso algo corra mal, devolve false
             return false;
         }
     }

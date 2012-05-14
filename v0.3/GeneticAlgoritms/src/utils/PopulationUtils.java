@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
-import genetics.Chromosome;
-import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.City;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,13 +24,10 @@ public class PopulationUtils {
                 population.getSizeAllelo(),
                 population.getTypePopulation(),
                 false);
-
         // Ordenar População pelo fitness de forma descendente
         PopulationUtils.orderPopulation(population);
-
         // Devolve o numero de individuos que foram pedidos
         PopulationUtils._createHallOfFame(__newPopulation, sizeHallOfFame, population.getPopulation());
-
         // Devolve a população com os Hall Of Fame (melhores individuos)
         return __newPopulation;
     }
@@ -49,7 +41,6 @@ public class PopulationUtils {
      */
     private static void _createHallOfFame(Population newPopulation, int sizeHallOfFame, AbstractCollection<Individual> individuals) {
         int __indexIndividual = 0;
-
         // Só para o ciclo quando obter todos os individuos pedidos atraves do sizeHallOfFame
         // ou quando deixar de haver individuos dentro do array que ainda não tenham sido
         // adicionados à nova população
@@ -64,9 +55,14 @@ public class PopulationUtils {
      * Método que ordena o array de individuos da poipulação pelo seu fitness 
      */
     public static void orderPopulation(Population population) {
-        // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
-        // descendente
-        Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+        if (population.getTypePopulation() instanceof City) {
+            // Ordenar População pelo fitness de forma ascendente, já que o problema é o TSP
+            Collections.sort(population.getPopulation(), new ComparatorIndividualCity());
+        } else {
+            // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
+            // descendente
+            Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+        }
     }
 
     /**
@@ -76,11 +72,9 @@ public class PopulationUtils {
     public static int getNumberIndividualsWithBestFitness(Population population) {
         double __bestFitness;
         int __numberOfIndividualsWithBestFitness = 0;
-
         // Pede o melhor individuo atraves do metodo getHallOfFame com tamanho 1
         // depois escolhe o primeiro individuo e devolve o seu fitness
         __bestFitness = PopulationUtils.getBestFitness(population);
-
         // Corre a população toda à procura de individuos que tenham
         // o melhor fitness
         for (Individual __individuals : population) {
@@ -88,7 +82,6 @@ public class PopulationUtils {
                 __numberOfIndividualsWithBestFitness++;
             }
         }
-
         // Devolve a quantidade de individuos encontrados
         return __numberOfIndividualsWithBestFitness;
     }
@@ -121,7 +114,6 @@ public class PopulationUtils {
             }
             __countIndividual++;
         }
-
         return __newArrayIndividual;
     }
 
@@ -133,7 +125,6 @@ public class PopulationUtils {
     public static double getBestFitness(Population population) {
         final int NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME = 1;
         final int FIRST_INDIVIDUAL = 0;
-
         // Pede o melhor individuo atraves do metodo getHallOfFame com tamanho 1
         // depois escolhe o primeiro individuo e devolve o seu fitness
         return PopulationUtils.getHallOfFame(population, NUMBER_INDIVIDUALS_TO_GET_FROM_HALL_OF_FAME).getIndividual(FIRST_INDIVIDUAL).fitness();
@@ -141,40 +132,22 @@ public class PopulationUtils {
 
     /**
      * Método que devolve o fitness total da população (soma do fitness de todos os individuos da população)
-     * @return (int) - Fitness total da população
+     * @return (double) - Fitness total da população
      */
-    public static int getFitnessTotal(Population population) {
-        int __totalFitness = 0;
-
+    public static double getFitnessTotal(Population population) {
+        double __totalFitness = 0;
         for (Individual __individual : population) {
             __totalFitness += __individual.fitness();
         }
-
         return __totalFitness;
     }
-    
-    public static double totalFitnessAcumulation(Population population, double[][] costMatrix){
-        double totalFitness = 0;
-        for (Individual individuo : population) {
-            // incrementa o total fitness
-            totalFitness += calculateFitness(individuo, costMatrix);
-        }
-        return totalFitness;
-    }
-    
-    public static double calculateFitness(Individual individual, double[][] costMatrix) {
-        // starting point
-        double fitness = 0;
-        for (Chromosome chromosome : individual) {
-            for (Gene<Integer[]> gene : chromosome) {
-                for (int __indexAlleloValue = 0; __indexAlleloValue < gene.getAllele().length; __indexAlleloValue++) {
-                    fitness += costMatrix[gene.getAllele()[__indexAlleloValue - 1]][gene.getAllele()[__indexAlleloValue % gene.getAllele().length]];
-                }
-            }
-        }
-        return fitness;
-    }
 
+    
+    /**
+     * *ª********************************************
+     * ******** AINDA NÃO FUNCIONA COM O TSP ********
+     * **********************************************
+     */
     /***
      * Devolve um Hall of Fame com os melhores invididuos, a quantidade define no sizeHallFame,
      * mas esses individuos não se repetem, são todos individuos unicos na população

@@ -65,7 +65,7 @@ public class Tournament extends Replacement {
                 + "<p>reprodução.</p>"
                 + "<p></p>"
                 + "<p>O parametro de entrada do operador será quantos individuos serão escolhidos</p>"
-                + "</p>para o torneio a cada iteração do mesmo</p>";
+                + "</p>para o torneio a cada iteração do mesmo.</p>";
         return s;
     }
 

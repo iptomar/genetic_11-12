@@ -40,7 +40,7 @@ public class TournamentTest {
         /**
          * Criação do torneio de 100 elementos 2 a 2
          */
-        Tournament instance = new Tournament(99,2);
+        Tournament instance = new Tournament(2);
         /**
          * Execução do torneio
          */
@@ -49,7 +49,7 @@ public class TournamentTest {
         /**
          * Compara se o o size da population do result é 100, que é o numero de individos que sai no torneio
          */
-        assertEquals(result.getPopulation().size(), 99);
+        assertEquals(result.getPopulation().size(), parents.getSizePopulation());
         
         /**
          * Ordena os resultados obtidos no torneio

@@ -302,13 +302,30 @@ public class OrderCrossover extends Recombination {
 //        return progenitor.get(q);
 //    }
 
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
     @Override
     public String getInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String s = "<p>Método de recombinação de individuos que tem como parâmetro de entrada</p>"
+                + "<p>a probabilidade da recombinação que dois individuos têm.</p>"
+                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
+                + "<p>o parametro 0.40 representa 40% de probabilidade de recombinação dos individuos.</p>";
+        return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            int probabilidade = Integer.parseInt(parameters.split(" ")[0]);
+            this.probability = probabilidade;
+            return true;
+        } catch (Exception ex) {
+            //Caso algo corra mal, devolve false
+            return false;
+        }
     }
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************
 }

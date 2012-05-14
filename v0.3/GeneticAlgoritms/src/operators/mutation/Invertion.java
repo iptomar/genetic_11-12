@@ -145,13 +145,31 @@ public class Invertion extends Mutation {
         individual[points[1] % individual.length] = __temp;
     }
 
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
     @Override
     public String getInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String s = "<p>Método usado para fazer a mutação de indivíduos a uma população.</p>"
+                + "<p>Este método tem como parâmetro de entrada a probabilidade de mutação de um individuo.</p> "
+                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
+                + "<p>o parametro 0.40 representa 40% de probabilidade de mutação do individuo.</p>";
+        return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            double probabil = Double.parseDouble(parameters.split(" ")[0]);
+            this.probability = probabil;
+            this.customProb = true;
+            return true;
+        } catch (Exception ex) {
+            //Se algo correr mal, devolve false.
+            return false;
+        }
     }
+    //*********************************************************************************
+    //*********************************************************************************
+    //********************************************************************************* 
 }

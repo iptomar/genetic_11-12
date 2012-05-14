@@ -86,7 +86,7 @@ public class TruncationTest {
         //Verifica se as populações tem o mesmo tamanho
         assertEquals(parents.getSizePopulation(), sons.getSizePopulation());
         //Novo operador Truncation que devolverá apenas 10 individuos
-        Truncation instance = new Truncation(this.sizeTruncation);
+        Truncation instance = new Truncation();
         //Resultado do truncation
         Population result = instance.execute(parents, sons);
         //Verifica se foram apenas retirados os 10 individuos

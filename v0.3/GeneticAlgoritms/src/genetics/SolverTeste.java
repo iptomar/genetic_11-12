@@ -170,7 +170,7 @@ public class SolverTeste {
         
         operators.add(new Flipbit(0.05));
         
-        operators.add(new Tournament(1000, 2));
+        operators.add(new Tournament(2));
         //operators.add(new Tournament(100,2));
         
         operators.add(new UniformCrossover());

@@ -111,7 +111,7 @@ public class Tournament extends Selection {
         String s = "<p>Método usado para fazer uma selecção de indivíduos a uma população.</p>"
                 + "<p>Este método tem como parâmetros de entrada o tamanho da nova população</p> "
                 + "<p>e o número de indivíduos que vão competir entre si em cada iteração do operador.</p>"
-                + "<p>Ambos os parâmetros  são valores inteiros positivos.</p>";
+                + "<p>Ambos os parâmetros são valores inteiros positivos.</p>";
         return s;
     }
 

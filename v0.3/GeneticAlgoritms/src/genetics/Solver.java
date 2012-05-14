@@ -450,7 +450,7 @@ public class Solver extends GenericSolver {
                     this._operators.add(new operators.replacements.Tournament());
                 } else {
                     int sizeTourn = Integer.parseInt(parms.split(" ")[2]);
-                    this._operators.add(new operators.replacements.Tournament(dimNewPop, sizeTourn));
+                    this._operators.add(new operators.replacements.Tournament(sizeTourn));
                     System.out.println("Dim New Population: " + dimNewPop);
                     System.out.println("Size Tournament: " + sizeTourn);
                     System.out.println("------------------------");
@@ -462,10 +462,6 @@ public class Solver extends GenericSolver {
                 //Verifica se existem parametros para o operador
                 if (dimNewPop == 0) {
                     this._operators.add(new Truncation());
-                } else {
-                    this._operators.add(new Truncation(dimNewPop));
-                System.out.println("Dim New Population: " + dimNewPop);
-                System.out.println("------------------------");
                 }
             }
             //Devolve true - tudo correu bem na definição do operador

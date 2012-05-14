@@ -35,7 +35,7 @@ public class City extends Individual {
     /**
      * Matriz que detem os custos de cada caminho
      */
-    double[][] costMatrix;
+    public double[][] costMatrix;
 
     /**
      * Construtor onde apenas é inicializado a super classe (Individual) da classe City
@@ -45,16 +45,22 @@ public class City extends Individual {
     }
 
     public City(City city) {
-        this(city.costMatrix);
+        this(city.Index, city.X, city.Y, city.costMatrix);
     }
 
     /**
-     * Construtor da cidade onde é passado por parametro a matriz que detem os custos do caminho
-     * do problema.
-     * @param matriz - Matriz com os custos do problema
+     * Construtor da classe onde são passados por parametro o Index da cidade, a posição X e Y e a matriz de custo
+     * do problema TSP ao qual a cidade pertence.
+     * @param Index - Index da cidade
+     * @param x - Posição X da cidade
+     * @param y - Posição Y da cidade
+     * @param matriz - Matriz de custo do problema TSP
      */
-    public City(double[][] matriz) {
+    public City(int Index, int x, int y, double[][] matriz) {
         this.costMatrix = matriz;
+        this.X = x;
+        this.Y = y;
+        this.Index = Index;
     }
 
     /**

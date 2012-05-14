@@ -130,34 +130,6 @@ public class UniformCrossover extends Recombination {
         this.mask = mask;
     }
 
-    //*********************************************************************************
-    //*****************************Métodos para Reflection*****************************
-    //*********************************************************************************    
-    @Override
-    public String getInfo() {
-        String s = "<p>Métodos de recombinação que tem como parâmetros a probabilidade</p>"
-                + " <p>de dois filhos sofrerem a recombinação. \nO valor da probabilidade de </p>"
-                + "<p>dois filhos sofrer a recombinação tem que estar entre 0 e 1. </p>";
-        return s;
-    }
-
-    @Override
-    public boolean setParameters(String parameters) {
-        int probabilidade = Integer.parseInt(parameters);
-
-        try {
-            this.probability = probabilidade;
-            return true;
-        } catch (Exception ex) {
-            //parametos por defeito
-            this.probability = 0.4;
-            return false;
-        }
-
-    }
-    //*********************************************************************************
-    //*********************************************************************************
-    //********************************************************************************* 
     //Pequeno teste ao operador
 //    public static void main(String[] args) {
 //        OnesMax i1 = new OnesMax();
@@ -191,4 +163,30 @@ public class UniformCrossover extends Recombination {
 //
 //        System.out.println("");
 //    }
+    //*********************************************************************************
+    //*****************************Métodos para Reflection*****************************
+    //*********************************************************************************    
+    @Override
+    public String getInfo() {
+        String s = "<p>Método de recombinação de individuos que tem como parâmetro de entrada</p>"
+                + "<p>a probabilidade da recombinação que dois individuos têm.</p>"
+                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
+                + "<p>o parametro 0.40 representa 40% de probabilidade de recombinação dos individuos.</p>";
+        return s;
+    }
+
+    @Override
+    public boolean setParameters(String parameters) {
+        try {
+            int probabilidade = Integer.parseInt(parameters.split(" ")[0]);
+            this.probability = probabilidade;
+            return true;
+        } catch (Exception ex) {
+            //Caso algo corra mal, devolve false
+            return false;
+        }
+    }
+    //*********************************************************************************
+    //*********************************************************************************
+    //*********************************************************************************
 }

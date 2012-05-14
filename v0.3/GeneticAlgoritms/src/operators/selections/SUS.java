@@ -2,6 +2,7 @@ package operators.selections;
 
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.City;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Ponteiro;
@@ -37,18 +38,6 @@ public class SUS extends Selection {
     }
 
     /**
-     * Construtor da classe SUS onde é passado por parametros a matriz de custo do caixeiro viajante, bem como
-     * a dimensão da população pretendida. Desta forma, aquando da execução do operador, se a matriz de custo não for
-     * nula, o operador irá correr o SUS minimizado para o problema em especifico.
-     * @param costMatrix - Matriz de custo do problema do caixeiro viajante
-     * @param didimensionsNewPopulation - Dimensão da população pretendida pela selecção
-     */
-    public SUS(double[][] costMatrix, int dimensionsNewPopulation) {
-        this.costMatrix = costMatrix;
-        super._dimensionsNewPopulation = dimensionsNewPopulation;
-    }
-
-    /**
      * Costrutor da classe SUS onde é passado por parametro a matriz de custo para o problema do caixeiro viajante.
      * Desta forma, se a matriz de custo não for nula, o operador, aquando da sua execução, saberá que será o SUS
      * minimizado que irá correr.
@@ -70,6 +59,11 @@ public class SUS extends Selection {
                 population.getSizeAllelo(),
                 population.getTypePopulation(),
                 false);
+        //verifica se a população é do tipo City - Se sim, fará a definição da matriz de custo atravez do primeiro individuo dessa população
+        //já que a matriz de custo será igual para todos os individuos.
+        if(population.getTypePopulation() instanceof City){
+            this.costMatrix = ((City)population.getIndividual(0)).costMatrix;
+        }
         //Caso a matriz de custo seja nula, o operador irá correr o SUS maiximizado
         if (this.costMatrix == null) {
             //calcula offset
@@ -206,8 +200,7 @@ public class SUS extends Selection {
             this._dimensionsNewPopulation = Integer.parseInt(parameters);
             return true;
         } catch (Exception ex) {
-            //parametos por defeito
-            this._dimensionsNewPopulation = 100;
+            //Devolve false caso exista algum problema a fazer a definição de parametros
             return false;
         }
     }

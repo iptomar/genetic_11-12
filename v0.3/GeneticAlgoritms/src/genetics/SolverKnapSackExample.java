@@ -34,7 +34,7 @@ public class SolverKnapSackExample {
         //Adiciona os operadores que foram escolhidos
         this.operators.add(new SUS(100));
         this.operators.add(new Flipbit(0.025));
-        operators.add(new Truncation(100));
+        operators.add(new Truncation());
         operators.add(new UniformCrossover(0.75));
         //Solver do k100 que tem como critério de paragem as iterações e os 1352 de fitness que é o maximo de fitness
         //Não corre porque será preciso passar o EventSolver
