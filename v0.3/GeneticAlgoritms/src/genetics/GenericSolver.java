@@ -23,13 +23,15 @@ public abstract class GenericSolver {
         
     }
     
+
     public abstract void run() throws SolverException, SonsInicialitazionException;
     public abstract boolean SetEvents(EventsSolver eventSolver);   
     public abstract boolean SetSelection(String parms);
     public abstract boolean SetStopCrit(String parms);
     public  abstract boolean SetMutation(String parms);
     public abstract boolean SetRecombination(String parms);
-    public abstract boolean SetReplacement(String parms);   
+    public abstract boolean SetReplacement(String parms);  
+    public abstract boolean SetTSPProbl(String parms);
     //*********************************************************************************
     //*********************************************************************************
     //*********************************************************************************        
