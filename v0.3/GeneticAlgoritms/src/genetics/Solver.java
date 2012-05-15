@@ -4,6 +4,8 @@ import genetics.algorithms.K100;
 import genetics.algorithms.K50;
 import genetics.algorithms.KnapSack;
 import genetics.algorithms.OnesMax;
+import genetics.algorithms.TSP;
+import utils.TSPProblem;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +47,7 @@ public class Solver extends GenericSolver {
     private int _numberIteractions;
     public ArrayList<Operator> _operators;
     private EventsSolver _eventSolver;
+    public TSPProblem TSP = null;
 
     /**
      * Construtor do solver
@@ -125,7 +128,61 @@ public class Solver extends GenericSolver {
                 this._parentsPopulation = new Population(this._sizePopulation, this._sizeGenome, this._sizeGenotype, this._sizeAllelo, this._prototypeIndividual);
             }
 
-            // Ciclo que corre o solver e que só termina quando atingir o numero
+            
+            if(this._prototypeIndividual instanceof genetics.algorithms.TSP){
+                // Ciclo que corre o solver e que só termina quando atingir o numero
+            // maximo de gerações/iterações definadas para o solver ou um individuo
+            // atingir o fitness desejado
+            while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
+                    && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())) {
+
+                // Corre todos os operadores que foram passados para este solver
+                for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
+
+                    // Se o operador for do tipo Selection
+                    if (this._operators.get(__indexOperators) instanceof Selection) {
+                        // aplica o operador a população de pais e devolve uma nova população de filhos
+                        this._sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(this._parentsPopulation);
+                    }
+
+                    // Se o operador por do tipo Recombinação ou Mutação
+                    if (this._operators.get(__indexOperators) instanceof Recombination || this._operators.get(__indexOperators) instanceof Mutation) {
+
+                        // Dispara um erro se a população de filhos não tiver sido inicializada
+                        if (this._sonsPopulation == null) {
+                            throw new SonsInicialitazionException();
+                        }
+
+                        // aplica o operador a população de filhos e devolve uma nova população de filhos
+                        _sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(_sonsPopulation);
+                    }
+
+                    // Se o operador por do tipo Replacements
+                    if (this._operators.get(__indexOperators) instanceof Replacement) {
+                        // aplica o operador a população de filhos e pais e devolve 
+                        // os melhores para a proxima geração. Este processo faz deles
+                        // os proximos pais
+                        _parentsPopulation = ((Replacement) this._operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
+                    }
+
+                }
+
+                // no final de cada iteração dispara um evento que passa
+                // o numero da iteração e a população gerada
+                if (this._eventSolver != null) {
+                    this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                }
+
+                // incrementa mais uma geração/iteração à variavel
+                this._numberIteractions++;
+                System.out.println("Iteration: " + _numberIteractions);
+                System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
+                System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
+                System.out.println("------------------------------------------------------------------------------");
+            }
+            }
+            else{
+                // Ciclo que corre o solver e que só termina quando atingir o numero
             // maximo de gerações/iterações definadas para o solver ou um individuo
             // atingir o fitness desejado
             while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
@@ -175,6 +232,8 @@ public class Solver extends GenericSolver {
                 System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
                 System.out.println("------------------------------------------------------------------------------");
             }
+            }
+            
 
             // Evento final quando o solver esta terminado
             if (this._eventSolver != null) {
@@ -511,9 +570,9 @@ public class Solver extends GenericSolver {
                 this._prototypeIndividual = new K50();
             } else if (tipoIndividuo.contains("K100")) {
                 this._prototypeIndividual = new K100();
-            } else if (tipoIndividuo.contains("City")) {
+            } else if (tipoIndividuo.contains("TSP")) {
             }
-            
+
             return true;
         } catch (Exception ex) {
             //Algo correu mal - devolve false
@@ -528,6 +587,17 @@ public class Solver extends GenericSolver {
             double fitness = Double.parseDouble(parms.split(" ")[1]);
             StopCriterion stopCrit = new StopCriterion(iterac, fitness);
             this._stopCriterion = stopCrit;
+            return true;
+        } catch (Exception ex) {
+            //Algo correu mal - devolve false
+            return false;
+        }
+    }
+
+    public boolean SetTSPProbl(String param) {
+        try {
+            this.TSP = new TSPProblem(param);
+            this._prototypeIndividual = new TSP(TSP.getCostMatrix());
             return true;
         } catch (Exception ex) {
             //Algo correu mal - devolve false

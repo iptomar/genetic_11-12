@@ -4,7 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
-import genetics.algorithms.City;
+import genetics.algorithms.TSP;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,9 +57,9 @@ public class PopulationUtils {
      * Método que ordena o array de individuos da poipulação pelo seu fitness 
      */
     public static void orderPopulation(Population population) {
-        if (population.getTypePopulation() instanceof City) {
+        if (population.getTypePopulation() instanceof TSP) {
             // Ordenar População pelo fitness de forma ascendente, já que o problema é o TSP
-            Collections.sort(population.getPopulation(), new ComparatorIndividualCity());
+            Collections.sort(population.getPopulation(), new ComparatorIndividualTSP());
         } else {
             // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
             // descendente
@@ -158,7 +158,7 @@ public class PopulationUtils {
         double fitness = 0;
         for (Chromosome chromosome : individual) {
             for (Gene<Integer[]> gene : chromosome) {
-                for (int __indexAlleloValue = 0; __indexAlleloValue < gene.getAllele().length; __indexAlleloValue++) {
+                for (int __indexAlleloValue = 1; __indexAlleloValue < gene.getAllele().length; __indexAlleloValue++) {
                     fitness += costMatrix[gene.getAllele()[__indexAlleloValue - 1]][gene.getAllele()[__indexAlleloValue % gene.getAllele().length]];
                 }
             }

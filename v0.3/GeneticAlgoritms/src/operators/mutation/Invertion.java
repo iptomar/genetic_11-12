@@ -75,7 +75,7 @@ public class Invertion extends Mutation {
                 //Para todos os cromossomas do individuo
                 for (int k = 0; k < son.getSizeGenome(); k++) {
                     //cromossomas do individuo
-                    Chromosome cSon = son.getChromosome(i);
+                    Chromosome cSon = son.getChromosome(k);
                     //Para todos os genes do cromossoma do individuo
                     for (int j = 0; j < cSon.getGenotype().size(); j++) {
                         //genes dos cromossomas

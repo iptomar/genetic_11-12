@@ -2,7 +2,7 @@ package operators.selections;
 
 import genetics.Individual;
 import genetics.Population;
-import genetics.algorithms.City;
+import genetics.algorithms.TSP;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Ponteiro;
@@ -61,8 +61,8 @@ public class SUS extends Selection {
                 false);
         //verifica se a população é do tipo City - Se sim, fará a definição da matriz de custo atravez do primeiro individuo dessa população
         //já que a matriz de custo será igual para todos os individuos.
-        if(population.getTypePopulation() instanceof City){
-            this.costMatrix = ((City)population.getIndividual(0)).costMatrix;
+        if(population.getTypePopulation() instanceof TSP){
+            this.costMatrix = ((TSP)population.getIndividual(0)).costMatrix;
         }
         //Caso a matriz de custo seja nula, o operador irá correr o SUS maiximizado
         if (this.costMatrix == null) {
@@ -87,7 +87,6 @@ public class SUS extends Selection {
             return newPopulation;
         } //Caso a matriz de custo não seja nula, sabemos então que teremos que correr o SUS minimizado já que o problema será o do caixeiro viajante
         else {
-
             double totalFitness;
             double[][] newCostMatrixMinimization;
             int numIndividualsToSelect = this._dimensionsNewPopulation;

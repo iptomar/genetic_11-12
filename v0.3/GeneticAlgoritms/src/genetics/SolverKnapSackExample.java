@@ -28,7 +28,7 @@ public class SolverKnapSackExample {
     
     public SolverKnapSackExample(){
         //Adiciona os operadores que foram escolhidos
-        this.operators.add(new SUS(100));
+        this.operators.add(new SUS(200));
         this.operators.add(new Flipbit(0.025));
         operators.add(new Truncation());
         operators.add(new UniformCrossover(0.40));
@@ -37,15 +37,17 @@ public class SolverKnapSackExample {
         //Não corre porque será preciso passar o EventSolver
         solver = new Solver();
         solver._operators = operators;
-        solver.SetStopCrit("10000 3000");
-        
+        //solver.SetStopCrit("10000 385");
+        //solver.SetStopCrit("10000 1920");
+        solver.SetStopCrit("10000 1561");
         /**
          * **********************************************************************************************************
          * ***** NÃO PUDEMOS ESQUECER DE METER OS 17 (TAMANHO ALLELO) E OS 1300 (PESO MÁXIMO MOCHILA) NA STRING *****
          * **********************************************************************************************************
          */
-        solver.setParameters("1000 1 1 17 KnapSack ModeFunction.RANDOM 2:17 1300 10 20 30 10 10 12 4 24 25 21 52 32 13 43 13 53 13 2 6 9 8 69 78 65 8 89 78 68 56 97 68 98 76 87");
-        
+        //solver.setParameters("1000 1 1 17 KnapSack ModeFunction.RANDOM 2:17 1300 10 20 30 10 10 12 4 24 25 21 52 32 13 43 13 53 13 2 6 9 8 69 78 65 8 89 78 68 56 97 68 98 76 87");
+        //solver.setParameters("100 1 1 50 K50");
+        solver.setParameters("200 1 1 100 K100");
     }
     
     public static void main(String[] args) throws SolverException {
