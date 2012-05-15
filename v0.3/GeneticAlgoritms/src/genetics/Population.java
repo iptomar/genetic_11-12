@@ -97,7 +97,7 @@ public class Population implements Iterable<Individual> {
     /**
      * Inicialização de uma população de forma aleatória.
      */
-    private void _inicializationPopulation() {
+    public void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
 
             // Cria um novo individuo do tipo de class do prototipo
@@ -113,7 +113,6 @@ public class Population implements Iterable<Individual> {
 
             // Adiciona o novo individuo à população actual
             this.getPopulation().add(__newIndividual);
-            
         }
     }
 /**

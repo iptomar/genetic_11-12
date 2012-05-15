@@ -57,9 +57,8 @@ public class TSPProblem {
      * @param problemFile - Ficheiro que contem as especificações do problema
      */
     public TSPProblem(String problemFile) {
-        this.filename = problemFile;
-        this.read();
-        this.inicializaCostMatrix();
+        dataSplit(problemFile);
+        //inicializaCostMatrix();
     }
 
     /**
@@ -154,11 +153,11 @@ public class TSPProblem {
         }
         return __costMatrix;
     }
-    
+
     /**
      * Método que faz a definição das matrizes de custo para cada cidade especificada
      */
-    private void inicializaCostMatrix(){
+    private void inicializaCostMatrix() {
         //Matriz de custo para as cidades especificadas
         double[][] costMatrix = this.convertToCostMatrix();
         //Define a matriz em todas as cidades do problema
@@ -185,5 +184,46 @@ public class TSPProblem {
 
     public boolean setParameters(String parameters) {
         return false;
+    }
+
+    private void dataSplit(String problemData) {
+        //Array de strings que contem as linhas da definição do problema
+        String lines[] = problemData.split("\n\r");
+        //As seis primeiras linhas serão processadas manualmente
+        //Linha 1 - Nome do problema
+        String dataLine[] = lines[0].split(":");
+        this.Name = dataLine[1];
+        //Linha 2 - Comentário do problema
+        dataLine = lines[1].split(":");
+        this.Comment = dataLine[1];
+        //Linha 3 - Tipo de problema
+        dataLine = lines[2].split(":");
+        this.Type = dataLine[1];
+        //Linha 4 - Dimensão do problema
+        dataLine = lines[3].split(":");
+        this.Dimension = dataLine[1];
+        //Linha 5 - Edge Weight Type
+        dataLine = lines[4].split(":");
+        this.Edge_Weight_Type = dataLine[1];
+
+        //O resto do problema será a definição de todas as cidades que fazem parte do problema
+        for (int i = 6; i < lines.length; i++) {
+            //Split de cada linha por espaço
+            dataLine = lines[i].split(" ");
+            int indexBegin = 0;
+            for (int j = 0; j < dataLine.length; j++) {
+                if(!dataLine[j].equals("")){
+                    indexBegin = j;
+                    break;
+                }
+            }
+            //Nova cidade com as definições correctas
+            City newCidade = new City();
+            newCidade.Index = Integer.parseInt(dataLine[indexBegin]);
+            newCidade.X = Double.parseDouble(dataLine[indexBegin+1]);
+            newCidade.Y = Double.parseDouble(dataLine[indexBegin+2]);
+            this.Cidades.add(newCidade);
+        }
+        System.out.println("");
     }
 }

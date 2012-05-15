@@ -30,8 +30,8 @@ public class City extends Individual {
     /**
      * coordenadas X e Y que serão usadas para gerar a distância entre as cidadaes
      */
-    public int X = 0;
-    public int Y = 0;
+    public double X = 0;
+    public double Y = 0;
     /**
      * Matriz que detem os custos de cada caminho
      */
@@ -56,7 +56,7 @@ public class City extends Individual {
      * @param y - Posição Y da cidade
      * @param matriz - Matriz de custo do problema TSP
      */
-    public City(int Index, int x, int y, double[][] matriz) {
+    public City(int Index, double x, double y, double[][] matriz) {
         this.costMatrix = matriz;
         this.X = x;
         this.Y = y;

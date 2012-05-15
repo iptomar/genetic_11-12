@@ -98,6 +98,7 @@ public class KnapSack extends Individual {
         this._modeFunction = modeFunction;
         this._isPenalized = false;
         this._penaltyOrder = penaltyOrder;
+        System.out.println("Data: " + data);
         this._parseStringData(data);
     }
 
@@ -403,6 +404,7 @@ public class KnapSack extends Individual {
             // Copia os dados relacionados com os pesos
             this._table[__indexData][WEIGHT] = Integer.parseInt(__dataSplit[DATA_START + super.getSizeAllelo() + __indexData]);
         }
+        System.out.println("Teste");
     }
     
     @Override

@@ -43,7 +43,7 @@ public class Solver extends GenericSolver {
     private Individual _prototypeIndividual;
     private StopCriterion _stopCriterion;
     private int _numberIteractions;
-    private ArrayList<Operator> _operators;
+    public ArrayList<Operator> _operators;
     private EventsSolver _eventSolver;
 
     /**
@@ -111,7 +111,9 @@ public class Solver extends GenericSolver {
         try {
 
             // Evento inicial quando o solver inicia
-//            this._eventSolver.EventStartSolver();
+            if (this._eventSolver != null) {
+                this._eventSolver.EventStartSolver();
+            }
 
             this._numberIteractions = 0;
 
@@ -162,7 +164,9 @@ public class Solver extends GenericSolver {
 
                 // no final de cada iteração dispara um evento que passa
                 // o numero da iteração e a população gerada
-//                this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                if (this._eventSolver != null) {
+                    this._eventSolver.EventIteraction(this._numberIteractions, this._parentsPopulation);
+                }
 
                 // incrementa mais uma geração/iteração à variavel
                 this._numberIteractions++;
@@ -173,7 +177,9 @@ public class Solver extends GenericSolver {
             }
 
             // Evento final quando o solver esta terminado
-//            this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
+            if (this._eventSolver != null) {
+                this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
+            }
 
         } catch (SonsInicialitazionException ex) {
             Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,9 +455,8 @@ public class Solver extends GenericSolver {
                 if (dimNewPop == 0) {
                     this._operators.add(new operators.replacements.Tournament());
                 } else {
-                    int sizeTourn = Integer.parseInt(parms.split(" ")[2]);
+                    int sizeTourn = Integer.parseInt(parms.split(" ")[1]);
                     this._operators.add(new operators.replacements.Tournament(sizeTourn));
-                    System.out.println("Dim New Population: " + dimNewPop);
                     System.out.println("Size Tournament: " + sizeTourn);
                     System.out.println("------------------------");
                 }
@@ -489,11 +494,12 @@ public class Solver extends GenericSolver {
             if (tipoIndividuo.contains("OnesMax")) {
                 this._prototypeIndividual = new OnesMax();
             } else if (tipoIndividuo.contains("KnapSack")) {
-                String data[] = parameters.split("$$");
+                String data[] = parameters.split(":");
+                String dataFunc[] = data[0].split(" ");
                 //Penalidade do problema
-                int penalty = Integer.parseInt(data[0].split(" ")[6]);
+                int penalty = Integer.parseInt(dataFunc[6]);
                 //Modo de funcionamento do problema
-                String modeFunc = data[0].split(" ")[5];
+                String modeFunc = dataFunc[5];
                 if (modeFunc.contains("ModeFunction.RANDOM")) {
                     this._prototypeIndividual = new KnapSack(data[1], KnapSack.ModeFunction.RANDOM, penalty);
                 } else if (modeFunc.contains("ModeFunction.PENALTY")) {
@@ -505,8 +511,9 @@ public class Solver extends GenericSolver {
                 this._prototypeIndividual = new K50();
             } else if (tipoIndividuo.contains("K100")) {
                 this._prototypeIndividual = new K100();
+            } else if (tipoIndividuo.contains("City")) {
             }
-
+            
             return true;
         } catch (Exception ex) {
             //Algo correu mal - devolve false

@@ -17,7 +17,7 @@ public class Ponteiro {
      * @param totalFitnessPopulacao (int) - Total de fitness da população
      * @return (double) - Valor apontado ao acaso pelo método (entre 0 e o fitness total da população)
      */
-    public static double pontoAleatorio(int totalFitnessPopulacao){
+    public static double pontoAleatorio(double totalFitnessPopulacao){
         return Genetic.RANDOM_GENERATOR.nextDouble() * (double)totalFitnessPopulacao;
     }
     
