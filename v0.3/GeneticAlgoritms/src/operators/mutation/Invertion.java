@@ -6,22 +6,23 @@ import genetics.Individual;
 import genetics.Population;
 import operators.Genetic;
 
-/* -------------------------------------------------------------------------
+/*
  * -------------------------------------------------------------------------
- *  I n s t i t u t o   P o l i t e c n i c o   d e   T o m a r
- *   E s c o l a   S u p e r i o r   d e   T e c n o l o g i a
+ * ------------------------------------------------------------------------- I n
+ * s t i t u t o P o l i t e c n i c o d e T o m a r E s c o l a S u p e r i o r
+ * d e T e c n o l o g i a
  *
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  * -------------------------------------------------------------------------
- * Número de Aluno: 13691 
- * E-mail: Ruben.Felix@gmail.com
+ * Número de Aluno: 13691 E-mail: Ruben.Felix@gmail.com
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
 /**
- * Operador de mutação Invertion. Este operador calcula dois pontos destintos de corte no allelo do individuo e troca todos os bits entre esses
- * dois pontos de corte.
- * Funciona apenas para arrays de inteiros no allelo dos individuos
+ * Operador de mutação Invertion. Este operador calcula dois pontos destintos de
+ * corte no allelo do individuo e troca todos os bits entre esses dois pontos de
+ * corte. Funciona apenas para arrays de inteiros no allelo dos individuos
+ *
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
 /**
@@ -37,8 +38,11 @@ public class Invertion extends Mutation {
     private boolean customProb = false;
 
     /**
-     * Construtor da classe onde a probabilidade de mutação do gene é passado por parametro 
-     * @param probability (double) - Probabilidade de haver uma mutação no individuo (Ex: 0.4 significa 40% de probabilidade de mutação)
+     * Construtor da classe onde a probabilidade de mutação do gene é passado
+     * por parametro
+     *
+     * @param probability (double) - Probabilidade de haver uma mutação no
+     * individuo (Ex: 0.4 significa 40% de probabilidade de mutação)
      */
     public Invertion(double probability) {
         super.probability = probability;
@@ -47,7 +51,8 @@ public class Invertion extends Mutation {
     }
 
     /**
-     * Construtor da classe onde a probabilidade de mutação do operador será definida como 1 / TamanhoCromossoma.
+     * Construtor da classe onde a probabilidade de mutação do operador será
+     * definida como 1 / TamanhoCromossoma.
      */
     public Invertion() {
         this.customProb = false;
@@ -100,9 +105,12 @@ public class Invertion extends Mutation {
     }
 
     /**
-     * Método que irá calcular dois locais de corte no array de objectos do allelo do individuo
+     * Método que irá calcular dois locais de corte no array de objectos do
+     * allelo do individuo
+     *
      * @param points - Pontons de corte
-     * @param maxValueExclusive - Valor máximo de ponto de corte (Valor do tamanho do allelo)
+     * @param maxValueExclusive - Valor máximo de ponto de corte (Valor do
+     * tamanho do allelo)
      */
     private static void generatorTwoPointsDistincts(int[] points, int maxValueExclusive) {
         points[0] = RANDOM_GENERATOR.nextInt(maxValueExclusive);
@@ -145,31 +153,29 @@ public class Invertion extends Mutation {
         individual[points[1] % individual.length] = __temp;
     }
 
-    //*********************************************************************************
-    //*****************************Métodos para Reflection*****************************
-    //*********************************************************************************    
     @Override
     public String getInfo() {
-        String s = "<p>Método usado para fazer a mutação de indivíduos a uma população.</p>"
-                + "<p>Este método tem como parâmetro de entrada a probabilidade de mutação de um individuo.</p> "
-                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
-                + "<p>o parametro 0.40 representa 40% de probabilidade de mutação do individuo.</p>";
+        String s = "<p>O operador recebe uma probabilidade de os individuos serem</p>"
+                + " <p> recombinados. Essa probabilidade tem de estar entre 0 e 1.</p>"
+                + " <p> Após isso, no allelo do individuo serão selecionados dois</p>"
+                + " <p> pontos de corte, e entre esses dois pontos os bits serão</p>"
+                + " <p> invertidos.</p>"
+                + "<p><marquee> (Ex: 0.40 indica 40% de probabilidade"
+                + " <p>de acontecer a recombinação)</marquee></p>";
         return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
+        int probabilidade = Integer.parseInt(parameters);
         try {
-            double probabil = Double.parseDouble(parameters.split(" ")[0]);
-            this.probability = probabil;
-            this.customProb = true;
+            this.probability = probabilidade;
             return true;
         } catch (Exception ex) {
-            //Se algo correr mal, devolve false.
+            //parametos por defeito
+            this.probability = 0.75;
             return false;
         }
+
     }
-    //*********************************************************************************
-    //*********************************************************************************
-    //********************************************************************************* 
 }

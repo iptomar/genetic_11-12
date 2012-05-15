@@ -6,15 +6,15 @@ import genetics.Individual;
 import genetics.Population;
 import operators.Genetic;
 
-/* -------------------------------------------------------------------------
+/*
  * -------------------------------------------------------------------------
- *  I n s t i t u t o   P o l i t e c n i c o   d e   T o m a r
- *   E s c o l a   S u p e r i o r   d e   T e c n o l o g i a
+ * ------------------------------------------------------------------------- I n
+ * s t i t u t o P o l i t e c n i c o d e T o m a r E s c o l a S u p e r i o r
+ * d e T e c n o l o g i a
  *
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  * -------------------------------------------------------------------------
- * Número de Aluno: 13691 
- * E-mail: Ruben.Felix@gmail.com
+ * Número de Aluno: 13691 E-mail: Ruben.Felix@gmail.com
  * -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
  */
@@ -33,15 +33,19 @@ public class PMX extends Recombination {
     private double probability;
 
     /**
-     * Construtor da classe em que a probabilidade dos filhos sofrerem uma recombinação é de 75%
+     * Construtor da classe em que a probabilidade dos filhos sofrerem uma
+     * recombinação é de 75%
      */
     public PMX() {
         this(0.75);
     }
 
     /**
-     * Construtor da classe onde é passado por parametro a probabilidade de dois filhos sofrerem a recombinação
-     * @param probability (double) - Probabilidade, entre 0 e 1, de dois filhos sofrerem a recombinação
+     * Construtor da classe onde é passado por parametro a probabilidade de dois
+     * filhos sofrerem a recombinação
+     *
+     * @param probability (double) - Probabilidade, entre 0 e 1, de dois filhos
+     * sofrerem a recombinação
      */
     public PMX(double probability) {
         this.probability = probability;
@@ -151,28 +155,30 @@ public class PMX extends Recombination {
 
     //*********************************************************************************
     //*****************************Métodos para Reflection*****************************
-    //*********************************************************************************    
+    //*********************************************************************************   
     @Override
     public String getInfo() {
-        String s = "<p>Método de recombinação de individuos que tem como parâmetro de entrada</p>"
-                + "<p>a probabilidade da recombinação que dois individuos têm.</p>"
-                + "<p>A probabilidade é passado como valor real ou seja, um valor entre 0 e 1 em que, por exemplo,</p>"
-                + "<p>o parametro 0.40 representa 40% de probabilidade de recombinação dos individuos.</p>";
+        String s = "<p>O operador recebe uma probabilidade de os individuos serem</p>"
+                + " <p> recombinados. Essa probabilidade tem de estar entre 0 e 1.</p>"
+                + " <p> Após isso, essa probabilidade é aplicada a uma população</p>"
+                + " <p> e são criados, dois pais e dois filhos.</p>"
+                + " <p> No final são retornados dois filhos.</p>"
+                + "<p><marquee> (Ex: 0.40 indica 40% de probabilidade"
+                + " <p>de acontecer a recombinação)</marquee></p>";
         return s;
     }
 
     @Override
     public boolean setParameters(String parameters) {
+        int probabilidade = Integer.parseInt(parameters);
         try {
-            int probabilidade = Integer.parseInt(parameters.split(" ")[0]);
             this.probability = probabilidade;
             return true;
         } catch (Exception ex) {
-            //Caso algo corra mal, devolve false
+            //parametos por defeito
+            this.probability = 0.75;
             return false;
         }
+
     }
-    //*********************************************************************************
-    //*********************************************************************************
-    //*********************************************************************************
 }
