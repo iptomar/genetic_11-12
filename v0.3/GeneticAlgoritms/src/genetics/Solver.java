@@ -139,6 +139,18 @@ public class Solver extends GenericSolver {
                 while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
                         && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())) {
 
+                    /**
+                     * Faz a normalização de todos os individuos das duas populações
+                     */
+                    for (int i = 0; i < this._parentsPopulation.getPopulation().size(); i++) {
+                        ((TSP)this._parentsPopulation.getPopulation().get(i)).individualNormalization();
+                    }
+                    if(_sonsPopulation != null){
+                    for (int i = 0; i < this._sonsPopulation.getPopulation().size(); i++) {
+                        ((TSP)this._sonsPopulation.getPopulation().get(i)).individualNormalization();
+                    }
+                    }
+                    
                     // Corre todos os operadores que foram passados para este solver
                     for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
 
@@ -179,8 +191,8 @@ public class Solver extends GenericSolver {
                     // incrementa mais uma geração/iteração à variavel
                     this._numberIteractions++;
                     System.out.println("Iteration: " + _numberIteractions);
-                    System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
-                    System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
+                    System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation) + PopulationUtils.getHallOfFame(_parentsPopulation, 1).toString());
+                    System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation) + PopulationUtils.getHallOfFame(_sonsPopulation, 1).toString());
                     System.out.println("------------------------------------------------------------------------------");
 
                     if (Stop == true) {
