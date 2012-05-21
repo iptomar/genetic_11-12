@@ -1,6 +1,7 @@
 package genetics;
 
 import genetics.algorithms.OnesMax;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -13,7 +14,7 @@ import java.util.Random;
  * 
  * @author goncalo
  */
-public class Population implements Iterable<Individual> {
+public class Population implements Iterable<Individual>, Serializable {
 
     public static final int DEFAULT_AGE_POPULATION = 0;
     public static final int DEFAULT_SIZE_POPULATION = 10;

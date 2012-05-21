@@ -1,5 +1,6 @@
 package genetics;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
@@ -9,7 +10,7 @@ import java.util.Iterator;
  * É composta por um ArrayList de elementos do tipo Gene, com o nome genotype.
  * @author goncalo
  */
-public class Chromosome implements Iterable<Gene> {
+public class Chromosome implements Iterable<Gene>, Serializable {
     /**
      * ArrayList de Genes que será o genotype do cromossoma
      */

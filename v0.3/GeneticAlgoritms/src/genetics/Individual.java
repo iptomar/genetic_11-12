@@ -1,5 +1,6 @@
 package genetics;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,7 +11,7 @@ import java.util.Iterator;
  * É composta por um ArrayList com elementos do tipo Chromossome, chamados genome.
  * @author goncalo
  */
-public abstract class Individual implements Iterable<Chromosome> {
+public abstract class Individual implements Iterable<Chromosome>, Serializable {
 
     /**
      * ArrayList de cromossomas que farão a definição do genoma do individuo

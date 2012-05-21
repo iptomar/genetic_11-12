@@ -48,6 +48,9 @@ public class Solver extends GenericSolver {
     public ArrayList<Operator> _operators;
     private EventsSolver _eventSolver;
     public TSPProblem TSP = null;
+    //Variável que permite parar o solver
+    //True=Solver parador/False=solver a correr
+    private volatile boolean Stop = false;
 
     /**
      * Construtor do solver
@@ -179,6 +182,12 @@ public class Solver extends GenericSolver {
                     System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
                     System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
                     System.out.println("------------------------------------------------------------------------------");
+
+                    if (Stop == true) {
+                        System.out.println("Solver Terminado por pedido!");
+                        break;
+                    }
+
                 }
             } else {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
@@ -230,6 +239,12 @@ public class Solver extends GenericSolver {
                     System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
                     System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
                     System.out.println("------------------------------------------------------------------------------");
+
+                    if (Stop == true) {
+                        System.out.println("Solver Terminado por pedido!");
+                        break;
+                    }
+
                 }
             }
 
@@ -604,5 +619,25 @@ public class Solver extends GenericSolver {
             //Algo correu mal - devolve false
             return false;
         }
+    }
+
+    @Override
+    public Population getPopulation() {
+        return this._parentsPopulation;
+    }
+
+    @Override
+    public boolean setPopulation(Population p) {
+        if (p != null) {
+            this._parentsPopulation = p;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void StopSolver() {
+        this.Stop = true;
     }
 }

@@ -1,11 +1,14 @@
 package genetics;
+
+import java.io.Serializable;
+
 /**
  * Classe que representa um gene. Tem um objecto T do tipo allele, que é o valor
  * guardado dentro do gene.
  * @author goncalo
  * @param <T> - Valor genérico a ser guardado dentro do allelo do individuo 
  */
-public class Gene<T> {
+public class Gene<T> implements Serializable{
 
     /**
      * Variavél allele que guardará qualquer valor para o allelo do invididuo
