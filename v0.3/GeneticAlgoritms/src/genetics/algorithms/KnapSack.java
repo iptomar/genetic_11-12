@@ -111,7 +111,7 @@ public class KnapSack extends Individual {
         int __fitness;
 
         // Se o peso estiver dentro dos limites então devolve o fitness logo
-        if (this._calculateTotalWeight() <= this._maxWeight) {
+        if (this._calculateIndividualWeight() <= this._maxWeight) {
             return this._calculateTotalValue();
         }
 
@@ -135,7 +135,7 @@ public class KnapSack extends Individual {
         double __totalValueGeneInvert;
 
         // Calcula o peso em excesso
-        __overWeight = this._calculateTotalWeight() - this._maxWeight;
+        __overWeight = this._calculateIndividualWeight() - this._maxWeight;
         __totalValueGene = 0;
         __totalValueGeneInvert = 0;
 
@@ -197,7 +197,7 @@ public class KnapSack extends Individual {
         int __overWeight;
 
         // Calcula o peso em excesso
-        __overWeight = this._calculateTotalWeight() - this._maxWeight;
+        __overWeight = this._calculateIndividualWeight() - this._maxWeight;
 
         // Ciclo que so termina quando não existir overWeight
         while (__overWeight > 0) {
@@ -234,7 +234,7 @@ public class KnapSack extends Individual {
         int __fitness;
 
         // Calcula o peso em excesso
-        __overWeight = this._calculateTotalWeight() - this._maxWeight;
+        __overWeight = this._calculateIndividualWeight() - this._maxWeight;
 
         // Se der valor negativo no overWeight então não ultrapassa o peso da mochila
         if (__overWeight < 0) {
@@ -277,7 +277,7 @@ public class KnapSack extends Individual {
      * Calcula o peso deste individuo
      * @return Devolve o peso total do individuo
      */
-    private int _calculateTotalWeight() {
+    public int _calculateIndividualWeight() {
         int __totalWeight = 0;
 
         // Ciclo que soma o peso do individuo. Peso esse que são os bits a 1
@@ -290,8 +290,19 @@ public class KnapSack extends Individual {
                 }
             }
         }
-
         return __totalWeight;
+    }
+    
+    /**
+     * Método que devolve a soma total de todos os pesos dos items da mochila
+     * @return Peso de todos os items da mochila
+     */
+    public int calculateTotalItemsWeight(){
+        int weight = 0;
+        for (int i = 0; i < _table.length/2; i++) {
+            weight += this._table[i][WEIGHT];
+        }
+        return weight;
     }
 
     /**
@@ -404,7 +415,6 @@ public class KnapSack extends Individual {
             // Copia os dados relacionados com os pesos
             this._table[__indexData][WEIGHT] = Integer.parseInt(__dataSplit[DATA_START + super.getSizeAllelo() + __indexData]);
         }
-        System.out.println("Teste");
     }
     
     @Override

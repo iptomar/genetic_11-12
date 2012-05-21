@@ -239,7 +239,7 @@ public class Solver extends GenericSolver {
                     System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
                     System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
                     System.out.println("------------------------------------------------------------------------------");
-
+                    
                     if (Stop == true) {
                         System.out.println("Solver Terminado por pedido!");
                         break;

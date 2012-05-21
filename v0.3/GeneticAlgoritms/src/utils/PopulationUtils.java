@@ -4,9 +4,13 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.K100;
+import genetics.algorithms.K50;
+import genetics.algorithms.KnapSack;
 import genetics.algorithms.TSP;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.TreeSet;
 
@@ -64,6 +68,27 @@ public class PopulationUtils {
             // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
             // descendente
             Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+        }
+    }
+
+    /**
+     * Método que devolve os parametros de peso máximo da mochila, soma dos pesos de todos os componentes do
+     * problema e o peso dos items do melhor individuo da população.
+     * @param population - População a ser analisada
+     * @return String com a informação do melhor individuo e dos problemas
+     */
+    public static String getKnapSackLastParameters(Population population) {
+        //Verifica se a população é do tipo KnapSack e não é nula nem vazia
+        if (!population.getPopulation().isEmpty() && population != null && (population.getTypePopulation() instanceof KnapSack || population.getTypePopulation() instanceof K50 || population.getTypePopulation() instanceof K100)) {
+            //Ordena a população pelo melhor fitness
+            Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+            String info = "" + ((KnapSack) population.getIndividual(0)).getMaxWeight();
+            info += ":" + ((KnapSack) population.getIndividual(0))._calculateIndividualWeight();
+            info += ":" + ((KnapSack) population.getIndividual(0)).calculateTotalItemsWeight();
+            return info;
+        } else {
+            //Se a população não for correcta, devolve null
+            return null;
         }
     }
 
@@ -143,8 +168,8 @@ public class PopulationUtils {
         }
         return __totalFitness;
     }
-    
-    public static double totalFitnessAcumulation(Population population, double[][] costMatrix){
+
+    public static double totalFitnessAcumulation(Population population, double[][] costMatrix) {
         double totalFitness = 0;
         for (Individual individuo : population) {
             // incrementa o total fitness
@@ -152,7 +177,7 @@ public class PopulationUtils {
         }
         return totalFitness;
     }
-    
+
     public static double calculateFitness(Individual individual, double[][] costMatrix) {
         // starting point
         double fitness = 0;
@@ -165,7 +190,7 @@ public class PopulationUtils {
         }
         return fitness;
     }
-    
+
     /**
      * *ª********************************************
      * ******** AINDA NÃO FUNCIONA COM O TSP ********
@@ -203,5 +228,23 @@ public class PopulationUtils {
 
         // Devolve a população com os Hall Of Fame (melhores individuos)
         return __newPopulation;
+    }
+
+    public static Collection<Individual> getUniqueIndividuals(Population population, int fitness) {
+        //Ordenação
+        TreeSet<Individual> __population = new TreeSet<Individual>(new ComparatorIndividual());
+
+        // Ordenar População pelo fitness de forma descendente
+        //PopulationUtils.orderPopulation(population);
+
+        // Devolve o numero de individuos que foram pedidos
+        ArrayList<Individual> top = new ArrayList<Individual>();
+        for (Individual __individualHallOfFame : population.getPopulation()) {
+            if (__individualHallOfFame.fitness() == fitness) {//?maior ou 
+                __population.add(__individualHallOfFame);
+            }
+        }
+        // Devolve a população com os Hall Of Fame (melhores individuos)
+        return __population;
     }
 }
