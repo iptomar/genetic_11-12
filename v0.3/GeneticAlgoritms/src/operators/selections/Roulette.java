@@ -13,11 +13,25 @@ import utils.exceptions.PonteiroForaDoLimiteException;
  */
 public class Roulette extends Selection {
 
-    private double ponteiro = 0.0;
+    
+    private Population popIn;
 
-    public Roulette() {
+    public Population getPopIn() {
+        return popIn;
+    }
+    
+    public double getPonteiro() {
+        return ponteiro;
+    }
+
+    private double ponteiro = 0.0;
+    
+    public Roulette(){
         this(Selection.DIMENDIONS_NEW_POPULATION_DEFAULT);
     }
+
+
+
 
     //contructor com parametro, dimensão da nova população
     public Roulette(int dimensionsNewPopulation) {
