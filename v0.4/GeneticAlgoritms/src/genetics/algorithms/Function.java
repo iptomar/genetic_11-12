@@ -4,7 +4,10 @@
  */
 package genetics.algorithms;
 
+import genetics.Chromosome;
+import genetics.Gene;
 import genetics.Individual;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,20 +21,19 @@ public class Function extends Individual {
 
     public static final Random RANDOM_GENERATOR = new Random();
 
-    private double[] _beginDomains;    
-    private double[] _endDomains;    
-    private double[] _sizeDomains; 
+    private double[]    _beginDomains;    
+    private double[]    _endDomains;    
+    private double[]    _sizeDomains; 
+    //private boolean[][] _variavels;
+    
     //Expressão matemática
     private String _scriptFunctionMath;
     
     public Function(Function function){
-//        this(function._individual[0].clone(), 
-//            function._individual[1].clone(), 
-//            function._beginDomainX1,
-//            function._endDomainX1,
-//            function._beginDomainX2,
-//            function._endDomainX2, 
-//            function._scriptFunctionMath);
+//        this(function._variavels,
+//                function._beginDomains,
+//                function._endDomains,
+//                function._scriptFunctionMath);
     }
     
     public Function(double[] beginDomains, double[] endDomains, String scriptFunctionMath){
@@ -43,38 +45,35 @@ public class Function extends Individual {
         this._initIndividual();
     }
     
-    public Function(boolean[] x1, boolean[] x2, double beginDomainX1, double endDomainX1, double beginDomainX2, double endDomainX2, String scriptFunctionMath){
-//        this._beginDomainX1         = beginDomainX1;
-//        this._endDomainX1           = endDomainX1;
-//        this._beginDomainX2         = beginDomainX2;
-//        this._endDomainX2           = endDomainX2;
-//        this._sizeDomainX1          = Function.sizeDomain(this._beginDomainX1, this._endDomainX1);
-//        this._sizeDomainX2          = Function.sizeDomain(this._beginDomainX2, this._endDomainX2);
-//        this._scriptFunctionMath    = scriptFunctionMath;
+    public Function(boolean[][] variavels, double[] beginDomains, double[] endDomains, String scriptFunctionMath){
+//        System.arraycopy(beginDomains, 0, this._beginDomains, 0, this._beginDomains.length);        
+//        System.arraycopy(endDomains, 0, this._endDomains, 0, this._endDomains.length);
 //        
-//        this._initIndividual(x1, x2);
+//        System.arraycopy(variavels, 0, this._variavels, 0, this._variavels.length);
+//        
+//        _sizeDomainCalculation(this._sizeDomains, beginDomains, endDomains);
+//        
+//        for (int __indexVariavel = 0; __indexVariavel < this._variavels.length; __indexVariavel++) {
+//            System.arraycopy(variavels[__indexVariavel], 0, this._variavels[__indexVariavel], 0, this._variavels[__indexVariavel].length);          
+//        }
+//        
+//        this._scriptFunctionMath = scriptFunctionMath;
     }
     
     private void _initIndividual() {  
-        for (double __sizeDomain : this._sizeDomains) {
-            this._initIndividual(
-                Function.generateRandomIndividual(
+        Chromosome __chromosome = new Chromosome(this);
+        
+        for (int __indexIndividuals = 0; __indexIndividuals < this._sizeDomains.length; __indexIndividuals++) {
+            Gene __gene = new Gene(Function.generateRandomIndividual(
                     Function.calculateSizeAllelo(
-                        Function.convertRealToInteger(__sizeDomain))));
-        }
-    }
-    
-    private void _initIndividual(boolean[] individuals) {
-//        this._individual        = new boolean[2][];
-//        this._individual[X1]    = new boolean[Function.calculateSizeAllelo(Function.convertRealToInteger(sizeDomain))];
-//        this._individual[X2]    = new boolean[Function.calculateSizeAllelo(Function.convertRealToInteger(this._sizeDomainX2))];        
-//        this._individual[X1]    = x1;
-//        this._individual[X2]    = x2;
-        for (Object object : this) {
+                        Function.convertRealToInteger(this._sizeDomains[__indexIndividuals]))));
             
+            __chromosome.setGene(__gene);
         }
+        
+        this.setChromosome(0, __chromosome);
     }
-    
+
     private void _sizeDomainCalculation(double[] sizeDomains, double[] beginDomains, double[] endDomains) {
         sizeDomains = new double[beginDomains.length];
         for (int __indexDomain = 0; __indexDomain < beginDomains.length; __indexDomain++) {
@@ -84,9 +83,15 @@ public class Function extends Individual {
     
     @Override
     public double fitness() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        double[] __variavels = new double[this.getGenome().get(0).getGenotype().size()];
+        
+        for (int i = 0; i < this.getGenome().get(0).getGenotype().size(); i++) {
+            __variavels[i] = Function.convertBinaryToReal(this._beginDomains[i], this.getGenome().get(0).getGenotype().get(i).toString(), this._sizeDomains[i]);
+        }
+        
+        return Function.parseFunctionECMAScript(_scriptFunctionMath, __variavels);
     }
-
+    
     @Override
     public Object[] inicializationAllelo() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -144,7 +149,7 @@ public class Function extends Individual {
         return beginDomain + __valueRealOfBinary * ( sizeDomain / ( Math.pow(2, Function.calculateSizeAllelo((int)__valueRealOfBinary)) - 1 ) );
     }
 
-    public static double parseFunctionECMAScript(String script, double x1, double x2){
+    public static double parseFunctionECMAScript(String script, double[] variavels){
         double              __resultValue;
         ScriptEngineManager __scriptEngineManager;
         ScriptEngine        __ECMAScript;
@@ -153,7 +158,7 @@ public class Function extends Individual {
         StringBuffer        __scriptInFunction;
         
         __scriptInFunction = new StringBuffer(script.length());
-        __scriptInFunction.append("function functionMath(x1, x2) { return ");
+        __scriptInFunction.append("function functionMath(variavels) { return ");
         __scriptInFunction.append(script);
         __scriptInFunction.append("; }");
         
@@ -172,11 +177,12 @@ public class Function extends Individual {
                 
                 try {
                     
-                    Object __valueReturn = __invokeFunction.invokeFunction("functionMath", x1, x2);
+                    Object __valueReturn = __invokeFunction.invokeFunction("functionMath", variavels);
                     if(__valueReturn instanceof Double) 
                         __resultValue = (Double)__valueReturn;
                     
-                } catch (NoSuchMethodException | ScriptException ex) {
+                } catch (NoSuchMethodException __noSuchMethodException) {
+                } catch (ScriptException __scriptException) {
                 }
             }
 
