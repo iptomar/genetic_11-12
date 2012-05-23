@@ -143,14 +143,14 @@ public class Solver extends GenericSolver {
                      * Faz a normalização de todos os individuos das duas populações
                      */
                     for (int i = 0; i < this._parentsPopulation.getPopulation().size(); i++) {
-                        ((TSP)this._parentsPopulation.getPopulation().get(i)).individualNormalization();
+                        ((TSP) this._parentsPopulation.getPopulation().get(i)).individualNormalization();
                     }
-                    if(_sonsPopulation != null){
-                    for (int i = 0; i < this._sonsPopulation.getPopulation().size(); i++) {
-                        ((TSP)this._sonsPopulation.getPopulation().get(i)).individualNormalization();
+                    if (_sonsPopulation != null) {
+                        for (int i = 0; i < this._sonsPopulation.getPopulation().size(); i++) {
+                            ((TSP) this._sonsPopulation.getPopulation().get(i)).individualNormalization();
+                        }
                     }
-                    }
-                    
+
                     // Corre todos os operadores que foram passados para este solver
                     for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
 
@@ -251,7 +251,7 @@ public class Solver extends GenericSolver {
                     System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
                     System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
                     System.out.println("------------------------------------------------------------------------------");
-                    
+
                     if (Stop == true) {
                         System.out.println("Solver Terminado por pedido!");
                         break;

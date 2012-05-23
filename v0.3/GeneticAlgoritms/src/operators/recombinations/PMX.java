@@ -4,6 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.TSP;
 import operators.Genetic;
 
 /*
@@ -106,6 +107,22 @@ public class PMX extends Recombination {
                 sons.addIndividual(parents.getIndividual(i));
             }
         }
+
+
+//
+//        for (int i = 0; i < sons.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[]) ((TSP) sons.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if (allelo[j] == allelo[k] && j != k) {
+//                        System.out.println("ERROR: REPEATED CITYS AT OrderCrossOver (LAST)");
+//                    }
+//                }
+//            }
+//        }
+
+
+
         //devolve a população de filhos que sofreu o uniform crossover
         return sons;
     }
