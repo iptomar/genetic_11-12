@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Pedro
+ * @author Pedro Alves
  */
 public class SUSTest {
  

@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  
 /**
  *
- * @author Ruben Felix <Ruben.Felix@gmail.com>
+ * @author Pedro Alves
  */
 public class RouletteTest {
     
