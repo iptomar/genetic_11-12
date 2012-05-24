@@ -176,7 +176,7 @@ public class Function extends Individual {
                     if(__valueReturn instanceof Double) 
                         __resultValue = (Double)__valueReturn;
                     
-                } catch (NoSuchMethodException | ScriptException ex) {
+                } catch (Exception ex) {
                 }
             }
 
