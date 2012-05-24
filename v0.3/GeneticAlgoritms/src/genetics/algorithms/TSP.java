@@ -67,7 +67,7 @@ public class TSP extends Individual {
         for (Chromosome chromosome : this) {
             for (Gene<Integer[]> gene : chromosome) {
                 for (int __indexAlleloValue = 1; __indexAlleloValue < gene.getAllele().length; __indexAlleloValue++) {
-                    fitness += costMatrix[gene.getAllele()[__indexAlleloValue - 1]][gene.getAllele()[__indexAlleloValue % gene.getAllele().length]];
+                    fitness += costMatrix[gene.getAllele()[__indexAlleloValue - 1]][gene.getAllele()[__indexAlleloValue % gene.getAllele().length]];  
                 }
             }
         }

@@ -550,9 +550,7 @@ public class Solver extends GenericSolver {
                 System.out.println("------------------------");
                 System.out.println("REPLACEMENT: TRUNCATION");
                 //Verifica se existem parametros para o operador
-                if (dimNewPop == 0) {
-                    this._operators.add(new Truncation());
-                }
+                this._operators.add(new Truncation());
             }
             //Devolve true - tudo correu bem na definição do operador
             return true;
@@ -651,5 +649,10 @@ public class Solver extends GenericSolver {
     @Override
     public void StopSolver() {
         this.Stop = true;
+    }
+    
+    @Override
+    public int getCurrentItera(){
+        return _numberIteractions;
     }
 }
