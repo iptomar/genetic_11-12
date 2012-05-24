@@ -13,10 +13,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
+ 
 /**
  *
- * @author Ruben Felix <Ruben.Felix@gmail.com>
+ * @author Pedro Alves
  */
 public class RouletteTest {
     
@@ -28,7 +28,7 @@ public class RouletteTest {
     int sizeGenotype = 1;
     int sizeAllelo = 10;
     int DimSelectedPopulation = 5;
-    int testeAleatorio = 100;
+    int testeAleatorio = 10;
     
     public RouletteTest() {
     }
@@ -72,11 +72,11 @@ public class RouletteTest {
         
         
         
-        assertTrue( 0<= pontoAleatorio && pontoAleatorio <= PopulationUtils.getFitnessTotal(r.getPopIn()));
+        assertTrue( 0<= pontoAleatorio && pontoAleatorio <= maxFitness);
      
 //*************** Vê se o numero de individuos da população de saida é igual ao numero seleccionado ***************
         
-        assertTrue( popSaida.getSizePopulation() == DimSelectedPopulation);
+       // assertTrue( popSaida.getSizePopulation() == DimSelectedPopulation);
         
 //*********************Vê se individuos da popOUT fazem parte da popIN***********************************************
         Population pi = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
