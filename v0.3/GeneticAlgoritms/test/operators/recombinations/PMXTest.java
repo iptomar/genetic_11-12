@@ -21,10 +21,10 @@ public class PMXTest {
     
     private Population p;
     private PMX pmx;
-    int sizePopulation = 200;
+    int sizePopulation = 2000;
     int sizeGenome = 1;
     int sizeGenotype = 1;
-    int sizeAllelo = 128;
+    int sizeAllelo = 279;
     double probabilidade = 0.75;
     int testeAleatorio = 10;
     
@@ -57,7 +57,7 @@ public class PMXTest {
                 int n1=alelo[j];
                 
                 //***********testes*************
-                String s = popOUT.getIndividual(j).toString();
+                String s = popOUT.getIndividual(i).toString();
                 
                 s=s.replace('>', ' ');
                 s=s.replace(" ", "");
