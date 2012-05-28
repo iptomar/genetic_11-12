@@ -4,24 +4,27 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /* -------------------------------------------------------------------------
- * -------------------------------------------------------------------------
- * I n s t i t u t o P o l i t e c n i c o d e T o m a r
- * E s c o l a S u p e r i o r d e T e c n o l o g i a
- *
- * @author Ruben Felix <Ruben.Felix@gmail.com>
- * -------------------------------------------------------------------------
- * Número de Aluno: 13691
- * E-mail: Ruben.Felix@gmail.com
- * -------------------------------------------------------------------------
- * -------------------------------------------------------------------------
- */
+* -------------------------------------------------------------------------
+* I n s t i t u t o P o l i t e c n i c o d e T o m a r
+* E s c o l a S u p e r i o r d e T e c n o l o g i a
+*
+* @author Ruben Felix <Ruben.Felix@gmail.com>
+* -------------------------------------------------------------------------
+* Número de Aluno: 13691
+* E-mail: Ruben.Felix@gmail.com
+* -------------------------------------------------------------------------
+* -------------------------------------------------------------------------
+*/
 /**
- * Classe do tipo KnapSack que será o individuo que receberá os parametros necessários para a resolução do problema da mochila.
- * A mochila terá que ficar definida no individuo para que seja possivel o cálculo do fitness do mesmo.
- * @author Ruben Felix <Ruben.Felix@gmail.com>
- */
+* Classe do tipo KnapSack que será o individuo que receberá os parametros necessários para a resolução do problema da mochila.
+* A mochila terá que ficar definida no individuo para que seja possivel o cálculo do fitness do mesmo.
+* @author Ruben Felix <Ruben.Felix@gmail.com>
+*/
 public class KnapSack extends Individual {
 
     public enum ModeFunction {
@@ -40,25 +43,25 @@ public class KnapSack extends Individual {
     private int _penaltyOrder;
 
     /**
-     * Construtor por defeito
-     */
+* Construtor por defeito
+*/
     public KnapSack() {
         // Invoca o construtor do Individual
         super();
     }
 
     /**
-     * Construtor do KnapSack que cria uma copia a partir de um individuo do tipo KnapSack
-     * @param newKnapSack
-     */
+* Construtor do KnapSack que cria uma copia a partir de um individuo do tipo KnapSack
+* @param newKnapSack
+*/
     public KnapSack(KnapSack newKnapSack) {
         this((Individual) newKnapSack);
     }
 
     /**
-     * Construtor do KnapSack que cria uma copia a partir de um individuo do tipo Individual
-     * @param newIndividual
-     */
+* Construtor do KnapSack que cria uma copia a partir de um individuo do tipo Individual
+* @param newIndividual
+*/
     public KnapSack(Individual newIndividual) {
         super(newIndividual);
 
@@ -70,12 +73,12 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Construtor do KnapSack
-     * @param maxWeight Peso maximo do saco
-     * @param table Matriz com os valores e pesos
-     * @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
-     * @param penaltyOrder Qual a ordem de penalização aplicar
-     */
+* Construtor do KnapSack
+* @param maxWeight Peso maximo do saco
+* @param table Matriz com os valores e pesos
+* @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
+* @param penaltyOrder Qual a ordem de penalização aplicar
+*/
     public KnapSack(int maxWeight, int[][] table, ModeFunction modeFunction, int penaltyOrder) {
         // Invoca o construtor do Individual
         super();
@@ -87,11 +90,11 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Construtor do KnapSack
-     * @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
-     * @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
-     * @param penaltyOrder Qual a ordem de penalização aplicar
-     */
+* Construtor do KnapSack
+* @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
+* @param modeFunction Tipo de penalização aplicar quando existe excesso de peso
+* @param penaltyOrder Qual a ordem de penalização aplicar
+*/
     public KnapSack(String data, ModeFunction modeFunction, int penaltyOrder) {
         // Invoca o construtor do Individual
         super();
@@ -103,9 +106,9 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Calcula o fitness
-     * @return Devolve o fitness
-     */
+* Calcula o fitness
+* @return Devolve o fitness
+*/
     @Override
     public double fitness() {
         int __fitness;
@@ -188,9 +191,9 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Metodo responsavel por tirar um objecto, de forma aleatoria do saco
-     * @return Devolve o valor quando o peso já estiver dentro dos limites aceitaveis
-     */
+* Metodo responsavel por tirar um objecto, de forma aleatoria do saco
+* @return Devolve o valor quando o peso já estiver dentro dos limites aceitaveis
+*/
     private int _applyRandom() {
         boolean __valueAlleloPickRandom;
         int __indexAlleloPickRandom;
@@ -224,11 +227,11 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Metodo responsavel por aplicar a penalidade aos individuos caso ultrapassem
-     * o peso maximo
-     * @param penaltyOrder Ordem de penalização: Linear, Quadratica...
-     * @return Devolve o fitness ja com a penalidade aplicada
-     */
+* Metodo responsavel por aplicar a penalidade aos individuos caso ultrapassem
+* o peso maximo
+* @param penaltyOrder Ordem de penalização: Linear, Quadratica...
+* @return Devolve o fitness ja com a penalidade aplicada
+*/
     private int _applyPenalty(int penaltyOrder) {
         int __overWeight;
         int __fitness;
@@ -253,9 +256,9 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Calcula o valor deste individuo
-     * @return
-     */
+* Calcula o valor deste individuo
+* @return
+*/
     private int _calculateTotalValue() {
         int __totalValue = 0;
 
@@ -274,9 +277,9 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Calcula o peso deste individuo
-     * @return Devolve o peso total do individuo
-     */
+* Calcula o peso deste individuo
+* @return Devolve o peso total do individuo
+*/
     public int _calculateIndividualWeight() {
         int __totalWeight = 0;
 
@@ -294,9 +297,9 @@ public class KnapSack extends Individual {
     }
     
     /**
-     * Método que devolve a soma total de todos os pesos dos items da mochila
-     * @return Peso de todos os items da mochila
-     */
+* Método que devolve a soma total de todos os pesos dos items da mochila
+* @return Peso de todos os items da mochila
+*/
     public int calculateTotalItemsWeight(){
         int weight = 0;
         for (int i = 0; i < _table.length/2; i++) {
@@ -306,19 +309,63 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * Inicialização do Allelo a usar no KnapSack
-     * @return Devolve o allelo ja criado
-     */
+* Inicialização do Allelo a usar no KnapSack
+* @return Devolve o allelo ja criado
+*/
     @Override
     public Boolean[] inicializationAllelo() {
         Boolean[] __allelo = new Boolean[super.getSizeAllelo()];
+        double __weight = 0;
 
+        ArrayList<Object[]> __listOfItensIndexAndRatio = new ArrayList<Object[]>();
+        
         // gerar de forma aleatoria os valores em binario para o allelo
         for (int __indexAllelo = 0; __indexAllelo < super.getSizeAllelo(); __indexAllelo++) {
-            __allelo[__indexAllelo] = Population.RANDOM_GENERATOR.nextBoolean();
+            // guarda o index do item e depois o ratio
+            __listOfItensIndexAndRatio.add(new Object[] { __indexAllelo, _ratioItem(_table[__indexAllelo]) });
+            // inicializa o allelo a falso
+            __allelo[__indexAllelo] = false;
+        }
+
+        // Ordena do maior para o mais pequeno a lista, para os melhores ratios ficarem
+        // em primeiro
+        Collections.sort(__listOfItensIndexAndRatio, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] o1, Object[] o2) {
+                if((Double)o1[1] > (Double)o2[1]) return -1;
+                if((Double)o1[1] < (Double)o2[1]) return 1;
+                return 0;
+            }
+        });
+        
+        // Corre a lista dos itens com ratio
+        for (Object[] __item : __listOfItensIndexAndRatio) {
+            // se o peso do total de itens no saco for menor que o limite de peso do saco
+            if(__weight <= (double)this._maxWeight) {
+                // calcula uma probabilidade de 95% de esse item ir para o saco
+                if(Population.RANDOM_GENERATOR.nextDouble() <= 0.95){
+                    // soma o peso ao total
+                    __weight += _table[(Integer)__item[0]][WEIGHT];
+                    // poe o item no saco
+                    __allelo[(Integer)__item[0]] = true;
+                }
+            } else { // se o peso do total de itens no saco for maior ou igual ao limite de peso do saco
+                // calcula uma probabilidade de 5% de esse item ir para o saco
+                if(Population.RANDOM_GENERATOR.nextDouble() <= 0.05) {
+                    // soma o peso ao total
+                    __weight += _table[(Integer)__item[0]][WEIGHT];
+                    // poe o item no saco
+                    __allelo[(Integer)__item[0]] = true;
+                }
+            }
         }
 
         return __allelo;
+    }
+
+    // calcula o ratio entre o valor e o peso do item
+    private double _ratioItem(int[] item) {
+        return (double)item[VALUE] / (double)item[WEIGHT];
     }
 
     @Override
@@ -327,65 +374,65 @@ public class KnapSack extends Individual {
     }
 
     /**
-     * @return the _maxWeight
-     */
+* @return the _maxWeight
+*/
     public int getMaxWeight() {
         return _maxWeight;
     }
 
     /**
-     * @param maxWeight the _maxWeight to set
-     */
+* @param maxWeight the _maxWeight to set
+*/
     public void setMaxWeight(int maxWeight) {
         this._maxWeight = maxWeight;
     }
 
     /**
-     * @return the _modeFunction
-     */
+* @return the _modeFunction
+*/
     public ModeFunction getModeFunction() {
         return _modeFunction;
     }
 
     /**
-     * @param modeFunction the _modeFunction to set
-     */
+* @param modeFunction the _modeFunction to set
+*/
     public void setModeFunction(ModeFunction modeFunction) {
         this._modeFunction = modeFunction;
     }
 
     /**
-     * @return the _table
-     */
+* @return the _table
+*/
     public int[][] getTable() {
         return _table;
     }
 
     /**
-     * @param table the _table to set
-     */
+* @param table the _table to set
+*/
     public void setTable(int[][] table) {
         this._table = table;
     }
 
     /**
-     * @return the _penaltyOrder
-     */
+* @return the _penaltyOrder
+*/
     public int getPenaltyOrder() {
         return _penaltyOrder;
     }
 
     /**
-     * @param penaltyOrder the _penaltyOrder to set
-     */
+* @param penaltyOrder the _penaltyOrder to set
+*/
     public void setPenaltyOrder(int penaltyOrder) {
         this._penaltyOrder = penaltyOrder;
     }
 
     /**
-     * Pega numa string de dados e transforma na matriz com valor e peso
-     * @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
-     */
+* Pega numa string de dados e transforma na matriz com valor e peso
+* @param data String de dados. A ordem da string deve ser { TamanhoAllelo MaximoPeso Valor1 Valor2 Peso1 Peso2 }
+*/
     protected final void _parseStringData(String data) {
         // Constantes com as posições em que se encontram os dados na string de dados
         final int SIZE_GENE = 0;
