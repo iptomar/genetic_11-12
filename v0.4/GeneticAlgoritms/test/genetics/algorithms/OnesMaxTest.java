@@ -59,7 +59,7 @@ public class OnesMaxTest {
         System.out.println("inicializationAllelo");
         OnesMax instance = new OnesMax();
         Boolean[] expResult = null;
-        Boolean[] result = instance.inicializationAllelo();
+        Boolean[] result = instance.inicializationAllelo(0);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -52,7 +52,7 @@ public class Chromosome implements Iterable<Gene>, Serializable {
      */
     private void _inicializationGenotype() {
         for (int __indexGene = 0; __indexGene < this.getIndividual().getSizeGenotype(); __indexGene++) {
-             this.getGenotype().add(new Gene(getIndividual().inicializationAllelo()));
+             this.getGenotype().add(new Gene(getIndividual().inicializationAllelo(__indexGene)));
         }
     }
     /**

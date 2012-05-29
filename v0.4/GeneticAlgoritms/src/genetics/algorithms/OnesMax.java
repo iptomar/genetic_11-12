@@ -35,7 +35,7 @@ public class OnesMax extends Individual {
     }
 
     @Override
-    public Boolean[] inicializationAllelo() {
+    public Boolean[] inicializationAllelo(int indexGene) {
         Boolean[] __allelo = new Boolean[super.getSizeAllelo()];
 
         // gerar de forma aleatoria os valores em binario para o allelo

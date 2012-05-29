@@ -4,6 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.TSP;
 import operators.Genetic;
 
 /*
@@ -53,6 +54,22 @@ public class PMX extends Recombination {
 
     @Override
     public Population execute(Population parents) {
+
+
+//        for (int i = 0; i < parents.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[]) ((TSP) parents.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if (allelo[j] == allelo[k] && j != k) {
+//                        System.out.println("ERROR: REPEATED CITYS AT PMX (BEGIN)");
+//                    }
+//                }
+//            }
+//        }
+
+
+
+
         //Nova população que irá receber os filhos depois de ser aplicado o PMX na população pai
         sons = new Population(parents.getSizePopulation(), parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
         //Ciclo que percorre toda a população pai que entra
@@ -89,10 +106,10 @@ public class PMX extends Recombination {
                             //Verifica se os allelos são arrays de inteiros
                             if (gSon.getAllele() instanceof Integer[]) {
                                 //array de inteiros que são os allelos dos individuos
-                                Integer[] aSon = (Integer[]) gSon.getAllele();
-                                Integer[] aDaug = (Integer[]) gDaug.getAllele();
                                 Integer[] aFather = (Integer[]) gFather.getAllele();
                                 Integer[] aMother = (Integer[]) gMother.getAllele();
+                                Integer[] aSon = new Integer[aFather.length];
+                                Integer[] aDaug = new Integer[aFather.length];
                                 //aplica a logica do pmx
                                 partiallyMatchedCrossoverLogic(aFather, aMother, aSon, aDaug, pointsOfCut);
                             }
@@ -106,6 +123,21 @@ public class PMX extends Recombination {
                 sons.addIndividual(parents.getIndividual(i));
             }
         }
+
+
+//        for (int i = 0; i < sons.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[]) ((TSP) sons.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if (allelo[j] == allelo[k] && j != k) {
+//                        System.out.println("ERROR: REPEATED CITYS AT PMX (LAST)");
+//                    }
+//                }
+//            }
+//        }
+
+
+
         //devolve a população de filhos que sofreu o uniform crossover
         return sons;
     }

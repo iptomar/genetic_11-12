@@ -230,7 +230,7 @@ public class PopulationUtils {
         return __newPopulation;
     }
 
-    public static Collection<Individual> getUniqueIndividuals(Population population, int fitness) {
+    public static Collection<Individual> getUniqueIndividuals(Population population, double fitness) {
         //Ordenação
         TreeSet<Individual> __population = new TreeSet<Individual>(new ComparatorIndividual());
 
