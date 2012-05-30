@@ -1,12 +1,49 @@
 package genetics.algorithms;
 
-import genetics.Chromosome;
-import genetics.Gene;
-import genetics.Individual;
-import genetics.Population;
+import genetics.*;
+import java.util.ArrayList;
+import operators.Operator;
+import operators.mutation.Flipbit;
+import operators.recombinations.Crossover;
+import operators.replacements.Truncation;
+import operators.selections.Tournament;
+import utils.EventsSolver;
+import utils.exceptions.SolverException;
 
 public class OnesMax extends Individual {
 
+    public static void main(String[] args) throws SolverException {
+        ArrayList<Operator> operators = new ArrayList<Operator>(4);
+        Solver solver;
+        
+        operators.add(new Tournament(20, 2));
+        operators.add(new Crossover());
+        operators.add(new Flipbit(0.01));
+        operators.add(new Truncation());
+
+        solver = new Solver(
+                new Population(10, 1, 1, 20, new OnesMax()),
+                new StopCriterion(20.0, 1, 10, StopCriterion.TYPE_PROBLEM_MAXIMIZATION), 
+                operators, 
+                new EventsSolver() {
+
+            @Override
+            public void EventStartSolver() {
+            }
+
+            @Override
+            public void EventIteraction(int iteractionNumber, Population currentPopulation) {
+            }
+
+            @Override
+            public void EventFinishSolver(int totalIteracoes, Population lastPopulation) {
+                System.out.println(lastPopulation.toString());
+            }
+        });
+        
+        solver.run();
+    }
+    
     public OnesMax() {
         super();
     }

@@ -81,7 +81,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
      * Métodos abstractos que terão que ser implementados em cada tipo especifico de individuo
      */
     public abstract double fitness();
-    public abstract Object[] inicializationAllelo(int indexGene);
+    public abstract Object inicializationAllelo(int indexGene);
     @Override
     public abstract Individual clone();
 

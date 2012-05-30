@@ -104,6 +104,11 @@ public class Solver extends GenericSolver {
         this._operators = new ArrayList<Operator>();
     }
 
+    protected long timePassSeconds(long startTime) {
+        // Converte a diferença para segundos
+        return (System.currentTimeMillis() - startTime) / 1000;
+    }
+    
     /**
      * Metodo que faz correr o Solver, ou seja, aplica os operadores geneticos
      * sobre a população ate encontrar o individuo com o fitness desejado ou atingir
@@ -113,6 +118,10 @@ public class Solver extends GenericSolver {
     @Override
     public void run() throws SolverException, SonsInicialitazionException {
 
+        long __startTime;
+        
+        __startTime = System.currentTimeMillis();
+        
         // Capturar erros de codigo não programados
         try {
 
@@ -136,8 +145,9 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
-                        && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())) {
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                        && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())
+                        && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
 
                     /**
                      * Faz a normalização de todos os individuos das duas populações
@@ -205,8 +215,13 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
-                        && (PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness())) {
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                        && (
+                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MAXIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness()) 
+                            ||
+                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MINIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness()) 
+                        )
+                        && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
 
                     // Corre todos os operadores que foram passados para este solver
                     for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
