@@ -7,8 +7,6 @@ package operators.recombinations;
 import utils.TSPProblem;
 import genetics.Population;
 import genetics.algorithms.TSP;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

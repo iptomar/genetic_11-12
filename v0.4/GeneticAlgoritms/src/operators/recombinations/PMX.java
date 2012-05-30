@@ -4,7 +4,6 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
-import genetics.algorithms.TSP;
 import operators.Genetic;
 
 /*
