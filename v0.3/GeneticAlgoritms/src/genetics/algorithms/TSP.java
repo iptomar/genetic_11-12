@@ -4,6 +4,9 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -83,21 +86,72 @@ public class TSP extends Individual {
     public Integer[] inicializationAllelo() {
         //Array de inteiro, com o tamanho do allelo do individuo, que será especificado para o allelo do individuo
         Integer[] newIndividual = new Integer[this.getSizeAllelo()];
-        //Preenche o allelo com valores entre 0 e o seu tamanho (Todas as cidades disponiveis no problema)
-        for (int i = 0; i < newIndividual.length; i++) {
-            newIndividual[i] = i;
+ 
+        // Comeca sempre em 0
+        newIndividual[0] = 0;
+        
+        //Preenche o allelo com os melhores valores
+        for (int __indexAllelo = 1; __indexAllelo < newIndividual.length; __indexAllelo++) {
+            newIndividual[__indexAllelo] = searchRandomBestPath(
+                    __indexAllelo - 1, 
+                    __indexAllelo, 
+                    newIndividual, 
+                    costMatrix);
         }
-        int max = newIndividual.length - 1;
-        //Método que irá "misturar" a ordem pelas quais as cidades aparecem no array de inteiros
-        while (max > 0) {
-            int index = Population.RANDOM_GENERATOR.nextInt(max);
-            int aux = newIndividual[index];
-            newIndividual[index] = newIndividual[max];
-            newIndividual[max] = aux;
-            max--;
-        }
+        
         //Devolve o array de inteiros que será o allelo do individuo
         return newIndividual;
+    }
+    
+    protected static int searchRandomBestPath(int indexPreviewsCity, int indexNextCity, Integer[] newIndividual, double[][] costMatrix) {
+        int __cityIndex = 0;
+        
+        ArrayList<Object[]> __listOfItensIndexAndRatio = new ArrayList<Object[]>();
+        
+        for (int __indexCity = 0; __indexCity < costMatrix.length; __indexCity++) {    
+            boolean __exist = false;
+            
+            // se for a mesma cidade salta
+            if(__indexCity == indexPreviewsCity) continue;
+            
+            // verifica se essa cidade ja esta na percurso
+            for (int __indexCityDuplicate = 0; __indexCityDuplicate < indexNextCity; __indexCityDuplicate++) {
+                if(newIndividual[__indexCityDuplicate] == __indexCity) {
+                    __exist = true;
+                    break;
+                }
+            }
+            
+            // se sim então salta essa cidade
+            if(__exist) continue;
+            
+            __listOfItensIndexAndRatio.add(new Object[] { __indexCity, costMatrix[indexPreviewsCity][__indexCity] });
+        }
+
+        // Ordena do maior para o mais pequeno a lista, para os melhores ratios ficarem
+        // em primeiro
+        Collections.sort(__listOfItensIndexAndRatio, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] o1, Object[] o2) {
+                if((Double)o1[1] > (Double)o2[1]) return 1;
+                if((Double)o1[1] < (Double)o2[1]) return -1;
+                return 0;
+            }
+        });
+        
+        // por defeito selecciona a cidade com caminho mais curto
+        __cityIndex = (Integer)__listOfItensIndexAndRatio.get(0)[0];
+        
+        // Corre a lista dos itens com ratio
+        for (Object[] __item : __listOfItensIndexAndRatio) {
+                // calcula uma probabilidade de 95% de esse item ir para o saco
+                if(Population.RANDOM_GENERATOR.nextDouble() <= 0.95){
+                    __cityIndex = (Integer)__item[0];
+                    break;
+                }
+        }
+        
+        return __cityIndex;
     }
 
     /**

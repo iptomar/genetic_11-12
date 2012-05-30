@@ -4,6 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.TSP;
 import operators.Genetic;
 
 /*
@@ -53,6 +54,22 @@ public class PMX extends Recombination {
 
     @Override
     public Population execute(Population parents) {
+
+
+//        for (int i = 0; i < parents.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[]) ((TSP) parents.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if (allelo[j] == allelo[k] && j != k) {
+//                        System.out.println("ERROR: REPEATED CITYS AT PMX (BEGIN)");
+//                    }
+//                }
+//            }
+//        }
+
+
+
+
         //Nova população que irá receber os filhos depois de ser aplicado o PMX na população pai
         sons = new Population(parents.getSizePopulation(), parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
         //Ciclo que percorre toda a população pai que entra
@@ -89,10 +106,10 @@ public class PMX extends Recombination {
                             //Verifica se os allelos são arrays de inteiros
                             if (gSon.getAllele() instanceof Integer[]) {
                                 //array de inteiros que são os allelos dos individuos
-                                Integer[] aSon = (Integer[]) gSon.getAllele();
-                                Integer[] aDaug = (Integer[]) gDaug.getAllele();
                                 Integer[] aFather = (Integer[]) gFather.getAllele();
                                 Integer[] aMother = (Integer[]) gMother.getAllele();
+                                Integer[] aSon = new Integer[aFather.length];
+                                Integer[] aDaug = new Integer[aFather.length];
                                 //aplica a logica do pmx
                                 partiallyMatchedCrossoverLogic(aFather, aMother, aSon, aDaug, pointsOfCut);
                             }
@@ -106,8 +123,28 @@ public class PMX extends Recombination {
                 sons.addIndividual(parents.getIndividual(i));
             }
         }
+
+
+//        for (int i = 0; i < sons.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[]) ((TSP) sons.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if (allelo[j] == allelo[k] && j != k) {
+//                        System.out.println("ERROR: REPEATED CITYS AT PMX (LAST)");
+//                    }
+//                }
+//            }
+//        }
+
+
+
         //devolve a população de filhos que sofreu o uniform crossover
         return sons;
+//        int[] pointsOfCut=new int[2];
+//        generatorTwoPointsDistinctsSequential(pointsOfCut, parents.getSizeAllelo());
+//        int p1=pointsOfCut[0];
+//        int p2=pointsOfCut[1];
+//        return execute2(parents, p1, p2);
     }
 
     private static void generatorTwoPointsDistinctsSequential(int[] points, int maxValueExclusive) {
@@ -181,4 +218,92 @@ public class PMX extends Recombination {
         }
 
     }
+    
+    
+    
+//***********************PARA os TESTES********************************************
+    
+//    public Population execute2(Population parents, int p1, int p2) {
+//
+//
+//
+//        //Nova população que irá receber os filhos depois de ser aplicado o PMX na população pai
+//        sons = new Population(parents.getSizePopulation(), parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);
+//        //Ciclo que percorre toda a população pai que entra
+//        for (int i = 0; i < parents.getSizePopulation(); i += 2) {
+//            //Verifica se existem ainda dois pais para a recombinação
+//            try {
+//                father = parents.getIndividual(i);
+//                //puderá dar nullPointerException
+//                mother = parents.getIndividual(i + 1);
+//                //Guarda os filhos que serão a cópia dos seus respectivos pais
+//                Individual son = father.clone();
+//                Individual daughter = mother.clone();
+//                //Calcula um random a ver se cai na probabilidade para fazer a recombinação
+//                if (Genetic.RANDOM_GENERATOR.nextDouble() < this.probability) {
+//                    //Caso o random caia na probabilidade, aplica o operador
+//                    //Pontos de corte no allelo do individuo
+//                    int[] pointsOfCut = new int[2];
+//                    //gera dois pontos de corte
+//                    //generatorTwoPointsDistinctsSequential(pointsOfCut, parents.getSizeAllelo());
+//                    
+//                    pointsOfCut[0]=p1;
+//                    pointsOfCut[1]=p2;
+//                    //Para todos os cromossomas dos individuos
+//                    for (int j = 0; j < father.getSizeGenome(); j++) {
+//                        //cromossomas dos individuos
+//                        Chromosome cDaug = daughter.getChromosome(j);
+//                        Chromosome cSon = son.getChromosome(j);
+//                        Chromosome cFather = daughter.getChromosome(j);
+//                        Chromosome cMother = son.getChromosome(j);
+//                        //para todos os genes dos cromossomas dos individuos 
+//                        for (int q = 0; q < cSon.getGenotype().size(); q++) {
+//                            //genes dos cromossomas dos individuos
+//                            Gene gSon = cSon.getGene(q);
+//                            Gene gDaug = cDaug.getGene(q);
+//                            Gene gFather = cFather.getGene(q);
+//                            Gene gMother = cMother.getGene(q);
+//                            //Verifica se os allelos são arrays de inteiros
+//                            if (gSon.getAllele() instanceof Integer[]) {
+//                                //array de inteiros que são os allelos dos individuos
+//                                Integer[] aFather = (Integer[]) gFather.getAllele();
+//                                Integer[] aMother = (Integer[]) gMother.getAllele();
+//                                Integer[] aSon = new Integer[aFather.length];
+//                                Integer[] aDaug = new Integer[aFather.length];
+//                                //aplica a logica do pmx
+//                                partiallyMatchedCrossoverLogic(aFather, aMother, aSon, aDaug, pointsOfCut);
+//                            }
+//                        }
+//                    }
+//                }
+//                sons.addIndividual(son);
+//                sons.addIndividual(daughter);
+//            } catch (IndexOutOfBoundsException ex) {
+//                //Senão não houverem dois pais e apenas um, adiciona o individuo em falta sem sofrer alterações
+//                sons.addIndividual(parents.getIndividual(i));
+//            }
+//        }
+//
+//
+////        for (int i = 0; i < sons.getPopulation().size(); i++) {
+////            Integer[] allelo = (Integer[]) ((TSP) sons.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+////            for (int j = 0; j < allelo.length; j++) {
+////                for (int k = 0; k < allelo.length; k++) {
+////                    if (allelo[j] == allelo[k] && j != k) {
+////                        System.out.println("ERROR: REPEATED CITYS AT PMX (LAST)");
+////                    }
+////                }
+////            }
+////        }
+//
+//
+//
+//        //devolve a população de filhos que sofreu o uniform crossover
+//        return sons;
+//    }
 }
+
+
+
+
+

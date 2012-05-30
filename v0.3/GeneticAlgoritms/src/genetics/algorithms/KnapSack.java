@@ -4,6 +4,9 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -312,13 +315,57 @@ public class KnapSack extends Individual {
     @Override
     public Boolean[] inicializationAllelo() {
         Boolean[] __allelo = new Boolean[super.getSizeAllelo()];
+        double __weight = 0;
 
+        ArrayList<Object[]> __listOfItensIndexAndRatio = new ArrayList<Object[]>();
+        
         // gerar de forma aleatoria os valores em binario para o allelo
         for (int __indexAllelo = 0; __indexAllelo < super.getSizeAllelo(); __indexAllelo++) {
-            __allelo[__indexAllelo] = Population.RANDOM_GENERATOR.nextBoolean();
+            // guarda o index do item e depois o ratio
+            __listOfItensIndexAndRatio.add(new Object[] { __indexAllelo, _ratioItem(_table[__indexAllelo]) });
+            // inicializa o allelo a falso
+            __allelo[__indexAllelo] = false;
+        }
+
+        // Ordena do maior para o mais pequeno a lista, para os melhores ratios ficarem
+        // em primeiro
+        Collections.sort(__listOfItensIndexAndRatio, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] o1, Object[] o2) {
+                if((Double)o1[1] > (Double)o2[1]) return -1;
+                if((Double)o1[1] < (Double)o2[1]) return 1;
+                return 0;
+            }
+        });
+        
+        // Corre a lista dos itens com ratio
+        for (Object[] __item : __listOfItensIndexAndRatio) {
+            // se o peso do total de itens no saco for menor que o limite de peso do saco
+            if(__weight <= (double)this._maxWeight) {
+                // calcula uma probabilidade de 95% de esse item ir para o saco
+                if(Population.RANDOM_GENERATOR.nextDouble() <= 0.95){
+                    // soma o peso ao total
+                    __weight += _table[(Integer)__item[0]][WEIGHT];
+                    // poe o item no saco
+                    __allelo[(Integer)__item[0]] = true;
+                }
+            } else { // se o peso do total de itens no saco for maior ou igual ao limite de peso do saco
+                // calcula uma probabilidade de 5% de esse item ir para o saco
+                if(Population.RANDOM_GENERATOR.nextDouble() <= 0.05) {
+                    // soma o peso ao total
+                    __weight += _table[(Integer)__item[0]][WEIGHT];
+                    // poe o item no saco
+                    __allelo[(Integer)__item[0]] = true;
+                }
+            }
         }
 
         return __allelo;
+    }
+
+    // calcula o ratio entre o valor e o peso do item
+    private double _ratioItem(int[] item) {
+        return (double)item[VALUE] / (double)item[WEIGHT];
     }
 
     @Override
