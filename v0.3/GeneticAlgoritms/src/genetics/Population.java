@@ -26,7 +26,7 @@ public class Population implements Iterable<Individual>, Serializable {
     // gerador de números aleatórios
     public static final Random RANDOM_GENERATOR = new Random();
     
-    private ArrayList<Individual> _population;
+    private volatile ArrayList<Individual> _population;
     private int _sizePopulation;
     private int _sizeGenotype;
     private int _sizeGenome;

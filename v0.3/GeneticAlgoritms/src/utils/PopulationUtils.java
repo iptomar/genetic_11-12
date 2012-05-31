@@ -230,7 +230,7 @@ public class PopulationUtils {
         return __newPopulation;
     }
 
-    public static Collection<Individual> getUniqueIndividuals(Population population, double fitness) {
+    public synchronized static Collection<Individual> getUniqueIndividuals(Population population, double fitness) {
         //Ordenação
         TreeSet<Individual> __population = new TreeSet<Individual>(new ComparatorIndividual());
 
@@ -241,7 +241,7 @@ public class PopulationUtils {
         ArrayList<Individual> top = new ArrayList<Individual>();
         for (Individual __individualHallOfFame : population.getPopulation()) {
             if (__individualHallOfFame.fitness() == fitness) {//?maior ou 
-                __population.add(__individualHallOfFame);
+                __population.add(__individualHallOfFame.clone());
             }
         }
         // Devolve a população com os Hall Of Fame (melhores individuos)
