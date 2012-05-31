@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class TournamentTest {
 
-    private Population p;
+
     private Tournament tour;
     int sizePopulation = 10;
     int sizeGenome = 1;
