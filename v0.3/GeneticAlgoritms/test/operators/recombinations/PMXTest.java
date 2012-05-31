@@ -21,10 +21,10 @@ public class PMXTest {
     
     private Population p;
     private PMX pmx;
-    int sizePopulation = 2000;
+    int sizePopulation = 100;
     int sizeGenome = 1;
     int sizeGenotype = 1;
-    int sizeAllelo = 279;
+    int sizeAllelo = 280;
     double probabilidade = 0.75;
     int testeAleatorio = 10;
     
