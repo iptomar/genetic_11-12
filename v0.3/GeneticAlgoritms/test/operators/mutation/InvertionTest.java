@@ -24,7 +24,7 @@ public class InvertionTest {
     int sizePopulation = 100;
     int sizeGenome = 1;
     int sizeGenotype = 1;
-    int sizeAllelo = 30;
+    int sizeAllelo = 280;
     double probabilidade = 0.75;
     int testeAleatorio = 10;
     
@@ -55,7 +55,7 @@ public class InvertionTest {
                 int n1 = alelo[j];
 
                 //***********testes*************
-                String s = popOUT.getIndividual(j).toString();
+                String s = popOUT.getIndividual(i).toString();
 
                 s = s.replace('>', ' ');
                 s = s.replace(" ", "");

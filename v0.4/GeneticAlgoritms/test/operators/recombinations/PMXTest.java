@@ -62,6 +62,7 @@ public class PMXTest {
         for (int i = 0; i < sizePopulation; i++) {
             for (int j = 0; j < sizeAllelo; j++) {
                 //int n1=popOUT.getIndividual(i);
+                //tira um individuo
                 alelo = (Integer[]) popOUT.getIndividual(i).getChromosome(0).getGene(0).getAllele();
                 int n1 = alelo[j];
 
@@ -74,6 +75,7 @@ public class PMXTest {
                 //System.out.println(""+s);
 
                 //******************
+                //mostrar o valor do gene
                 for (int k = 0; k < sizeAllelo; k++) {
                     int n2 = alelo[k];
                     if (n1 == n2 && j != k) {
@@ -111,9 +113,9 @@ public class PMXTest {
 
     }
 
+    
     @Test
     public void TesteManuais() {
-
 
 
 //######################################################################################################################
