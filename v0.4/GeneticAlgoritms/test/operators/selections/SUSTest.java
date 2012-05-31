@@ -33,13 +33,6 @@ public class SUSTest {
     public SUSTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
 
     /**
      * Test of execute method, of class SUS.
