@@ -65,6 +65,7 @@ public class PMXTest {
                 //System.out.println(""+s);
                 
                 //******************
+                //mostrar o valor do gene
                 for (int k = 0; k < sizeAllelo; k++) {
                    int n2=alelo[k];
                    if(n1==n2 && j!=k){

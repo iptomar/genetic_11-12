@@ -55,7 +55,7 @@ public class InvertionTest {
                 int n1 = alelo[j];
 
                 //***********testes*************
-                String s = popOUT.getIndividual(j).toString();
+                String s = popOUT.getIndividual(i).toString();
 
                 s = s.replace('>', ' ');
                 s = s.replace(" ", "");
