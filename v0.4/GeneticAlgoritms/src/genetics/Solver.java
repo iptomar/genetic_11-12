@@ -14,8 +14,10 @@ import operators.Operator;
 import operators.mutation.Flipbit;
 import operators.mutation.Invertion;
 import operators.mutation.Mutation;
+import operators.mutation.MutationGaussian;
 import operators.mutation.SwapGenes;
 import operators.recombinations.Crossover;
+import operators.recombinations.CrossoverAX;
 import operators.recombinations.OrderCrossover;
 import operators.recombinations.PMX;
 import operators.recombinations.Recombination;
@@ -108,7 +110,7 @@ public class Solver extends GenericSolver {
         // Converte a diferença para segundos
         return (System.currentTimeMillis() - startTime) / 1000;
     }
-    
+
     /**
      * Metodo que faz correr o Solver, ou seja, aplica os operadores geneticos
      * sobre a população ate encontrar o individuo com o fitness desejado ou atingir
@@ -118,10 +120,8 @@ public class Solver extends GenericSolver {
     @Override
     public void run() throws SolverException, SonsInicialitazionException {
 
-        long __startTime;
-        
-        __startTime = System.currentTimeMillis();
-        
+        long __startTime = System.currentTimeMillis();
+
         // Capturar erros de codigo não programados
         try {
 
@@ -145,7 +145,7 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() || this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
                         && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())
                         && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
 
@@ -215,12 +215,9 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
-                        && (
-                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MAXIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness()) 
-                            ||
-                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MINIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness()) 
-                        )
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() || this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                        && ((this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MAXIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness())
+                        || (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MINIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness()))
                         && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
 
                     // Corre todos os operadores que foram passados para este solver
@@ -360,10 +357,12 @@ public class Solver extends GenericSolver {
                 + "<p>no operador.</p>"
                 + "<p></p>"
                 + "<h3>setStopCrit</h3>"
-                + "<p>É passada uma string onde o primeiro parametro é o valor máximo de iterações permitidas</p>"
-                + "<p>para o problema e o segundo o melhor fitness que a população poderá obter.</p>"
-                + "<p>Ex: setStopCrit(1000 100) - O critério de paragem é definido nas 1000 iterações do</p>"
-                + "<p>problema ou se um individuo obtiver um fitness de 100.</p>";
+                + "<p>É passada uma string onde o primeiro paramêtro é o valor máximo de fitness para o problema parar,</p>"
+                + "<p>o segundo paramêtro será o número máximo de iterações do problema, o terceiro parametro será o número</p>"
+                + "<p>de segundos que o problema estará a correr e o quarto parametro será o tipo de problema (0 para maximização, 1 para minimização)</p>"
+                + "<p>Ex: setStopCrit(423.99 1 3600 1) - O critério de paragem é definido com o fitness de paragem em 423.99,</p>"
+                + "<p>com o número de bests do problema a serem 1, com o tempo máximo a correr a ser de 3600 segundos e</p>"
+                + "<p>e com o problema a ser definido como de minimização.</p>";
         return s;
     }
 
@@ -470,6 +469,18 @@ public class Solver extends GenericSolver {
                     System.out.println("------------------------");
                 }
             }
+            else if(tipoMutacao.contains("MutationGaussian")){
+                System.out.println("------------------------");
+                System.out.println("MUTATION: MUTATIONGAUSSIAN");
+                //Verifica se existe probabilidade definida para o construtor do operador ou não
+                if (probl == 0.0) {
+                    this._operators.add(new MutationGaussian());
+                } else {
+                    this._operators.add(new MutationGaussian(probl));
+                    System.out.println("Probabilidade: " + probl);
+                    System.out.println("------------------------");
+                }
+            }
             //devolve true - Tudo correu bem
             return true;
         } catch (Exception ex) {
@@ -525,6 +536,18 @@ public class Solver extends GenericSolver {
                     this._operators.add(new UniformCrossover());
                 } else {
                     this._operators.add(new UniformCrossover(probl));
+                    System.out.println("Probabil Recombination: " + probl);
+                    System.out.println("------------------------");
+                }
+            }
+            else if (tipoRecomb.contains(".CrossoverAX")) {
+                System.out.println("------------------------");
+                System.out.println("RECOMBINATION: CROSSOVERAX");
+                //Verifica se existem parametros para o operador
+                if (probl == 0.0) {
+                    this._operators.add(new CrossoverAX());
+                } else {
+                    this._operators.add(new CrossoverAX(probl));
                     System.out.println("Probabil Recombination: " + probl);
                     System.out.println("------------------------");
                 }
@@ -622,16 +645,33 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean SetStopCrit(String parms) {
-        try {
-            int iterac = Integer.parseInt(parms.split(" ")[0]);
-            double fitness = Double.parseDouble(parms.split(" ")[1]);
-            StopCriterion stopCrit = new StopCriterion(iterac, fitness);
-            this._stopCriterion = stopCrit;
-            return true;
-        } catch (Exception ex) {
-            //Algo correu mal - devolve false
-            return false;
+        if (parms.split(" ").length == 2) {
+            try {
+                double fitness = Double.parseDouble(parms.split(" ")[0]);
+                int iterac = Integer.parseInt(parms.split(" ")[1]);
+                StopCriterion stopCrit = new StopCriterion(iterac, fitness);
+                this._stopCriterion = stopCrit;
+                return true;
+            } catch (Exception ex) {
+                //Algo correu mal - devolve false
+                return false;
+            }
+        } else if (parms.split(" ").length == 4) {
+            try {
+                double fitness = Double.parseDouble(parms.split(" ")[0]);
+                int numBests = Integer.parseInt(parms.split(" ")[1]);
+                long secondsToRun = Long.parseLong(parms.split(" ")[2]);
+                short type = Short.parseShort(parms.split(" ")[3]);
+                StopCriterion stopCrit = new StopCriterion(fitness,numBests,secondsToRun,type);
+                this._stopCriterion = stopCrit;
+                return true;
+            } catch (Exception ex) {
+                //Algo correu mal - devolve false
+                return false;
+            }
         }
+        else return false;
+
     }
 
     @Override
@@ -665,9 +705,9 @@ public class Solver extends GenericSolver {
     public void StopSolver() {
         this.Stop = true;
     }
-    
+
     @Override
-    public int getCurrentItera(){
+    public int getCurrentItera() {
         return _numberIteractions;
     }
 }

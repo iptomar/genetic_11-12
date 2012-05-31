@@ -38,16 +38,16 @@ public class SolverKnapSackExample {
         solver = new Solver();
         solver._operators = operators;
         //solver.SetStopCrit("10000 385");
-        //solver.SetStopCrit("10000 1920");
-        solver.SetStopCrit("10000 1561");
+        solver.SetStopCrit("1920 4 3600 0");
+        //solver.SetStopCrit("1561 7 3600 0");
         /**
          * **********************************************************************************************************
          * ***** NÃO PUDEMOS ESQUECER DE METER OS 17 (TAMANHO ALLELO) E OS 1300 (PESO MÁXIMO MOCHILA) NA STRING *****
          * **********************************************************************************************************
          */
         //solver.setParameters("1000 1 1 17 KnapSack ModeFunction.RANDOM 2:17 1300 10 20 30 10 10 12 4 24 25 21 52 32 13 43 13 53 13 2 6 9 8 69 78 65 8 89 78 68 56 97 68 98 76 87");
-        //solver.setParameters("100 1 1 50 K50");
-        solver.setParameters("200 1 1 100 K100");
+        solver.setParameters("100 1 1 50 K50");
+        //solver.setParameters("200 1 1 100 K100");
     }
     
     public static void main(String[] args) throws SolverException {
