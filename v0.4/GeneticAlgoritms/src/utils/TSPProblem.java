@@ -1,9 +1,6 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -82,7 +79,7 @@ public class TSPProblem {
                 /**
                  * Objecto de leitura do ficheiro especificado
                  */
-                in = new BufferedReader(new FileReader(this.getFilename()));
+                in = new BufferedReader(new FileReader(new File(this.getFilename())));
             } catch (FileNotFoundException ex) {
                 //Caso não encontre o ficheiro especificado, devolve mensagem de erro
                 System.out.println("O ficheiro especificado não foi encontrado: " + ex);

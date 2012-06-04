@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package genetics.algorithms.functions;
+package genetics.algorithms;
 
 import genetics.Individual;
 import genetics.Population;
@@ -72,7 +72,7 @@ public class TSPUlysses16 extends TSP {
         super();
         
         TSPProblem __tspProblem = new TSPProblem();
-        __tspProblem.setFilename("C:\\tsp\\ulysses16.tsp");
+        __tspProblem.setFilename("C:/tsp/ulysses16.tsp");
         __tspProblem.read();
         
         this.costMatrix = __tspProblem.getCostMatrix();
