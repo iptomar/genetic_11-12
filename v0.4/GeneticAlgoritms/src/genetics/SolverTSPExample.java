@@ -65,23 +65,23 @@ public class SolverTSPExample {
         solver.solver.run();            
         
     }
-    
-     public static String Download(URL url) throws IOException{
+
+    public static String Download(URL url) throws IOException {
         url.openConnection();
         InputStream dataIN = url.openStream();
-        
+
         byte[] buffer = new byte[1024];
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-         
-        while ((dataIN.read(buffer)) > 0){
+
+        while ((dataIN.read(buffer)) > 0) {
             byteBuffer.write(buffer, 0, buffer.length);
-            buffer = new byte[1024];           
+            buffer = new byte[1024];
         }
-        
+
         buffer = byteBuffer.toByteArray();
         String data = new String(buffer);
         data = data.replace("  ", " ");
         data = data.replace("   ", " ");
         return data.replace("\n", ";");
-    }    
+    }
 }

@@ -29,6 +29,8 @@ public class StopCriterion {
     public StopCriterion(int numberIteractions, Double goodFiteness) {
         this._numberIteractions = numberIteractions;
         this._goodFiteness = goodFiteness;
+        this._secondsToRun = 3600;
+        this._typeProblem = TYPE_PROBLEM_MINIMIZATION;
     }
 
     /**

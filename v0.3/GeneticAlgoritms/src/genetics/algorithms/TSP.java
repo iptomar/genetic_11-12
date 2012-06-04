@@ -78,10 +78,10 @@ public class TSP extends Individual {
         return fitness;
     }
 
-    /**
-     * Método que faz a inicialização do allelo do individuo, devolvendo o mesmo depois de devidamente inicializado
-     * @return Allelo do individuo já inicializado
-     */
+     /**
+* Método que faz a inicialização do allelo do individuo, devolvendo o mesmo depois de devidamente inicializado
+* @return Allelo do individuo já inicializado
+*/
     @Override
     public Integer[] inicializationAllelo() {
         //Array de inteiro, com o tamanho do allelo do individuo, que será especificado para o allelo do individuo
@@ -93,9 +93,9 @@ public class TSP extends Individual {
         //Preenche o allelo com os melhores valores
         for (int __indexAllelo = 1; __indexAllelo < newIndividual.length; __indexAllelo++) {
             newIndividual[__indexAllelo] = searchRandomBestPath(
-                    __indexAllelo - 1, 
-                    __indexAllelo, 
-                    newIndividual, 
+                    __indexAllelo - 1,
+                    __indexAllelo,
+                    newIndividual,
                     costMatrix);
         }
         
@@ -108,7 +108,7 @@ public class TSP extends Individual {
         
         ArrayList<Object[]> __listOfItensIndexAndRatio = new ArrayList<Object[]>();
         
-        for (int __indexCity = 0; __indexCity < costMatrix.length; __indexCity++) {    
+        for (int __indexCity = 0; __indexCity < costMatrix.length; __indexCity++) {
             boolean __exist = false;
             
             // se for a mesma cidade salta

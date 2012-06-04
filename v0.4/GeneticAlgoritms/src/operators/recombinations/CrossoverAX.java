@@ -111,6 +111,12 @@ public class CrossoverAX extends Recombination {
                 //perform AX crossover
                 gSon.setAllele(__alleloSon);
                 gDaug.setAllele(__alleloDaug);
+                
+                if((Double)gSon.getAllele() > 1.0) {
+                    System.out.println(gSon.getAllele());
+                    System.out.println(gDaug.getAllele());
+                }
+                
             }
         }
     }

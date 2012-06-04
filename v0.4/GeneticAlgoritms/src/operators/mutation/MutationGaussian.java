@@ -8,7 +8,7 @@ import operators.Genetic;
 
 /**
  *
- * @author Aurélien Mota
+ * @author Chorinca-Notebook
  */
 public class MutationGaussian extends Mutation {
 

@@ -20,7 +20,7 @@ import utils.exceptions.SolverException;
 
 /**
  *
- * @author Aurélien Mota
+ * @author Chorinca-Notebook
  */
 public class FunctionBinarySphere extends FunctionBinary {
     
