@@ -217,11 +217,10 @@ public class TSP extends Individual {
 
         for (int i = 0; i < this.getSizeAllelo(); i++) {
             __result.append(((Integer[])this.getChromosome(0).getGene(0).getAllele())[i]);
-            __result.append(" -> ");
+            __result.append(" ");
         }
 
-        __result.append("0 >>>> ");
-        __result.append(this.fitness());
+        __result.append(" 0 ");
         return __result.toString();
     }
 
