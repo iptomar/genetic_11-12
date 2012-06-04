@@ -100,7 +100,6 @@ public class Population implements Iterable<Individual>, Serializable {
      */
     public void _inicializationPopulation() {
         for (int __indexIndividual = 0; __indexIndividual < this._sizePopulation; __indexIndividual++) {
-
             // Cria um novo individuo do tipo de class do prototipo
             Individual __newIndividual = _prototypeIndividual.clone();
 
@@ -215,10 +214,8 @@ public class Population implements Iterable<Individual>, Serializable {
         int __countIndividuals = 1;
 
         for (Individual __individual : this) {
-            __output.append(__countIndividuals);
-            __output.append(" - ");
             __output.append(__individual.toString());
-            __output.append(" - ");
+            __output.append(" ");
             __output.append(__individual.fitness());
             __output.append("\n");
             __countIndividuals++;

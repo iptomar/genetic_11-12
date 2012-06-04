@@ -38,7 +38,7 @@ public class FunctionRealFractalDoubleDip extends FunctionReal {
         solver = new Solver(
                 new Population(10, 1, 2, 0,
                 new FunctionRealFractalDoubleDip()),
-                new StopCriterion(-450.0, 1, 5, StopCriterion.TYPE_PROBLEM_MINIMIZATION),
+                new StopCriterion(-450.0, 1, 2, StopCriterion.TYPE_PROBLEM_MINIMIZATION),
                 operators,
                 new EventsSolver() {
 
@@ -57,8 +57,10 @@ public class FunctionRealFractalDoubleDip extends FunctionReal {
 
                     @Override
                     public void EventFinishSolver(int totalIteracoes, Population lastPopulation) {
-                        FunctionRealFractalDoubleDip x = (FunctionRealFractalDoubleDip)PopulationUtils.getHallOfFame(lastPopulation, 1).getIndividual(0);
-                        System.out.println("X: " + x.getVariavel(0) + "\tY: " + x.getVariavel(1) + "\tW: " + x.fitness());                        
+                        // FunctionRealFractalDoubleDip x = (FunctionRealFractalDoubleDip)PopulationUtils.getHallOfFame(lastPopulation, 1).getIndividual(0);
+                        // System.out.println("X: " + x.getVariavel(0) + "\tY: " + x.getVariavel(1) + "\tW: " + x.fitness());                        
+                        System.out.println("------");
+                        System.out.println(lastPopulation.toString());
                     }
                 });
 
@@ -90,8 +92,6 @@ public class FunctionRealFractalDoubleDip extends FunctionReal {
                     0.0, 
                     1.0);        
         }
-        
-        //__fitness = this._logicFunction(__variavels, 1.0, new double[] { 0, 0 });
         
         return  __fitness;
     }

@@ -1,9 +1,6 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -25,6 +22,13 @@ import java.util.ArrayList;
  */
 public class TSPProblem {
 
+    public static void main(String[] args) {
+        TSPProblem __d = new TSPProblem();
+        __d.setFilename("C:\\tsp\\ulysses16.tsp");
+        __d.read();
+        __d.getCostMatrix();
+    }
+    
     /**
      * String com o nome do problema
      */
@@ -60,20 +64,22 @@ public class TSPProblem {
         dataSplit(problemFile);
     }
 
+    public TSPProblem() {
+    }
     /**
      * Método que fará a leitura das especificações do problema do ficheiro especificado.
      * O método retira as informações do problema, bem como das suas cidades e adiciona ao arraylist
      * de cidades que será a população inicial do problema.
      */
-    private void read() {
+    public void read() {
         //Verifica se a variavel que contem o caminho para o ficheiro com as especificações do problema não é nulo nem está vazio
-        if (!this.filename.equals("") && this.filename != null) {
+        if (!this.filename.equals("") && this.getFilename() != null) {
             BufferedReader in = null;
             try {
                 /**
                  * Objecto de leitura do ficheiro especificado
                  */
-                in = new BufferedReader(new FileReader(this.filename));
+                in = new BufferedReader(new FileReader(new File(this.getFilename())));
             } catch (FileNotFoundException ex) {
                 //Caso não encontre o ficheiro especificado, devolve mensagem de erro
                 System.out.println("O ficheiro especificado não foi encontrado: " + ex);
@@ -95,7 +101,7 @@ public class TSPProblem {
                 }
                 try {
                     //Cilco que acaba apenas quando acabar o ficheiro de especificação do problema
-                    while (!(leitura = in.readLine()).equals("EOF")) {
+                    while (!(leitura = in.readLine()).contains("EOF")) {
                         City cidade = new City();
                         String[] arrayDados = leitura.split(" ");
                         int indexDados = 0;
@@ -103,17 +109,18 @@ public class TSPProblem {
                         while (arrayDados[indexDados].equals("")) {
                             indexDados++;
                         }
+                        
                         cidade.Index = Integer.parseInt(arrayDados[indexDados]);
                         // Passar espacos em branco
                         do {
                             indexDados++;
                         } while (arrayDados[indexDados].equals(""));
-                        cidade.X = Integer.parseInt(arrayDados[indexDados]);
+                        cidade.X = Double.parseDouble(arrayDados[indexDados]);
                         // Passar espacos em branco
                         do {
                             indexDados++;
                         } while (arrayDados[indexDados].equals(""));
-                        cidade.Y = Integer.parseInt(arrayDados[indexDados]);
+                        cidade.Y = Double.parseDouble(arrayDados[indexDados]);
                         //Adiciona a cidade já ao arraylist de cidades do problema
                         this.Cidades.add(cidade);
                     }
@@ -264,4 +271,18 @@ public class TSPProblem {
     //*********************************************************************************
     //*********************************************************************************
     //*********************************************************************************
+
+    /**
+     * @return the filename
+     */
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * @param filename the filename to set
+     */
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 }
