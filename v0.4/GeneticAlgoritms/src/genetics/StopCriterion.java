@@ -48,6 +48,20 @@ public class StopCriterion {
     }
 
     /**
+     * Constructor que recebe o valor do melhor fitness, numero de bests e numero de minutos
+     * @param goodFiteness
+     * @param numberBests
+     * @param secondsToRun 
+     */
+    public StopCriterion(Double goodFiteness, int numberBests, long secondsToRun, short typeProble) {
+        this._numberIteractions = NO_ITERACTIONS_LIMIT;
+        this._goodFiteness = goodFiteness;
+        this._numberBests = numberBests;
+        this._secondsToRun = secondsToRun;
+        this._typeProblem = typeProble;
+    }
+
+    /**
      * Método que devolve o número de iterações.
      *
      * @return the _numberIteractions

@@ -99,9 +99,9 @@ public class TruncationTest {
         }
 
         //Ordena as populações por fitness
-        utils.PopulationUtils.orderPopulation(sons);
-        utils.PopulationUtils.orderPopulation(parents);
-        utils.PopulationUtils.orderPopulation(result);
+        utils.PopulationUtils.orderPopulation(sons, (short)0);
+        utils.PopulationUtils.orderPopulation(parents, (short)0);
+        utils.PopulationUtils.orderPopulation(result, (short)0);
 
         //ArrayList de individuos 
         ArrayList<Individual> Individuos = new ArrayList<Individual>(sizeTruncation*2);

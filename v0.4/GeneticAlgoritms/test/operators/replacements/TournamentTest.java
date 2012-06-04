@@ -54,9 +54,9 @@ public class TournamentTest {
         /**
          * Ordena os resultados obtidos no torneio
          */
-        utils.PopulationUtils.orderPopulation(result);
-        utils.PopulationUtils.orderPopulation(parents);
-        utils.PopulationUtils.orderPopulation(sons);
+        utils.PopulationUtils.orderPopulation(result, (short)0);
+        utils.PopulationUtils.orderPopulation(parents, (short)0);
+        utils.PopulationUtils.orderPopulation(sons, (short)0);
         /**
          * Condição para saber se um individuo da população resultante do torneio pertence à população
          */

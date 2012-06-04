@@ -46,6 +46,7 @@ public class Tournament extends Replacement {
         __tournamentOnePopulation = new operators.selections.Tournament(
                 super.dimensionsNewPopulation,
                 this._sizeTournament);
+        __tournamentOnePopulation.setTypeSelection(this._typeReplacement);
         __tournamentOnePopulation.setRemoveIndividualFromPopulation(true);
 
         __newPopulation.setPopulation(__newArrayListIndividuos);

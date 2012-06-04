@@ -117,7 +117,9 @@ public class Chromosome implements Iterable<Gene>, Serializable {
         for (Gene __gene : this) {
             //Faz o append da informação do gene.toString() e muda de linha, para que os genes fiquem separados
             //por linha
-            __output.append(__gene.toString()).append(System.getProperty("line.separator"));
+            //__output.append(__gene.toString()).append(System.getProperty("line.separator"));
+            __output.append(__gene.toString());
+            __output.append(" ");
         }
         //Devolve a string com a informação do cromossoma
         return __output.toString();

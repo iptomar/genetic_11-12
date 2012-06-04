@@ -71,13 +71,13 @@ public class SUS extends Selection {
             //calcula offset
             this.offset = calculateOffset(population);
             //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
-            this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
+            this.ponteiro = Ponteiro.pontoAleatorio(1);
             //correr cada individuo da população
             for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
                 try {
                     //acrecenta um individou para a nova população
                     newPopulation.addIndividual(
-                            Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population));
+                            Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population, _typeSelection));
                 } catch (PonteiroForaDoLimiteException ex) {
                     Logger.getLogger(SUS.class.getName()).log(Level.SEVERE, null, ex);
                 }

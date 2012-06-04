@@ -29,25 +29,57 @@ public class Ponteiro {
      * @return (Individual) - Individuo para o qual o ponteiro apontou
      * @throws PonteiroForaDoLimiteException - Excepção caso o ponteiro aponte para "o vazio"
      */
-    public static Individual devolveIndividuoParaOndeOPonteiroAponta(double ponteiro, Population population) throws PonteiroForaDoLimiteException{
-        int totalFitness = 0;
+    public static Individual devolveIndividuoParaOndeOPonteiroAponta(double ponteiro, Population population, short typeProblem) throws PonteiroForaDoLimiteException{
+        int totalFitness            = 0;
+        int currentFitnessAcumulado = 0;
+        
         // verificar se o ponteiro é maior que o total de fitness da população ou
         // se é menor que zero; Se sim, dispara uma excepção do tipo PonteiroForaDoLimiteException
-        if(ponteiro > PopulationUtils.getFitnessTotal(population) || ponteiro < 0) 
-            throw new PonteiroForaDoLimiteException("Ponteiro dentro da class Ponteiro esta fora dos limites do total de fitness da população.");
+//        if(ponteiro > PopulationUtils.getFitnessTotal(population) || ponteiro < 0) 
+//            throw new PonteiroForaDoLimiteException("Ponteiro dentro da class Ponteiro esta fora dos limites do total de fitness da população.");
+//        
         
-        //corre a população para cada individuo
-        for (Individual individuo : population) {
-            //incrementa o total fitness
+        // soma do fitness de todos os individuos
+        for (Individual individuo : population)
             totalFitness += individuo.fitness();
-            
-            //escolhe o individuo onde o ponteiro aponta 
-            if(ponteiro <= (double)totalFitness) {
-                //clone para criar um novo individuo e não ser individuo da pop original
-                return individuo.clone();
+        
+        // Problema de maximização
+        if(typeProblem == 0) {
+        
+            //corre a população para cada individuo
+            for (Individual individuo : population) {
+                //incrementa o total fitness
+                currentFitnessAcumulado += individuo.fitness() / totalFitness;
+
+                //escolhe o individuo onde o ponteiro aponta 
+                if(ponteiro <= (double)currentFitnessAcumulado) {
+                    //clone para criar um novo individuo e não ser individuo da pop original
+                    return individuo.clone();
+                }
             }
+        
+        } else {
+            // Problema de minimização
+            int totalFitnessInvert = 0;
+            
+            // soma do fitness de todos os individuos
+            for (Individual individuo : population)
+                totalFitnessInvert += totalFitness / individuo.fitness();
+            
+            //corre a população para cada individuo
+            for (Individual individuo : population) {
+                //incrementa o total fitness e torna os fitness pequenos em grandes
+                currentFitnessAcumulado += (totalFitness / individuo.fitness()) / totalFitnessInvert;
+
+                //escolhe o individuo onde o ponteiro aponta 
+                if(ponteiro <= (double)currentFitnessAcumulado) {
+                    //clone para criar um novo individuo e não ser individuo da pop original
+                    return individuo.clone();
+                }
+            }            
         }
-        //Caso não existam individuos na população recebida, devolve null
-        return null;
+        
+        //Caso não existam individuos na população recebida, devolve o ultimo
+        return population.getIndividual(population.getSizePopulation()-1);
     }
 }

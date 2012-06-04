@@ -73,6 +73,9 @@ public class Gene<T> implements Serializable{
             for (int __indexAlleloValue = 0; __indexAlleloValue < __allelo.length; __indexAlleloValue++) {
                 __output.append(__allelo[__indexAlleloValue] ? " 1 " : " 0 ");
             }
+        } else if(this._allele instanceof Double){
+            Double __allelo = (Double)this._allele;
+            __output.append(__allelo);
         } else {
             /**
              * ********************************************************************************

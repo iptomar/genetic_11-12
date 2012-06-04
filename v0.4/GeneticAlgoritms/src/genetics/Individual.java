@@ -200,6 +200,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
         final StringBuilder __output = new StringBuilder();
         for (Chromosome __chromosome : this) {
             __output.append(__chromosome.toString());
+            __output.append(" ");
         }
         return __output.toString();
     }
