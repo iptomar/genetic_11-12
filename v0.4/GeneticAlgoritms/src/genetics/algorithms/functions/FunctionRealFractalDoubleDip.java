@@ -120,4 +120,9 @@ public class FunctionRealFractalDoubleDip extends FunctionReal {
     public Individual clone() {
         return new FunctionRealFractalDoubleDip(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Fractal Double Dip Best Fitness - -450.0</p>";
+    }
 }

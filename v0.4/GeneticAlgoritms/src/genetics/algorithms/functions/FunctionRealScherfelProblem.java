@@ -95,4 +95,9 @@ public class FunctionRealScherfelProblem extends FunctionReal {
     public Individual clone() {
         return new FunctionRealScherfelProblem(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Scherfel Problem Best Fitness - -450.0</p>";
+    }
 }

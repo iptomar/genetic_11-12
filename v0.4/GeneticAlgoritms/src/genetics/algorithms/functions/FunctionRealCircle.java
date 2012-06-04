@@ -101,4 +101,9 @@ public class FunctionRealCircle extends FunctionReal {
     public Individual clone() {
         return new FunctionRealCircle(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Circle Best Fitness - -0.5</p>";
+    }
 }

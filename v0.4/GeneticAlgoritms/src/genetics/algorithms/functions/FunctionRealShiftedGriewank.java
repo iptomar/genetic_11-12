@@ -96,4 +96,9 @@ public class FunctionRealShiftedGriewank extends FunctionReal {
     public Individual clone() {
         return new FunctionRealShiftedGriewank(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Shifted Griewank Best Fitness - -180.0</p>";
+    }
 }

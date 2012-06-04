@@ -95,4 +95,9 @@ public class FunctionRealShiftedRastrigin extends FunctionReal {
     public Individual clone() {
         return new FunctionRealShiftedRastrigin(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Shifted Rastrigin Best Fitness - -330.0</p>";
+    }
 }

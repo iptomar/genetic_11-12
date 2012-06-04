@@ -95,4 +95,9 @@ public class FunctionRealShiftedRosenbrock extends FunctionReal {
     public Individual clone() {
         return new FunctionRealShiftedRosenbrock(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Shifted Rosenbrock Best Fitness - 390.0</p>";
+    }
 }

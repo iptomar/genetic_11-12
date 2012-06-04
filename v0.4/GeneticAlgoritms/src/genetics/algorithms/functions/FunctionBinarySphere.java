@@ -85,4 +85,8 @@ public class FunctionBinarySphere extends FunctionBinary {
         return new FunctionBinarySphere(this);
     }
     
+    @Override
+    public String getInfo() {
+        return "<p>Function Binary Sphere Best Fitness - 2.0</p>";
+    }
 }

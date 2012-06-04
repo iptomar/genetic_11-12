@@ -96,4 +96,8 @@ public class FunctionRealShiftedSphere extends FunctionReal {
     public Individual clone() {
         return new FunctionRealShiftedSphere(this);
     }
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Shifted Sphere Best Fitness - -450.0</p>";
+    }
 }

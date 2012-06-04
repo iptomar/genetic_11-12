@@ -95,4 +95,9 @@ public class FunctionRealShiftedAckley extends FunctionReal {
     public Individual clone() {
         return new FunctionRealShiftedAckley(this);
     }
+    
+    @Override
+    public String getInfo() {
+        return "<p>Function Real Shifted Ackley Best Fitness - -138.0</p>";
+    }
 }
