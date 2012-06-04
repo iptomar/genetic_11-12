@@ -78,13 +78,10 @@ public class FunctionBinary extends Individual {
              function._endDomains, 
              function._scriptFunctionMath);
         
-        if(function.getGenome().size() > 0)
-            for (Object __gene : function.getChromosome(0)) {
-                Chromosome __chromosome = new Chromosome(this);
-                __chromosome.setGene(new Gene((Gene)__gene));
-                
-                this.setChromosome(0, __chromosome);
-            }
+        if(function.getGenome().size() > 0) {
+            Chromosome __chromosome = new Chromosome(this);               
+            this.setChromosome(0, __chromosome);
+        }
     }
     
     public FunctionBinary(double[] beginDomains, double[] endDomains, String scriptFunctionMath){

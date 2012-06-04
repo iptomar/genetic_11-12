@@ -115,6 +115,7 @@ public class Population implements Iterable<Individual>, Serializable {
             // Adiciona o novo individuo à população actual
             this.getPopulation().add(__newIndividual);
         }
+        System.out.println("");
     }
 /**
  * Método que devolve o indivíduo que está no índex.
@@ -215,10 +216,10 @@ public class Population implements Iterable<Individual>, Serializable {
         int __countIndividuals = 1;
 
         for (Individual __individual : this) {
-            __output.append(__countIndividuals);
-            __output.append(" - ");
+//            __output.append(__countIndividuals);
+//            __output.append(" - ");
             __output.append(__individual.toString());
-            __output.append(" - ");
+            __output.append(" ");
             __output.append(__individual.fitness());
             __output.append("\n");
             __countIndividuals++;
