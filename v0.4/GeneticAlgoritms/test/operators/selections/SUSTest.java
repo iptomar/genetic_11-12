@@ -33,7 +33,6 @@ public class SUSTest {
     public SUSTest() {
     }
     
-<<<<<<< HEAD
     @BeforeClass
     public static void setUpClass() throws Exception {
     }
@@ -41,8 +40,6 @@ public class SUSTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-=======
->>>>>>> origin/master
 
     /**
      * Test of execute method, of class SUS.
