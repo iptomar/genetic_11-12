@@ -41,6 +41,8 @@ public abstract class GenericSolver {
     public abstract Population getPopulation();
 
     public abstract boolean setPopulation(Population p);
+    
+    public abstract int getCurrentItera();
     //*********************************************************************************
     //*********************************************************************************
     //*********************************************************************************        

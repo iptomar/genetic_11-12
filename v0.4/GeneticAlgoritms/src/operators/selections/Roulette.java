@@ -53,12 +53,13 @@ public class Roulette extends Selection {
 
         //correr cada individuo da população
         for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
-            //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
-            this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
+            // ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
+            // devolve um valor entre 0 e 1
+            this.ponteiro = Ponteiro.pontoAleatorio(1);
             try {
                 //acrecenta um individou para a nova população
                 newPopulation.addIndividual(
-                        Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population));
+                        Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population, _typeSelection));
             } catch (PonteiroForaDoLimiteException ex) {
                 Logger.getLogger(Roulette.class.getName()).log(Level.SEVERE, null, ex);
             }

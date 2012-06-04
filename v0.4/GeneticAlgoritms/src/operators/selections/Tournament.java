@@ -18,6 +18,9 @@ public class Tournament extends Selection {
     static final int SIZE_TOURNAMENT_DEFAULT = 2;   
     static final boolean  DEFAULT_REMOVE_INDIVIDUAL_FROM_POPULATION = false;
     
+    static final short MAXIMIZATION_TOURNAMENT = 0;
+    static final short MINIMIZATION_TOURNAMENT = 1;
+    
     private int _sizeTournament;
     
     private boolean _removeIndividualFromPopulation = DEFAULT_REMOVE_INDIVIDUAL_FROM_POPULATION;
@@ -29,6 +32,7 @@ public class Tournament extends Selection {
     public Tournament(int dimensionsNewPopulation, int sizeTournament){
         super._dimensionsNewPopulation = dimensionsNewPopulation;
         this._sizeTournament = sizeTournament;
+        this._typeSelection = Tournament.MAXIMIZATION_TOURNAMENT;
     }
     
     @Override
@@ -63,22 +67,10 @@ public class Tournament extends Selection {
                 
                 // Seleciona o primeiro individuo dos candidatos a best
                 __individualsToFightForBest = __individualToEnterInTheTournament.get(0);
-                
-                // Comparar os individuos com base no fiteness
-                if(__bestIndividualTournament.fitness() >= __individualsToFightForBest.fitness()){
-                    // se o individuo continuar a ser o melhor entao remove se o candidato a best
-                    __individualToEnterInTheTournament.remove(__individualsToFightForBest);
-                    // e volta a por esse individuo na população
-                    population.addIndividual(__individualsToFightForBest);
-                } else {
-                    // devolve a população o individuo que perdeu, neste caso era o que ate agora era considerado
-                    // o melhor candidato
-                    population.addIndividual(__bestIndividualTournament);
-                    // se o candidato a best tiver mais fiteness então passa a ser o best e remove se da lista
-                    // de candidatos
-                    __bestIndividualTournament = __individualsToFightForBest;
-                    __individualToEnterInTheTournament.remove(__bestIndividualTournament);
-                }
+                if(this._typeSelection == Tournament.MAXIMIZATION_TOURNAMENT)
+                    __bestIndividualTournament = _logicOfMaximization(__bestIndividualTournament, __individualsToFightForBest, __individualToEnterInTheTournament, population);
+                else
+                    __bestIndividualTournament = _logicOfMinimization(__bestIndividualTournament, __individualsToFightForBest, __individualToEnterInTheTournament, population);                    
             }
 
             // por fim quando não existir mais candidatos adicionamos o best à nova população
@@ -87,6 +79,44 @@ public class Tournament extends Selection {
         
         // devolve a nova população com os individuos mais aptos
         return _newPopulation;
+    }
+
+    private Individual _logicOfMaximization(Individual __bestIndividualTournament, Individual __individualsToFightForBest, ArrayList<Individual> __individualToEnterInTheTournament, Population population) {
+        // Comparar os individuos com base no fiteness
+        if(__bestIndividualTournament.fitness() >= __individualsToFightForBest.fitness()){
+            // se o individuo continuar a ser o melhor entao remove se o candidato a best
+            __individualToEnterInTheTournament.remove(__individualsToFightForBest);
+            // e volta a por esse individuo na população
+            population.addIndividual(__individualsToFightForBest);
+        } else {
+            // devolve a população o individuo que perdeu, neste caso era o que ate agora era considerado
+            // o melhor candidato
+            population.addIndividual(__bestIndividualTournament);
+            // se o candidato a best tiver mais fiteness então passa a ser o best e remove se da lista
+            // de candidatos
+            __bestIndividualTournament = __individualsToFightForBest;
+            __individualToEnterInTheTournament.remove(__bestIndividualTournament);
+        }
+        return __bestIndividualTournament;
+    }
+    
+    private Individual _logicOfMinimization(Individual __bestIndividualTournament, Individual __individualsToFightForBest, ArrayList<Individual> __individualToEnterInTheTournament, Population population) {
+        // Comparar os individuos com base no fiteness
+        if(__bestIndividualTournament.fitness() <= __individualsToFightForBest.fitness()){
+            // se o individuo continuar a ser o melhor entao remove se o candidato a best
+            __individualToEnterInTheTournament.remove(__individualsToFightForBest);
+            // e volta a por esse individuo na população
+            population.addIndividual(__individualsToFightForBest);
+        } else {
+            // devolve a população o individuo que perdeu, neste caso era o que ate agora era considerado
+            // o melhor candidato
+            population.addIndividual(__bestIndividualTournament);
+            // se o candidato a best tiver mais fiteness então passa a ser o best e remove se da lista
+            // de candidatos
+            __bestIndividualTournament = __individualsToFightForBest;
+            __individualToEnterInTheTournament.remove(__bestIndividualTournament);
+        }
+        return __bestIndividualTournament;
     }
 
     /**

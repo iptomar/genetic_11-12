@@ -19,6 +19,8 @@ public class SUS extends Selection {
     private double ponteiro = 0.0;
     //Matriz de curso caso o SUS pedido seja o minimazo para o problema do caixeiro viajante
     private double[][] costMatrix = null;
+    //Variavel que contem a matriz de custo minimizada
+    private double[][] newCostMatrixMinimization = null;
 
     public double getOffset() {
         return offset;
@@ -61,21 +63,21 @@ public class SUS extends Selection {
                 false);
         //verifica se a população é do tipo City - Se sim, fará a definição da matriz de custo atravez do primeiro individuo dessa população
         //já que a matriz de custo será igual para todos os individuos.
-        if(population.getTypePopulation() instanceof TSP){
-            this.costMatrix = ((TSP)population.getIndividual(0)).costMatrix;
+        if (population.getTypePopulation() instanceof TSP) {
+            this.costMatrix = ((TSP) population.getIndividual(0)).costMatrix;
         }
         //Caso a matriz de custo seja nula, o operador irá correr o SUS maiximizado
         if (this.costMatrix == null) {
             //calcula offset
             this.offset = calculateOffset(population);
             //ponteiro que vai apontar para os individuos, inicialização com ponto aleatorio
-            this.ponteiro = Ponteiro.pontoAleatorio(PopulationUtils.getFitnessTotal(population));
+            this.ponteiro = Ponteiro.pontoAleatorio(1);
             //correr cada individuo da população
             for (int numeroIndividuos = 0; numeroIndividuos < super._dimensionsNewPopulation; numeroIndividuos++) {
                 try {
                     //acrecenta um individou para a nova população
                     newPopulation.addIndividual(
-                            Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population));
+                            Ponteiro.devolveIndividuoParaOndeOPonteiroAponta(this.ponteiro, population, _typeSelection));
                 } catch (PonteiroForaDoLimiteException ex) {
                     Logger.getLogger(SUS.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -88,12 +90,13 @@ public class SUS extends Selection {
         } //Caso a matriz de custo não seja nula, sabemos então que teremos que correr o SUS minimizado já que o problema será o do caixeiro viajante
         else {
             double totalFitness;
-            double[][] newCostMatrixMinimization;
             int numIndividualsToSelect = this._dimensionsNewPopulation;
-
-            // nova matrix de custo, mas agora com os valores menores como maiores, ou seja,
-            // temos um SUS de minimização e não de maximização
-            newCostMatrixMinimization = calculateNewCostMatrixForMinimization(costMatrix);
+            //Verifica se a matriz de custo minimizada já foi calculada para o problema ou não
+            if (newCostMatrixMinimization == null) {
+                // nova matrix de custo, mas agora com os valores menores como maiores, ou seja,
+                // temos um SUS de minimização e não de maximização
+                this.newCostMatrixMinimization = calculateNewCostMatrixForMinimization(costMatrix);
+            }
             totalFitness = PopulationUtils.totalFitnessAcumulation(population, newCostMatrixMinimization);
 
             // calcula o offset do SUS
@@ -111,6 +114,9 @@ public class SUS extends Selection {
 
                 this.ponteiro = (this.ponteiro + this.offset) % totalFitness;
             }
+            //System.out.println("----------------- SUS Test ----------------");
+            //System.out.println("Best Fitness: " + PopulationUtils.getHallOfFame(newPopulation, 1).getPopulation().get(0).toString());
+            //System.out.println("-------------------------------------------");
             return newPopulation;
         }
     }
@@ -124,14 +130,14 @@ public class SUS extends Selection {
             // recalcula o fitness do individuo para que o menor seja agora o maior e vise-versa
             // porque o problema é de minimização, os individuos com menor fitness são os melhores
             totalFitnessAccumulate += PopulationUtils.calculateFitness(individuo, costMatrix);
-            
+
             //escolhe o individuo onde o ponteiro aponta 
             if (ponteiro <= totalFitnessAccumulate) {
                 //clone para criar um novo individuo e não ser individuo da pop original
                 individualSelect = individuo;
                 break;
             }
-            
+
         }
         //Caso não existam individuos na população recebida, devolve null
         return individualSelect;
@@ -163,23 +169,22 @@ public class SUS extends Selection {
         // devolve a nova matriz invertida nos valores
         return __newCostMatrixMinimization;
     }
-    
+
     private static double maxCostMatrix(double[][] costMatrix) {
         double __maxFitness;
-        __maxFitness = 0;  
+        __maxFitness = 0;
         // procura o valor mais alto na matriz
         for (int i = 0; i < costMatrix.length; i++) {
             // não preciso correr a matriz toda porque o triangulo inferior é
             // o espelho do de cima
             for (int j = i; j < costMatrix.length; j++) {
-                if(__maxFitness < costMatrix[i][j]){
+                if (__maxFitness < costMatrix[i][j]) {
                     __maxFitness = costMatrix[i][j];
                 }
             }
         }
         return __maxFitness;
     }
-    
 
     //*********************************************************************************
     //*****************************Métodos para Reflection*****************************

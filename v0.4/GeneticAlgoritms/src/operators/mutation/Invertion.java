@@ -4,6 +4,7 @@ import genetics.Chromosome;
 import genetics.Gene;
 import genetics.Individual;
 import genetics.Population;
+import genetics.algorithms.TSP;
 import operators.Genetic;
 
 /*
@@ -36,6 +37,8 @@ public class Invertion extends Mutation {
      * Variavel que recebe o controlo da probabilidade costumizada
      */
     private boolean customProb = false;
+    //Array de inteiros que irão conter os pontos de troca no allelo do individuo
+    private int[] points = new int[]{0, 0};
 
     /**
      * Construtor da classe onde a probabilidade de mutação do gene é passado
@@ -60,6 +63,21 @@ public class Invertion extends Mutation {
 
     @Override
     public Population execute(Population population) {
+  
+        
+//        
+//        for (int i = 0; i < population.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[])((TSP)population.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if(allelo[j]==allelo[k] && k!=j) System.out.println("ERROR: REPEATED CITYS AT INVERTION (BEGIN)");
+//                }
+//            }
+//        }
+        
+        
+        
+        
         //Caso a probabilidade não tenha sido definida pelo utilizador, utilizará o que está definido por defeito para os operadores de mutação (1 / TamanhoCromossoma)
         if (!customProb) {
             super.probability = 1 / (population.getSizeGenotype());
@@ -85,9 +103,9 @@ public class Invertion extends Mutation {
                             //Allelo do individuo
                             Integer[] aSon = (Integer[]) gSon.getAllele();
                             //Array de inteiros que irão conter os pontos de troca no allelo do individuo
-                            int[] points = new int[]{0, 0};
+                            points = new int[]{0, 0};
                             //Gera dois pontos distintos de corte no allelo do individuo (Array de objectos)
-                            generatorTwoPointsDistincts(points, son.getSizeAllelo());
+                            generatorTwoPointsDistincts(points, aSon.length);
                             // inverte a ordem dos valores dentro dos pontos de corte
                             _invertOrderBetweenTwoPointers(points[0], aSon, points[1]);
                         }
@@ -97,9 +115,24 @@ public class Invertion extends Mutation {
                 sons.addIndividual(son);
             } //Caso não haja troca de genes, adiciona o individuo sem qualquer alteração na sua informação genética
             else {
-                sons.addIndividual(population.getIndividual(i));
+                sons.addIndividual(population.getIndividual(i).clone());
             }
         }
+        
+        
+//        for (int i = 0; i < sons.getPopulation().size(); i++) {
+//            Integer[] allelo = (Integer[])((TSP)sons.getPopulation().get(i)).getChromosome(0).getGene(0).getAllele();
+//            for (int j = 0; j < allelo.length; j++) {
+//                for (int k = 0; k < allelo.length; k++) {
+//                    if(allelo[j]==allelo[k] && j!=k) System.out.println("ERROR: REPEATED CITYS AT INVERTION (LAST)");
+//                }
+//            }
+//        }
+//        
+        
+        
+        
+        
         //Devolve a população filho
         return sons;
     }
@@ -107,7 +140,6 @@ public class Invertion extends Mutation {
     /**
      * Método que irá calcular dois locais de corte no array de objectos do
      * allelo do individuo
-     *
      * @param points - Pontons de corte
      * @param maxValueExclusive - Valor máximo de ponto de corte (Valor do
      * tamanho do allelo)

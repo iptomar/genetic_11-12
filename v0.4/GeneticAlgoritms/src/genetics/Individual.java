@@ -81,7 +81,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
      * Métodos abstractos que terão que ser implementados em cada tipo especifico de individuo
      */
     public abstract double fitness();
-    public abstract Object[] inicializationAllelo();
+    public abstract Object inicializationAllelo(int indexGene);
     @Override
     public abstract Individual clone();
 
@@ -90,7 +90,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
      */
     public void inicializationGenome() {
         for (int __indexChromosome = 0; __indexChromosome < this.getSizeGenome(); __indexChromosome++) {
-            this.getGenome().add(new Chromosome(this));
+            _genome.add(new Chromosome(this));
         }
     }
 
@@ -100,7 +100,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
      * @return (Chromosome) - Cromossoma especifico do genoma do individuo
      */
     public Chromosome getChromosome(int index) {
-        return getGenome().get(index);
+        return _genome.get(index);
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
      * @param cromosome (Chormosome) - Cromossoma a ser definido ao genoma do individuo
      */
     public void setChromosome(int index, Chromosome cromosome) {
-        getGenome().add(index, cromosome);
+        _genome.add(index, cromosome);
     }
 
     /**
@@ -200,6 +200,7 @@ public abstract class Individual implements Iterable<Chromosome>, Serializable {
         final StringBuilder __output = new StringBuilder();
         for (Chromosome __chromosome : this) {
             __output.append(__chromosome.toString());
+            __output.append(" ");
         }
         return __output.toString();
     }

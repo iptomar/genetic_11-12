@@ -63,7 +63,7 @@ public class Truncation extends Replacement {
         }
 
         //Ordena a população por fitness
-        PopulationUtils.orderPopulation(newPopulationToOrder);
+        PopulationUtils.orderPopulation(newPopulationToOrder, this._typeReplacement);
 
         //Cria uma nova população que irá receber os melhores individuos das duas populações que foram passadas como parametro
         Population newPopulation = new Population(this.dimensionsNewPopulation, parents.getSizeGenome(), parents.getSizeGenotype(), parents.getSizeAllelo(), parents.getTypePopulation(), false);

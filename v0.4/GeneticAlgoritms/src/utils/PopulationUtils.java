@@ -31,7 +31,7 @@ public class PopulationUtils {
                 population.getTypePopulation(),
                 false);
         // Ordenar População pelo fitness de forma descendente
-        PopulationUtils.orderPopulation(population);
+        PopulationUtils.orderPopulation(population, (short)0);
         // Devolve o numero de individuos que foram pedidos
         PopulationUtils._createHallOfFame(__newPopulation, sizeHallOfFame, population.getPopulation());
         // Devolve a população com os Hall Of Fame (melhores individuos)
@@ -60,14 +60,17 @@ public class PopulationUtils {
     /**
      * Método que ordena o array de individuos da poipulação pelo seu fitness 
      */
-    public static void orderPopulation(Population population) {
+    public static void orderPopulation(Population population, short typeProblem) {
         if (population.getTypePopulation() instanceof TSP) {
             // Ordenar População pelo fitness de forma ascendente, já que o problema é o TSP
             Collections.sort(population.getPopulation(), new ComparatorIndividualTSP());
         } else {
             // Ordenar População pelo fitness (isso esta definido no ComparatorIndividual) de forma 
             // descendente
-            Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+            if(typeProblem == 0)
+                Collections.sort(population.getPopulation(), new ComparatorIndividualFitness());
+            else
+                Collections.sort(population.getPopulation(), new ComparatorIndividualTSP());                
         }
     }
 
@@ -230,7 +233,7 @@ public class PopulationUtils {
         return __newPopulation;
     }
 
-    public static Collection<Individual> getUniqueIndividuals(Population population, int fitness) {
+    public synchronized static Collection<Individual> getUniqueIndividuals(Population population, double fitness) {
         //Ordenação
         TreeSet<Individual> __population = new TreeSet<Individual>(new ComparatorIndividual());
 

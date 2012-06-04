@@ -51,6 +51,7 @@ public class Solver extends GenericSolver {
     //Variável que permite parar o solver
     //True=Solver parador/False=solver a correr
     private volatile boolean Stop = false;
+    private volatile boolean OperatorBlock = false;
 
     /**
      * Construtor do solver
@@ -104,6 +105,11 @@ public class Solver extends GenericSolver {
         this._operators = new ArrayList<Operator>();
     }
 
+    protected long timePassSeconds(long startTime) {
+        // Converte a diferença para segundos
+        return (java.lang.management.ManagementFactory.getThreadMXBean().getCurrentThreadUserTime() - startTime) / 1000000000;
+    }
+    
     /**
      * Metodo que faz correr o Solver, ou seja, aplica os operadores geneticos
      * sobre a população ate encontrar o individuo com o fitness desejado ou atingir
@@ -113,6 +119,12 @@ public class Solver extends GenericSolver {
     @Override
     public void run() throws SolverException, SonsInicialitazionException {
 
+        long __startTime;
+        ArrayList<Operator> __operators = null;
+        
+        // Tempo que a thread esteve a correr
+        __startTime = java.lang.management.ManagementFactory.getThreadMXBean().getCurrentThreadUserTime();
+        
         // Capturar erros de codigo não programados
         try {
 
@@ -136,32 +148,40 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
-                        && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())) {
-
+                //OperatorBlock=true;
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                        && (PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness())
+                        && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
+                    
+                    if(OperatorBlock==false){
+                        System.out.println("************************************\nNovos parametros....\n*************************");
+                        __operators = (ArrayList<Operator>)_operators.clone();
+                        OperatorBlock=true;
+                    }
+                    
                     /**
                      * Faz a normalização de todos os individuos das duas populações
                      */
                     for (int i = 0; i < this._parentsPopulation.getPopulation().size(); i++) {
-                        ((TSP)this._parentsPopulation.getPopulation().get(i)).individualNormalization();
+                        ((TSP) this._parentsPopulation.getPopulation().get(i)).individualNormalization();
                     }
-                    if(_sonsPopulation != null){
-                    for (int i = 0; i < this._sonsPopulation.getPopulation().size(); i++) {
-                        ((TSP)this._sonsPopulation.getPopulation().get(i)).individualNormalization();
+                    if (_sonsPopulation != null) {
+                        for (int i = 0; i < this._sonsPopulation.getPopulation().size(); i++) {
+                            ((TSP) this._sonsPopulation.getPopulation().get(i)).individualNormalization();
+                        }
                     }
-                    }
-                    
+
                     // Corre todos os operadores que foram passados para este solver
-                    for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
+                    for (int __indexOperators = 0; __indexOperators < __operators.size(); __indexOperators++) {
 
                         // Se o operador for do tipo Selection
-                        if (this._operators.get(__indexOperators) instanceof Selection) {
+                        if (__operators.get(__indexOperators) instanceof Selection) {
                             // aplica o operador a população de pais e devolve uma nova população de filhos
-                            this._sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(this._parentsPopulation);
+                            this._sonsPopulation = ((Genetic) __operators.get(__indexOperators)).execute(this._parentsPopulation);
                         }
 
                         // Se o operador por do tipo Recombinação ou Mutação
-                        if (this._operators.get(__indexOperators) instanceof Recombination || this._operators.get(__indexOperators) instanceof Mutation) {
+                        if (__operators.get(__indexOperators) instanceof Recombination || __operators.get(__indexOperators) instanceof Mutation) {
 
                             // Dispara um erro se a população de filhos não tiver sido inicializada
                             if (this._sonsPopulation == null) {
@@ -169,15 +189,15 @@ public class Solver extends GenericSolver {
                             }
 
                             // aplica o operador a população de filhos e devolve uma nova população de filhos
-                            _sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(_sonsPopulation);
+                            _sonsPopulation = ((Genetic) __operators.get(__indexOperators)).execute(_sonsPopulation);
                         }
 
                         // Se o operador por do tipo Replacements
-                        if (this._operators.get(__indexOperators) instanceof Replacement) {
+                        if (__operators.get(__indexOperators) instanceof Replacement) {
                             // aplica o operador a população de filhos e pais e devolve 
                             // os melhores para a proxima geração. Este processo faz deles
                             // os proximos pais
-                            _parentsPopulation = ((Replacement) this._operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
+                            _parentsPopulation = ((Replacement) __operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
                         }
 
                     }
@@ -190,10 +210,10 @@ public class Solver extends GenericSolver {
 
                     // incrementa mais uma geração/iteração à variavel
                     this._numberIteractions++;
-                    System.out.println("Iteration: " + _numberIteractions);
-                    System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation) + PopulationUtils.getHallOfFame(_parentsPopulation, 1).toString());
-                    System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation) + PopulationUtils.getHallOfFame(_sonsPopulation, 1).toString());
-                    System.out.println("------------------------------------------------------------------------------");
+                    //System.out.println("Iteration: " + _numberIteractions);
+                    //System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation) + PopulationUtils.getHallOfFame(_parentsPopulation, 1).toString());
+                    //System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation) + PopulationUtils.getHallOfFame(_sonsPopulation, 1).toString());
+                    //System.out.println("------------------------------------------------------------------------------");
 
                     if (Stop == true) {
                         System.out.println("Solver Terminado por pedido!");
@@ -205,20 +225,33 @@ public class Solver extends GenericSolver {
                 // Ciclo que corre o solver e que só termina quando atingir o numero
                 // maximo de gerações/iterações definadas para o solver ou um individuo
                 // atingir o fitness desejado
-                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions())
-                        && (PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness())) {
+                System.out.println("**********************************OperadorBlock:"+OperatorBlock);
+                while ((this._numberIteractions < this._stopCriterion.getNumberIteractions() ||  this._stopCriterion.getNumberIteractions() == StopCriterion.NO_ITERACTIONS_LIMIT)
+                        && (
+                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MAXIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) < this._stopCriterion.getGoodFiteness()) 
+                            ||
+                            (this._stopCriterion.getTypeProblem() == StopCriterion.TYPE_PROBLEM_MINIMIZATION && PopulationUtils.getBestFitness(this._parentsPopulation) > this._stopCriterion.getGoodFiteness()) 
+                        )
+                        && (timePassSeconds(__startTime) < this._stopCriterion.getSecondsToRun())) {
 
+                    if(OperatorBlock==false){
+                        System.out.println("************************************\nNovos parametros....\n*************************");
+                        __operators = (ArrayList<Operator>)_operators.clone();
+                        OperatorBlock=true;
+                    }
+                    
                     // Corre todos os operadores que foram passados para este solver
-                    for (int __indexOperators = 0; __indexOperators < this._operators.size(); __indexOperators++) {
+                    for (int __indexOperators = 0; __indexOperators < __operators.size(); __indexOperators++) {
 
                         // Se o operador for do tipo Selection
-                        if (this._operators.get(__indexOperators) instanceof Selection) {
+                        if (__operators.get(__indexOperators) instanceof Selection) {
+                            ((Selection)__operators.get(__indexOperators)).setTypeSelection(this._stopCriterion.getTypeProblem());
                             // aplica o operador a população de pais e devolve uma nova população de filhos
-                            this._sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(this._parentsPopulation);
+                            this._sonsPopulation = ((Genetic) __operators.get(__indexOperators)).execute(this._parentsPopulation);
                         }
 
                         // Se o operador por do tipo Recombinação ou Mutação
-                        if (this._operators.get(__indexOperators) instanceof Recombination || this._operators.get(__indexOperators) instanceof Mutation) {
+                        if (__operators.get(__indexOperators) instanceof Recombination || __operators.get(__indexOperators) instanceof Mutation) {
 
                             // Dispara um erro se a população de filhos não tiver sido inicializada
                             if (this._sonsPopulation == null) {
@@ -226,15 +259,16 @@ public class Solver extends GenericSolver {
                             }
 
                             // aplica o operador a população de filhos e devolve uma nova população de filhos
-                            _sonsPopulation = ((Genetic) this._operators.get(__indexOperators)).execute(_sonsPopulation);
+                            _sonsPopulation = ((Genetic) __operators.get(__indexOperators)).execute(_sonsPopulation);
                         }
 
                         // Se o operador por do tipo Replacements
-                        if (this._operators.get(__indexOperators) instanceof Replacement) {
+                        if (__operators.get(__indexOperators) instanceof Replacement) {
                             // aplica o operador a população de filhos e pais e devolve 
                             // os melhores para a proxima geração. Este processo faz deles
                             // os proximos pais
-                            _parentsPopulation = ((Replacement) this._operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
+                            ((Replacement)__operators.get(__indexOperators)).setTypeReplacement(this._stopCriterion.getTypeProblem());
+                            _parentsPopulation = ((Replacement) __operators.get(__indexOperators)).execute(this._parentsPopulation, this._sonsPopulation);
                         }
 
                     }
@@ -247,11 +281,11 @@ public class Solver extends GenericSolver {
 
                     // incrementa mais uma geração/iteração à variavel
                     this._numberIteractions++;
-                    System.out.println("Iteration: " + _numberIteractions);
-                    System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
-                    System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
-                    System.out.println("------------------------------------------------------------------------------");
-                    
+                    //System.out.println("Iteration: " + _numberIteractions);
+                    //System.out.println("Best Fitness Parents: " + PopulationUtils.getBestFitness(_parentsPopulation));
+                    //System.out.println("Best Fitness Sons: " + PopulationUtils.getBestFitness(_sonsPopulation));
+                    //System.out.println("------------------------------------------------------------------------------");
+
                     if (Stop == true) {
                         System.out.println("Solver Terminado por pedido!");
                         break;
@@ -264,6 +298,11 @@ public class Solver extends GenericSolver {
             // Evento final quando o solver esta terminado
             if (this._eventSolver != null) {
                 this._eventSolver.EventFinishSolver(this._numberIteractions, this._parentsPopulation);
+                
+                System.out.println("");
+                System.out.println("Solver Terminou");
+                System.out.println("Total Iterações: " + this._numberIteractions);
+                System.out.println("Tempo utilizado: " + timePassSeconds(__startTime) + "s");
             }
 
         } catch (SonsInicialitazionException ex) {
@@ -365,6 +404,7 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean SetSelection(String parms) {
+        if(_operators == null) _operators = new ArrayList<Operator>(4);
         try {
             String tipoSelector = parms.split(" ")[0];
             int dimNewPop = 0;
@@ -380,9 +420,9 @@ public class Solver extends GenericSolver {
                 System.out.println("SELECTION: SUS");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
-                    this._operators.add(new SUS());
+                    this._operators.set(0,new SUS());
                 } else {
-                    this._operators.add(new SUS(dimNewPop));
+                    this._operators.set(0,new SUS(dimNewPop));
                     System.out.println("Dim new Pop: " + dimNewPop);
                     System.out.println("------------------------");
                 }
@@ -391,22 +431,22 @@ public class Solver extends GenericSolver {
                 System.out.println("SELECTION: ROULETTE");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
-                    this._operators.add(new Roulette());
+                    this._operators.set(0,new Roulette());
                 } else {
-                    this._operators.add(new Roulette(dimNewPop));
+                    this._operators.set(0,new Roulette(dimNewPop));
                 }
             }//Caso de ser o operador Tournament 
             else if (tipoSelector.contains("Tournament")) {
                 System.out.println("SELECTION: TOURNAMENT");
                 //Verifica se existem parametros para o operador ou não
                 if (dimNewPop == 0) {
-                    this._operators.add(new operators.selections.Tournament());
+                    this._operators.set(0,new operators.selections.Tournament());
                 } else {
                     int sizeTourn = Integer.parseInt(parms.split(" ")[2]);
-                    this._operators.add(new operators.selections.Tournament(dimNewPop, sizeTourn));
+                    this._operators.set(0,new operators.selections.Tournament(dimNewPop, sizeTourn));
                 }
             }
-
+            OperatorBlock=false;
             return true;
         } catch (Exception ex) {
             //Devolve false em caso de erro
@@ -416,6 +456,7 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean SetMutation(String parms) {
+        if(_operators == null) _operators = new ArrayList<Operator>(4);
         try {
             String tipoMutacao = parms.split(" ")[0];
             double probl = 0.0;
@@ -429,18 +470,18 @@ public class Solver extends GenericSolver {
                 System.out.println("MUTATION: SWAPGENES");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
-                    this._operators.add(new SwapGenes());
+                    this._operators.set(2,new SwapGenes());
                 } else {
-                    this._operators.add(new SwapGenes(probl));
+                    this._operators.set(2,new SwapGenes(probl));
                 }
             }//Verifica se é o operador Invertion 
             else if (tipoMutacao.contains("Invertion")) {
                 System.out.println("MUTATION: INVERTION");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
-                    this._operators.add(new Invertion());
+                    this._operators.set(2,new Invertion());
                 } else {
-                    this._operators.add(new Invertion(probl));
+                    this._operators.set(2,new Invertion(probl));
                 }
             } //Verifica se é o operador Flipbit 
             else if (tipoMutacao.contains("Flipbit")) {
@@ -448,13 +489,14 @@ public class Solver extends GenericSolver {
                 System.out.println("MUTATION: FLIPBIT");
                 //Verifica se existe probabilidade definida para o construtor do operador ou não
                 if (probl == 0.0) {
-                    this._operators.add(new Flipbit());
+                    this._operators.set(2,new Flipbit());
                 } else {
-                    this._operators.add(new Flipbit(probl));
+                    this._operators.set(2,new Flipbit(probl));
                     System.out.println("Probabilidade: " + probl);
                     System.out.println("------------------------");
                 }
             }
+            OperatorBlock=false;
             //devolve true - Tudo correu bem
             return true;
         } catch (Exception ex) {
@@ -465,6 +507,7 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean SetRecombination(String parms) {
+        if(_operators == null) _operators = new ArrayList<Operator>(4);
         try {
             String tipoRecomb = parms.split(" ")[0];
             double probl = 0.0;
@@ -478,28 +521,28 @@ public class Solver extends GenericSolver {
                 System.out.println("RECOMBINATION: CROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
-                    this._operators.add(new Crossover());
+                    this._operators.set(1,new Crossover());
                 } else {
                     int numCuts = Integer.parseInt(parms.split(" ")[2]);
-                    this._operators.add(new Crossover(probl, numCuts));
+                    this._operators.set(1,new Crossover(probl, numCuts));
                 }
             }//Verifica se é um operador do tipo OrderCrossover
             else if (tipoRecomb.contains("OrderCrossover")) {
                 System.out.println("RECOMBINATION: ORDERCROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
-                    this._operators.add(new OrderCrossover());
+                    this._operators.set(1,new OrderCrossover());
                 } else {
-                    this._operators.add(new OrderCrossover(probl));
+                    this._operators.set(1,new OrderCrossover(probl));
                 }
             } //Verifica se é um operador do tipo PMX
             else if (tipoRecomb.contains("PMX")) {
                 System.out.println("RECOMBINATION: PMX");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
-                    this._operators.add(new PMX());
+                    this._operators.set(1,new PMX());
                 } else {
-                    this._operators.add(new PMX(probl));
+                    this._operators.set(1,new PMX(probl));
                 }
             } //Verifica se é um operador do tipo UniformCrossover
             else if (tipoRecomb.contains(".UniformCrossover")) {
@@ -507,13 +550,14 @@ public class Solver extends GenericSolver {
                 System.out.println("RECOMBINATION: UNIFORMCROSSOVER");
                 //Verifica se existem parametros para o operador
                 if (probl == 0.0) {
-                    this._operators.add(new UniformCrossover());
+                    this._operators.set(1,new UniformCrossover());
                 } else {
-                    this._operators.add(new UniformCrossover(probl));
+                    this._operators.set(1,new UniformCrossover(probl));
                     System.out.println("Probabil Recombination: " + probl);
                     System.out.println("------------------------");
                 }
             }
+            OperatorBlock=false;
             //Devolve true - tudo correu bem na definição do operador
             return true;
         } catch (Exception ex) {
@@ -524,6 +568,7 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean SetReplacement(String parms) {
+        if(_operators == null) _operators = new ArrayList<Operator>(4);
         try {
             String tipoReplac = parms.split(" ")[0];
             int dimNewPop = 0;
@@ -538,10 +583,10 @@ public class Solver extends GenericSolver {
                 System.out.println("REPLACEMENT: TOURNAMENT");
                 //Verifica se existem parametros para o operador
                 if (dimNewPop == 0) {
-                    this._operators.add(new operators.replacements.Tournament());
+                    this._operators.set(3,new operators.replacements.Tournament());
                 } else {
                     int sizeTourn = Integer.parseInt(parms.split(" ")[1]);
-                    this._operators.add(new operators.replacements.Tournament(sizeTourn));
+                    this._operators.set(3,new operators.replacements.Tournament(sizeTourn));
                     System.out.println("Size Tournament: " + sizeTourn);
                     System.out.println("------------------------");
                 }
@@ -550,10 +595,9 @@ public class Solver extends GenericSolver {
                 System.out.println("------------------------");
                 System.out.println("REPLACEMENT: TRUNCATION");
                 //Verifica se existem parametros para o operador
-                if (dimNewPop == 0) {
-                    this._operators.add(new Truncation());
-                }
+                this._operators.set(3,new Truncation());
             }
+            OperatorBlock=false;
             //Devolve true - tudo correu bem na definição do operador
             return true;
         } catch (Exception ex) {
@@ -564,6 +608,7 @@ public class Solver extends GenericSolver {
 
     @Override
     public boolean setParameters(String parameters) {
+        if(_operators == null) _operators = new ArrayList<Operator>(4);
         try {
             int dimensaoPop = Integer.parseInt(parameters.split(" ")[0]);
             int dimensaoGenoma = Integer.parseInt(parameters.split(" ")[1]);
@@ -599,7 +644,7 @@ public class Solver extends GenericSolver {
             } else if (tipoIndividuo.contains("TSP")) {
                 //Caso seja do tipo TSP, o problema será parameterizado com o SetTSPProbl
             }
-
+            OperatorBlock=false;
             return true;
         } catch (Exception ex) {
             //Algo correu mal - devolve false
@@ -612,7 +657,7 @@ public class Solver extends GenericSolver {
         try {
             int iterac = Integer.parseInt(parms.split(" ")[0]);
             double fitness = Double.parseDouble(parms.split(" ")[1]);
-            StopCriterion stopCrit = new StopCriterion(iterac, fitness);
+            StopCriterion stopCrit = new StopCriterion(fitness,4,3600,StopCriterion.TYPE_PROBLEM_MAXIMIZATION);
             this._stopCriterion = stopCrit;
             return true;
         } catch (Exception ex) {
@@ -651,5 +696,10 @@ public class Solver extends GenericSolver {
     @Override
     public void StopSolver() {
         this.Stop = true;
+    }
+    
+    @Override
+    public int getCurrentItera(){
+        return _numberIteractions;
     }
 }
