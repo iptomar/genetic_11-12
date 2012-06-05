@@ -141,12 +141,12 @@ public class FunctionBinary extends Individual {
 
     @Override
     public String getInfo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Not supported yet.";
     }
 
     @Override
     public boolean setParameters(String parameters) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
     
     
