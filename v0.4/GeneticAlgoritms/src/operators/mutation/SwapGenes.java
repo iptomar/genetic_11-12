@@ -119,8 +119,8 @@ public class SwapGenes extends Mutation {
         } //Em caso de haver apenas um gene por cromossoma e o allelo não é um array de objectos, lança uma excepção ao utilizador já que o operador não pode ser aplicado
         else if (indTroca.getSizeGenotype() <= 1) {
             throw new Exception("Erro na aplicação do SwapGenes. Os individuos não são passiveis de sofrer a mutação no seu genoma.");
-        } //Senão significa que o allelo tem mais que um objecto, havendo assim uma mutação a nivel desses objectos
-        //Verifica se há mais que um gene por cromossoma para fazer a troca de genes em vez de fazer a troca no array que o allelo tem 
+        } //Senão significa que o allelo tem mais que um objecto, havendfica se há mais que um gene por cromossoma para fazer a troca deo assim uma mutação a nivel desses objectos
+        //Veri genes em vez de fazer a troca no array que o allelo tem 
         else if (indTroca.getSizeGenotype() > 1) {
             //Variaveis que recebem os números aleatórios que referem os dois genes que serão trocados ao genotype do individuo
             //A primeira é calculada aleatóriamente e pode ir de 0 até ao fim dos genes do cromossoma
