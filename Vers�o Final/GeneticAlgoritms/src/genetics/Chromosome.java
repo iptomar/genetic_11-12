@@ -20,6 +20,7 @@ public class Chromosome implements Iterable<Gene>, Serializable {
      */
     private Individual _individual;
 
+    
     /**
      * Construtor da classe que recebe apenas o tipo de individuo a que este cromossoma vai pertencer e inicializa
      * o cromossoma, criando assim tantos Genes quantos os definidos para o individuo, inicializando os mesmos.
