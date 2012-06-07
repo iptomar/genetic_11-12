@@ -74,5 +74,9 @@ public class TournamentTest {
         
         int tpf = pf.getSizePopulation();
         assertTrue(tpf==DimSelectedPopulation);
+        
+        
+        
+        
     }
 }

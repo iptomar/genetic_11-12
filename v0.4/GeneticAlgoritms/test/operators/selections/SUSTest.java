@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package operators.selections;
 
 import utils.PopulationUtils;
@@ -13,7 +17,7 @@ import static org.junit.Assert.*;
  * @author Pedro Alves
  */
 public class SUSTest {
-
+ 
     /**
      * População pai
      */
@@ -25,9 +29,10 @@ public class SUSTest {
     int sizeAllelo = 10;
     int DimSelectedPopulation = 5;
     int testeAleatorio = 100;
-
+    
     public SUSTest() {
     }
+    
 
     /**
      * Test of execute method, of class SUS.
@@ -51,12 +56,12 @@ public class SUSTest {
 //**********************************************************************************************************************
         //TESTE AO NUMERO ALEATORIO QUE É GERADO PARA O VALOR ALEATORIO - Conta o numero de vezes em que sai os numeros
 
-
+        
         maxFitness = 100;
         double[] ndigits = new double[maxFitness];
-
+        
         int nAleatorio = 10000;
-
+        
         for (int i = 0; i < nAleatorio; i++) {
             s = new SUS(DimSelectedPopulation);
             s.execute(p);
@@ -75,7 +80,7 @@ public class SUSTest {
         double[] ndigits1 = new double[maxFitness];
         double[] ndigits2 = new double[maxFitness];
         nAleatorio = 10000;
-
+        
         for (int i = 0; i < nAleatorio; i++) {
             s = new SUS(DimSelectedPopulation);
             s.execute(p);
@@ -86,8 +91,8 @@ public class SUSTest {
             s.execute(p);
             ndigits2[(int) s.getPonteiro()] += 1;
         }
-
-
+        
+        
         assertTrue(ndigits1 != ndigits2);
 
 
@@ -96,10 +101,10 @@ public class SUSTest {
 //****************************************************************************************************************
 //  teste ao numero de individuos da população que sai é < ou = ao numero de individuos da população que entra 
         p = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
-
+        
         int popEntrada = p.getSizePopulation();
         int popSaida = s.execute(p).getSizePopulation();
-
+        
         assertTrue(popSaida <= popEntrada);
 
 //*****************************************************************************************************************
@@ -120,15 +125,15 @@ public class SUSTest {
                 }
             }
         }
-
-
-
-
+        
+        
+        
+        
         boolean t = false;
         if (pf.getSizePopulation() == 0) {
             t = true;
         }
-
+        
         assertTrue(t);
         //assertArrayE    assertTrue(t);quals(p.getIndividual(i), s.execute(p).getIndividual(j));
 
@@ -140,8 +145,17 @@ public class SUSTest {
 //  teste ao numero de individuos da população que sai é = ao numero de individuos que definimos inicialmente para serem seleccionados
         p = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
         int popSaida2 = s.execute(p).getSizePopulation();
-
+        
         assertTrue(popSaida == DimSelectedPopulation);
-
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }

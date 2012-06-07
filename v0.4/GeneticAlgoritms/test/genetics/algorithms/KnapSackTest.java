@@ -60,7 +60,7 @@ public class KnapSackTest {
         System.out.println("inicializationAllelo");
         KnapSack instance = new KnapSack();
         Boolean[] expResult = null;
-        Boolean[] result = instance.inicializationAllelo(0);
+        Boolean[] result = instance.inicializationAllelo();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
