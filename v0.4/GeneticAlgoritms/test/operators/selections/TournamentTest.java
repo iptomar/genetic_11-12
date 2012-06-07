@@ -43,7 +43,7 @@ public class TournamentTest {
         int tpf = pf.getSizePopulation();
         for (int j = 0; j < tpf; j++) {
             for (int i = 0; i < pi.getSizePopulation(); i++) {
-                if (pf.getIndividual(0).fitness() == pi.getIndividual(i).fitness()) {
+                if (pf.getIndividual(0).toString().equals(pi.getIndividual(i).toString())) {
                     pf.getPopulation().remove(0);
                     pf.DecSize();
                     break;

@@ -1,5 +1,7 @@
 package operators.replacements;
 
+import genetics.algorithms.OnesMax;
+import genetics.Individual;
 import genetics.Population;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -8,26 +10,27 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author André
+ * @author Pedro Alves
  */
 public class TournamentTest {
-    
+
+    Population popEntrada;
+    int sizePopulation = 200;
+    int sizeGenome = 1;
+    int sizeGenotype = 1;
+    int sizeAllelo = 10;
+    int DimSelectedPopulation = 5;
+
     public TournamentTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    /**
-     * Test of execute method, of class Tournament.
-     */
     @Test
     public void testExecute() {
+//####################################################################################################        
+//########## Testa tamanho população de saida == (populações de entrada)/2 ###########################
+//####################################################################################################
+
+
         System.out.println("-- Teste ao operador Tournament --");
         /**
          * População de pais, com 100 individuos e com o alelo a 10.
@@ -44,34 +47,48 @@ public class TournamentTest {
         /**
          * Execução do torneio
          */
-        Population result = instance.execute(parents, sons);
-        
-        /**
-         * Compara se o o size da population do result é 100, que é o numero de individos que sai no torneio
-         */
-        assertEquals(result.getPopulation().size(), parents.getSizePopulation());
-        
-        /**
-         * Ordena os resultados obtidos no torneio
-         */
-        utils.PopulationUtils.orderPopulation(result);
-        utils.PopulationUtils.orderPopulation(parents);
-        utils.PopulationUtils.orderPopulation(sons);
-        /**
-         * Condição para saber se um individuo da população resultante do torneio pertence à população
-         */
-        if(result.getPopulation().get(0).fitness() != parents.getPopulation().get(0).fitness() && result.getPopulation().get(0).fitness() != sons.getPopulation().get(0).fitness()){
-            fail("Um individuo da população resultante do torneio não se encontra na população pai nem na população filho.");
+        Population pf = instance.execute(parents, sons);
+        assertEquals(pf.getPopulation().size(), parents.getSizePopulation());
+
+//#########################################################################################################       
+//########### Testa se os individuos da população final estão contidos nas populações de entrada###########
+//#########################################################################################################
+        //
+        popEntrada = new Population(sizePopulation, sizeGenome, sizeGenotype, sizeAllelo, new OnesMax());
+        //pais
+        for (int i = 0; i < parents.getSizePopulation(); i++) {
+            Individual indi = parents.getIndividual(i);
+            popEntrada.addIndividual(indi);
         }
-        /**
-         * Imprime o torneio, ordenado pelo individuo com melhor fitness
-         */
-        System.out.println(" " + result);
-        /**
-         * Mostra qual o valor de fitness do melhor inviduo
-         * Não é possivel saber se o individuo com melhor fitness pertence 
-         * aos pais ou aos filhos devia ao facto da existencia do método clone na classe Tournament
-         */
-        System.out.println("Melhor individuo: " + result.getPopulation().get(0).fitness());  
+        //filhos
+        for (int i = 0; i < sons.getSizePopulation(); i++) {
+            Individual indi = sons.getIndividual(i);
+            popEntrada.addIndividual(indi);
+        }
+
+
+
+
+        int tpf = pf.getSizePopulation();
+        for (int j = 0; j < tpf; j++) {
+            for (int i = 0; i < popEntrada.getSizePopulation(); i++) {
+                if (pf.getIndividual(0).fitness() == popEntrada.getIndividual(i).fitness()) {
+                    pf.getPopulation().remove(0);
+                    pf.DecSize();
+                    break;
+                }
+            }
+        }
+
+
+        int t = pf.getSizePopulation();
+        assertTrue(t == 0);
+
+
+
+
+
+
+
     }
 }

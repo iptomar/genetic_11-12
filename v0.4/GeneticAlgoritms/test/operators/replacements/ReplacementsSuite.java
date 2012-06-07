@@ -16,23 +16,9 @@ import org.junit.runners.Suite;
  * @author Ruben Felix <Ruben.Felix@gmail.com>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({operators.replacements.TournamentTest.class, operators.replacements.TruncationTest.class, operators.replacements.ReplacementTest.class})
+@Suite.SuiteClasses({operators.replacements.TournamentTest.class, operators.replacements.TruncationTest.class})
 public class ReplacementsSuite {
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
+    
     
 }
