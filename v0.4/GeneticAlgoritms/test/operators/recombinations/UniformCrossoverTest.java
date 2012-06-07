@@ -50,8 +50,7 @@ public class UniformCrossoverTest {
         //Novo objecto Uniform Crossover
         UniformCrossover crossover = new UniformCrossover();
         //Ordena a população pai por fitness
-        short typeProblem = 0;
-        utils.PopulationUtils.orderPopulation(parents, typeProblem);
+        utils.PopulationUtils.orderPopulation(parents);
         //Percorre a população pai e verifica o numero de uns que existem
         for (int i = 0; i < parents.getPopulation().size(); i++) {
             Boolean[] allelo = (Boolean[])parents.getPopulation().get(i).getChromosome(0).getGene(0).getAllele();

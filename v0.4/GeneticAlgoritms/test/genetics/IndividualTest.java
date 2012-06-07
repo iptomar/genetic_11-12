@@ -308,10 +308,5 @@ public class IndividualTest {
         public boolean setParameters(String parameters) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
-        @Override
-        public Object[] inicializationAllelo(int indexGene) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }

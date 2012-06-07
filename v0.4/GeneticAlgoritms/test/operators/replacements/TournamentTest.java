@@ -66,6 +66,9 @@ public class TournamentTest {
             popEntrada.addIndividual(indi);
         }
 
+
+
+
         int tpf = pf.getSizePopulation();
         for (int j = 0; j < tpf; j++) {
             for (int i = 0; i < popEntrada.getSizePopulation(); i++) {
@@ -80,5 +83,12 @@ public class TournamentTest {
 
         int t = pf.getSizePopulation();
         assertTrue(t == 0);
+
+
+
+
+
+
+
     }
 }

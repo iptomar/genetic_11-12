@@ -57,6 +57,8 @@ public class TruncationTest {
         this.sizeTruncation = sizeTruncation;
     }
 
+ 
+
     /**
      * Test of execute method, of class Truncation.
      */
@@ -82,22 +84,21 @@ public class TruncationTest {
             }
         }
 
-        short typeProblem = 0;
         //Ordena as populações por fitness
-        utils.PopulationUtils.orderPopulation(sons, typeProblem);
-        utils.PopulationUtils.orderPopulation(parents, typeProblem);
-        utils.PopulationUtils.orderPopulation(result, typeProblem);
+        utils.PopulationUtils.orderPopulation(sons);
+        utils.PopulationUtils.orderPopulation(parents);
+        utils.PopulationUtils.orderPopulation(result);
 
         //ArrayList de individuos 
-        ArrayList<Individual> Individuos = new ArrayList<Individual>(sizeTruncation * 2);
+        ArrayList<Individual> Individuos = new ArrayList<Individual>(sizeTruncation*2);
         for (int i = 0; i < this.sizeTruncation; i++) {
             Individuos.add(parents.getPopulation().get(i));
             Individuos.add(sons.getPopulation().get(i));
         }
-
+        
 //####Verifica se os individuos retirados do operador Truncation pertencem mesmo ao best-fitness das populações##########
         for (int i = 0; i < this.sizeTruncation; i++) {
-            if (!Individuos.contains(result.getIndividual(i))) {
+            if(!Individuos.contains(result.getIndividual(i))){
                 fail("Os individuos resultantes do operador não estão nos best fitness da população pai ou filho.");
             }
         }

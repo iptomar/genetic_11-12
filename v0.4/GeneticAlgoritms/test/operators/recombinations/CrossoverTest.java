@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package operators.recombinations;
 
 import genetics.algorithms.OnesMax;
@@ -177,5 +181,10 @@ public class CrossoverTest {
     }
     
 //***************************************************************************************************************************
+    
+    
+    
+    
+    
    
 }
